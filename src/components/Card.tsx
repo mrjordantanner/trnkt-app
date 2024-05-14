@@ -1,8 +1,8 @@
 //import { Link } from 'react-router-dom';
-import { Asset } from '../models/asset';
+import { NFT } from '../models/nft';
 
 interface Props {
-  asset: Asset;
+  asset: NFT;
 }
 
 export default function Card({ asset }: Props) {
@@ -13,16 +13,16 @@ export default function Card({ asset }: Props) {
   return (
     <div className="card">
       <div className="blur-bg"></div>
-      {/* <Link to={`/asset/${asset.contractAddress}/${asset.tokenID}`} className="link">
+      <a href={`/asset/${asset.contract}/${asset.id}`} className="link">
         <div className="image">
-          <img src={asset.imgUrl} alt={asset.name} />
+          <img src={asset.image_url} alt={asset.name} />
         </div>
         <div className="details">
           <h2 className="name">{asset.name}</h2>
           <p className="username">{asset.creator}</p>
           <p className="id">{asset.id}</p>
         </div>
-      </Link> */}
+      </a>
     </div>
   );
 }

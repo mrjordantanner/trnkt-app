@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Card from './Card';
 import diamond from '../images/diamond.svg';
-import { Asset } from '../models/asset';
+import { Asset } from '../models/nft';
 
 interface Props {
   collection: Asset[];

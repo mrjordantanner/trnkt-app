@@ -1,79 +1,110 @@
-import Asset from '../models/asset';
-import fetch from 'node-fetch';
+//import { mapDataToAsset } from '../models/nft';
 import { API_KEY } from '../../config.json';
 
-const defaultUrl = 'https://api.opensea.io/api/v2';
-const collectionSlug = 'parallel-on-base';
+// NFT url anatomy
+// https://api.opensea.io/api/v2/chain/amoy/contract/address/nfts/identifier
 
-export class NftService {
-  constructor(base = defaultUrl) {
-    this.urlBase = base;
+const baseUrl = 'https://api.opensea.io/api/v2';
+
+
+class NftService {
+  // constructor(base = defaultUrl) {
+  //   this.urlBase = base;
+  // }
+
+
+  // async fetchNFT(chain, address, id) {
+  //   const options = {method: 'GET', headers: {accept: 'application/json','X-API-KEY': API_KEY}};
+
+  //   const response = await fetch(`${baseUrl}/chain/${chain}/contract/${address}/nfts/${id}`, options)
+  //     .then(response => response.json())
+  //     .then(response => console.log(response))
+  //     .catch(err => console.error(err));
+
+  //     if (!response.ok) {
+  //       throw new Error('Failed to fetch asset'); // TODO Handle failed GET requests better
+  //     }
+  // }
+
+  async fetchNFTs(collectionSlug) {
+    const options = {method: 'GET', headers: {accept: 'application/json','X-API-KEY': API_KEY}};
+    console.log('Service:');
+    const response = await fetch(`${baseUrl}/collection/${collectionSlug}/nfts`, options)
+      .then(response => response.json())
+      .then(response => console.log(response))
+      .catch(err => console.error(err));
+
+      return response;
   }
 
-  async getSingleAsset(contract, token) {
-    const url = `${this.urlBase}/asset/${contract}/${token}`;
+  // async getSingleAsset(contract, token) {
+  //   const url = `${baseUrl}/asset/${contract}/${token}`;
 
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          "X-API-KEY": API_KEY
-        }
-      });
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: 'GET',
+  //       headers: {
+  //         "X-API-KEY": API_KEY
+  //       }
+  //     });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch asset');
-      }
+  //     if (!response.ok) {
+  //       throw new Error('Failed to fetch asset'); // TODO Handle failed GET requests better
+  //     }
 
-      const data = await response.json();
-      return new Asset(data);
-    } catch (error) {
-      console.error('Error fetching asset:', error);
-      return `Error: ${error}`;
-    }
-  }
+  //     const data = await response.json();
+  //     console.log(`API: GetSingleAsset: ${data}`)
+  //     return mapDataToAsset(data);
 
-  async getAssets() {
-    try {
-      const response = await fetch(
-        `${this.urlBase}/collection/${collectionSlug}/nfts?limit=50&next=`, {
-          headers: {
-            "X-API-KEY": API_KEY
-          },
-        }
-      );
+  //   } catch (error) {
+  //     console.error('Error fetching asset:', error);
+  //     return `Error: ${error}`;
+  //   }
+  // }
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch NFTs');
-      }
+  // async getAssets(collectionSlug) {
+  //   try {
+  //     const response = await fetch(`${baseUrl}/collection/${collectionSlug}/nfts?limit=50&next=`, {
+  //         headers: {
+  //           "X-API-KEY": API_KEY
+  //         },
+  //       }
+  //     );
 
-      const data = await response.json();
-      console.log(data.nfts);
-      return data.nfts;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return [];
-    }
-  }
+  //     if (!response.ok) {
+  //       throw new Error('Failed to fetch NFTs'); // TODO Handle failed GET requests better
+  //     }
 
-  async fetchRandomNFTs() {
-    try {
-      const response = await fetch(`${this.urlBase}/collection/${collectionSlug}/nfts?limit=50&next=`, {
-        headers: {
-          'accept': 'application/json',
-          "X-API-KEY": API_KEY
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch NFTs');
-      }
-      const data = await response.json();
-      return data.orders; // Assuming that 'orders' contains NFT data
-    } catch (error) {
-      console.error('Error fetching NFTs:', error);
-      return [];
-    }
-  }
+  //     const data = await response.json();
+  //     console.log(`API: GetAssets: ${data.nfts}`)
+  //     return data.nfts.map(assetData => mapDataToAsset(assetData));
+
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //     return [];
+  //   }
+  // }
+
+  // TODO work on getting randomized content back from the API
+
+  // async fetchRandomNFTs() {
+  //   try {
+  //     const response = await fetch(`${this.urlBase}/collection/${collectionSlug}/nfts?limit=50&next=`, {
+  //       headers: {
+  //         'accept': 'application/json',
+  //         "X-API-KEY": API_KEY
+  //       },
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error('Failed to fetch NFTs');
+  //     }
+  //     const data = await response.json();
+  //     return data.orders; // Assuming that 'orders' contains NFT data
+  //   } catch (error) {
+  //     console.error('Error fetching NFTs:', error);
+  //     return [];
+  //   }
+  // }
 }
 
 export default NftService;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Asset } from '../../models/asset';
+import { Asset } from '../../models/nft';
 
 interface Props {
   addToCollection: (asset: Asset) => void;

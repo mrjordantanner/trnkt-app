@@ -1,5 +1,5 @@
 import React from 'react';
-import { Asset } from '../../models/asset';
+import { Asset } from '../../models/nft';
 
 interface Props {
   asset: Asset;

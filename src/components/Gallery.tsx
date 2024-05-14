@@ -2,10 +2,10 @@ import React, { useRef } from 'react';
 import Card from './Card';
 import diamond from '../images/diamond.svg';
 //import Loading from './Loading';
-import { Asset } from '../models/asset';
+import { NFT } from '../models/nft';
 
 interface Props {
-  data: Asset[] | null;
+  data: NFT[] | null;
 }
 
 export default function Gallery({ data }: Props) {
@@ -30,7 +30,7 @@ export default function Gallery({ data }: Props) {
 
       <div className="gallery-window">
         <div className="gallery-container">
-          {data?.map((asset: Asset) => (
+          {data?.map((asset: NFT) => (
             <Card asset={asset} key={asset?.id} />
           ))}
         </div>
