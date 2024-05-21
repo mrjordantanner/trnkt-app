@@ -11,9 +11,9 @@ export default function Home () {
         <p className="description">
           Discover a wide variety of crypto{' '}
           <a href="https://en.wikipedia.org/wiki/Non-fungible_token" target="_blank" rel="noopener noreferrer">
-            <strong>NFT</strong>
+            <strong>Nft</strong>
           </a>{' '}
-          artwork. Use the Explore button to display random NFT's from the Opensea API, click or tap to view them in
+          artwork. Use the Explore button to display random Nft's from the Opensea API, click or tap to view them in
           detail, and save to your Collection for later viewing. <br></br>
         </p>
         <Link to="/explore">

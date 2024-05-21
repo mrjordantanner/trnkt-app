@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import Card from './Card';
 import diamond from '../images/diamond.svg';
-//import Loading from './Loading';
-import { NFT } from '../models/nft';
+import Loading from './Loading';
+import { Nft } from '../models/nft';
 
 interface Props {
-  data: NFT[] | null;
+  data: Nft[] | null;
 }
 
 export default function Gallery({ data }: Props) {
@@ -20,6 +20,10 @@ export default function Gallery({ data }: Props) {
     }
   };
 
+  if (!data) {
+    return <Loading />;
+  }
+
   return (
     <div className="gallery-wrapper" ref={gallery}>
       <div id="top"></div>
@@ -30,7 +34,7 @@ export default function Gallery({ data }: Props) {
 
       <div className="gallery-window">
         <div className="gallery-container">
-          {data?.map((asset: NFT) => (
+          {data?.map((asset: Nft) => (
             <Card asset={asset} key={asset?.id} />
           ))}
         </div>

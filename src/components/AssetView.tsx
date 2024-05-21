@@ -6,29 +6,26 @@ import AssetName from './assetProperties/AssetName';
 import AssetTraits from './assetProperties/AssetTraits';
 import CollectionToggleButton from './assetProperties/CollectionToggleButton';
 import Loading from './Loading';
-import NftService from '../services/nftService';
-
-import { NFT } from '../models/nft';
+import { service } from '../App'
+import { Nft } from '../models/nft';
 
 interface Props {
-  addToCollection: (asset: NFT) => void;
-  removeFromCollection: (asset: NFT) => void;
-  localCollection: NFT[];
+  addToCollection: (asset: Nft) => void;
+  removeFromCollection: (asset: Nft) => void;
+  localCollection: Nft[];
 }
 
 export default function AssetView({ addToCollection, removeFromCollection, localCollection }: Props ) {
 
-const [asset, setAsset] = useState<NFT | null>(null);
-const { contract, token } = useParams<{ contract: string; token: string }>();
+const [asset, setAsset] = useState<Nft | null>(null);
+const { id, chain, address } = useParams<{ id: string, chain: string; address: string }>();
 
   useEffect(() => {
     if (!asset) {
-
-      // TODO do we really need to fetch again or just pass the NFT in here?
-      NftService.getSingleAsset(contract, token)
+      service.fetchNft(id, chain, address)
         .then(setAsset);
     }
-  }, [asset, contract, token]); 
+  }, [asset, id, chain, address]); 
 
   if (!asset) {
     return <Loading />;

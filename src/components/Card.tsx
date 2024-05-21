@@ -1,8 +1,8 @@
 //import { Link } from 'react-router-dom';
-import { NFT } from '../models/nft';
+import { Nft } from '../models/nft';
 
 interface Props {
-  asset: NFT;
+  asset: Nft;
 }
 
 export default function Card({ asset }: Props) {

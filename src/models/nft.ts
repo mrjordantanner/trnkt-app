@@ -25,8 +25,8 @@ export interface Rarity {
   };
 }
 
-// Define the NFTData interface
-export interface NFT {
+// Define the NftData interface
+export interface Nft {
   id: string;
   collection: string;
   contract: string;
@@ -47,7 +47,7 @@ export interface NFT {
   rarity: Rarity;
 }
 
-// // Define the NFT type using the NFTData interface
-// export type NFT = {
-//   nft: NFTData;
+// // Define the Nft type using the NftData interface
+// export type Nft = {
+//   nft: NftData;
 // };

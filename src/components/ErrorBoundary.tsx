@@ -35,8 +35,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       // Render fallback UI when there's an error
       return (
         <div style={divStyle}>
+          <h1>404</h1>
           <h1>Oops! Something went wrong.</h1>
-          <p>This is a fallback error page. Please try refreshing the page or contact support.</p>
+          <p>Please try refreshing the page or using the back button on your browser.</p>
         </div>
       );
     }

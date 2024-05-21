@@ -1,19 +1,22 @@
 //import { mapDataToAsset } from '../models/nft';
 import { API_KEY } from '../../config.json';
 
-// NFT url anatomy
+// Nft url anatomy
 // https://api.opensea.io/api/v2/chain/amoy/contract/address/nfts/identifier
 
 const baseUrl = 'https://api.opensea.io/api/v2';
 
 
+// DEPRECATED CODE - TRASH THIS
+
 class NftService {
-  // constructor(base = defaultUrl) {
-  //   this.urlBase = base;
-  // }
+  
+  constructor() {
+
+  }
 
 
-  // async fetchNFT(chain, address, id) {
+  // async fetchNft(chain, address, id) {
   //   const options = {method: 'GET', headers: {accept: 'application/json','X-API-KEY': API_KEY}};
 
   //   const response = await fetch(`${baseUrl}/chain/${chain}/contract/${address}/nfts/${id}`, options)
@@ -26,9 +29,9 @@ class NftService {
   //     }
   // }
 
-  async fetchNFTs(collectionSlug) {
+  async fetchNfts(collectionSlug) {
     const options = {method: 'GET', headers: {accept: 'application/json','X-API-KEY': API_KEY}};
-    console.log('Service:');
+    console.log('Service:')
     const response = await fetch(`${baseUrl}/collection/${collectionSlug}/nfts`, options)
       .then(response => response.json())
       .then(response => console.log(response))
@@ -36,6 +39,7 @@ class NftService {
 
       return response;
   }
+
 
   // async getSingleAsset(contract, token) {
   //   const url = `${baseUrl}/asset/${contract}/${token}`;
@@ -72,7 +76,7 @@ class NftService {
   //     );
 
   //     if (!response.ok) {
-  //       throw new Error('Failed to fetch NFTs'); // TODO Handle failed GET requests better
+  //       throw new Error('Failed to fetch Nfts'); // TODO Handle failed GET requests better
   //     }
 
   //     const data = await response.json();
@@ -87,7 +91,7 @@ class NftService {
 
   // TODO work on getting randomized content back from the API
 
-  // async fetchRandomNFTs() {
+  // async fetchRandomNfts() {
   //   try {
   //     const response = await fetch(`${this.urlBase}/collection/${collectionSlug}/nfts?limit=50&next=`, {
   //       headers: {
@@ -96,12 +100,12 @@ class NftService {
   //       },
   //     });
   //     if (!response.ok) {
-  //       throw new Error('Failed to fetch NFTs');
+  //       throw new Error('Failed to fetch Nfts');
   //     }
   //     const data = await response.json();
-  //     return data.orders; // Assuming that 'orders' contains NFT data
+  //     return data.orders; // Assuming that 'orders' contains Nft data
   //   } catch (error) {
-  //     console.error('Error fetching NFTs:', error);
+  //     console.error('Error fetching Nfts:', error);
   //     return [];
   //   }
   // }

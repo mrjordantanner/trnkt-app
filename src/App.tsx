@@ -10,20 +10,20 @@ import Collection from './components/Collection';
 import AssetView from './components/AssetView';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-import NftService from './services/nftService';
-import { NFT } from './models/nft';
+import NftService from './services/service';
+import { Nft } from './models/nft';
 import Loading from './components/Loading';
 // import dotenv from 'dotenv';
 
 //dotenv.config();
 
-const service = new NftService();
+export const service = new NftService();
 const collectionSlug = 'parallel-on-base';
 
 function App() {
 
-  const [data, setData] = useState<NFT[] | null>(null);
-  const [collection, setCollection] = useState<NFT[]>([]);
+  const [data, setData] = useState<Nft[] | null>(null);
+  const [collection, setCollection] = useState<Nft[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -35,11 +35,11 @@ function App() {
     setData(null);  // Clear local data cache
   
     try {
-      const nfts: NFT[] = await service.fetchNFTs(collectionSlug);
+      const nfts: Nft[] = await service.fetchNfts(collectionSlug);
       console.log('App:');
       console.log(nfts);
       setData(nfts);
-      
+
     } catch (error) {
       console.error(`Error: ${error}`);
     }
@@ -55,7 +55,7 @@ function App() {
     console.log("TODO: Randomize Offset");
   }
 
-  const writeCollectionData = (collectionData: NFT[]) => {
+  const writeCollectionData = (collectionData: Nft[]) => {
     localStorage.setItem('collection', JSON.stringify({ collection: collectionData }));
   };
 
@@ -71,7 +71,7 @@ function App() {
     setCollection(collectionObj.collection);
   };
 
-  const addToCollection = (asset: NFT) => {
+  const addToCollection = (asset: Nft) => {
     const updatedCollection = [...collection, asset];
     setCollection(updatedCollection);
     writeCollectionData(updatedCollection);
@@ -86,7 +86,7 @@ function App() {
     }
   };
 
-  const removeFromCollection = (asset: NFT) => {
+  const removeFromCollection = (asset: Nft) => {
     const updatedCollection = collection.filter(item => item?.id !== asset?.id);
     setCollection(updatedCollection);
     writeCollectionData(updatedCollection);
@@ -114,7 +114,7 @@ function App() {
                 <Collection collection={collection} loadCollectionData={loadCollectionData} />} />
 
         <Route
-          path='/asset/:contract/:id'
+          path='/chain/:chain/contract/:address/nfts/:id'
           element={<AssetView
             addToCollection={addToCollection}
             removeFromCollection={removeFromCollection}
