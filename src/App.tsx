@@ -18,7 +18,8 @@ import Loading from './components/Loading';
 //dotenv.config();
 
 export const service = new NftService();
-const collectionSlug = 'parallel-on-base';
+const collectionSlug = 'new-dimension-huemin';  //parallel-on-base
+const chain = 'ethereum';
 
 function App() {
 
@@ -35,20 +36,18 @@ function App() {
     setData(null);  // Clear local data cache
   
     try {
-      const nfts: Nft[] = await service.fetchNfts(collectionSlug);
-      console.log('App:');
+      const nfts: Nft[] | null = await service.fetchNfts(collectionSlug);
       console.log(nfts);
       setData(nfts);
 
     } catch (error) {
       console.error(`Error: ${error}`);
     }
-    
   }
 
   const clearLocalCollection = () => {
     setCollection([]);
-    console.log("Local Collection Cleared.");
+    console.log("Local Collection Cleared."); 
   };
 
   const randomizeOffset = () => {
@@ -75,7 +74,7 @@ function App() {
     const updatedCollection = [...collection, asset];
     setCollection(updatedCollection);
     writeCollectionData(updatedCollection);
-    console.log(`added: ${asset?.id}`);
+    console.log(`added: ${asset?.identifier}`);
   };
 
   const clearCollection = () => {
@@ -87,10 +86,12 @@ function App() {
   };
 
   const removeFromCollection = (asset: Nft) => {
-    const updatedCollection = collection.filter(item => item?.id !== asset?.id);
+    const updatedCollection = collection.filter(item => item?.identifier !== asset?.identifier);
     setCollection(updatedCollection);
     writeCollectionData(updatedCollection);
-    console.log(`removed: ${asset?.id}`);
+    console.log(`removed: ${asset?.identifier}`);
+
+
   };
 
   if (!data) {
@@ -108,10 +109,10 @@ function App() {
         <Route path='/' element={<Home />} />
 
         <Route path='/explore' element={ 
-          <Gallery data={data} />} />
+          <Gallery data={data} chain={chain} />} />
 
         <Route path='/collection' element={
-                <Collection collection={collection} loadCollectionData={loadCollectionData} />} />
+                <Collection chain={chain} collection={collection} loadCollectionData={loadCollectionData} />} />
 
         <Route
           path='/chain/:chain/contract/:address/nfts/:id'

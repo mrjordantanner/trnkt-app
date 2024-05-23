@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import AssetImage from './assetProperties/AssetImage';
 import AssetName from './assetProperties/AssetName';
-//import AssetPrice from './assetProperties/AssetPrice';
 import AssetTraits from './assetProperties/AssetTraits';
 import CollectionToggleButton from './assetProperties/CollectionToggleButton';
-import Loading from './Loading';
+//import Loading from './Loading';
 import { service } from '../App'
 import { Nft } from '../models/nft';
 
@@ -22,14 +21,28 @@ const { id, chain, address } = useParams<{ id: string, chain: string; address: s
 
   useEffect(() => {
     if (!asset) {
-      service.fetchNft(id, chain, address)
-        .then(setAsset);
+      fetchData(id, chain, address);
+      console.log('asset');
+      console.log(asset);
     }
-  }, [asset, id, chain, address]); 
+  }, [asset, id, chain, address]);
 
-  if (!asset) {
-    return <Loading />;
+  const fetchData = async (id : string | undefined, chain : string | undefined, address : string | undefined) => {
+    console.log(`Fetching NFT id: ${id}...`);
+  
+    try {
+      const nft: Nft | null = await service.fetchNft(id, address);
+      console.log(nft);
+      setAsset(nft);
+
+    } catch (error) {
+      console.error(`Error: ${error}`);
+    }
   }
+
+  // if (!asset) {
+  //   return <Loading />;
+  // }
 
   return (
     <>
@@ -42,8 +55,8 @@ const { id, chain, address } = useParams<{ id: string, chain: string; address: s
 
           <ul className="property-list">
             <AssetTraits asset={asset} />
-            {/* <AssetPrice price={asset?.price} /> */}
-            <li className="flex-row id">ID: {asset?.id}</li>
+
+            <li className="flex-row id">ID: {asset?.identifier}</li>
           </ul>
 
           <CollectionToggleButton 

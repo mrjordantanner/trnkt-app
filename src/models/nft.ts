@@ -1,4 +1,3 @@
-// Define the trait interface
 export interface Trait {
   trait_type: string;
   display_type: string;
@@ -6,13 +5,11 @@ export interface Trait {
   value: number;
 }
 
-// Define the owner interface
 export interface Owner {
   address: string;
   quantity: number;
 }
 
-// Define the rarity interface
 export interface Rarity {
   strategy_version: string;
   rank: number;
@@ -25,9 +22,8 @@ export interface Rarity {
   };
 }
 
-// Define the NftData interface
 export interface Nft {
-  id: string;
+  identifier: string;
   collection: string;
   contract: string;
   token_standard: string;
@@ -46,8 +42,3 @@ export interface Nft {
   owners: Owner[];
   rarity: Rarity;
 }
-
-// // Define the Nft type using the NftData interface
-// export type Nft = {
-//   nft: NftData;
-// };

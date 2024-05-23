@@ -6,9 +6,10 @@ import { Nft } from '../models/nft';
 
 interface Props {
   data: Nft[] | null;
+  chain: string;
 }
 
-export default function Gallery({ data }: Props) {
+export default function Gallery({ data, chain }: Props) {
   const gallery = useRef<HTMLDivElement>(null);
 
   const scrollToTop = () => {
@@ -34,8 +35,8 @@ export default function Gallery({ data }: Props) {
 
       <div className="gallery-window">
         <div className="gallery-container">
-          {data?.map((asset: Nft) => (
-            <Card asset={asset} key={asset?.id} />
+          {data.map((asset: Nft) => (
+            <Card asset={asset} chain={chain} key={asset.identifier} />
           ))}
         </div>
         <footer className="footer">

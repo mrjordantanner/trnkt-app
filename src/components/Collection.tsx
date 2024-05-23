@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import Card from './Card';
 import diamond from '../images/diamond.svg';
-import { Asset } from '../models/nft';
+import { Nft } from '../models/nft';
 
 interface Props {
-  collection: Asset[];
+  chain: string;
+  collection: Nft[];
   // removeFromCollection: (id: string) => void;
   // addToCollection: (id: string) => void;
   loadCollectionData: () => void;
 }
 
-export default function Collection({ collection, loadCollectionData }: Props) {
+export default function Collection({ chain, collection, loadCollectionData }: Props) {
 
   useEffect(() => {
     loadCollectionData();
@@ -25,8 +26,8 @@ export default function Collection({ collection, loadCollectionData }: Props) {
         </div>
         <div className="container">
           {collection.length > 0 ? (
-            collection.map((asset: Asset) => (
-              <Card asset={asset} key={asset?.id} />
+            collection.map((asset: Nft) => (
+              <Card asset={asset} chain={chain} key={asset?.identifier} />
             ))
           ) : (
             <h2 className="empty">Collection is empty.</h2>

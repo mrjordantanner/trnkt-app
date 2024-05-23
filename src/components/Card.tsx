@@ -3,9 +3,11 @@ import { Nft } from '../models/nft';
 
 interface Props {
   asset: Nft;
+  chain: string;
+
 }
 
-export default function Card({ asset }: Props) {
+export default function Card({ asset, chain }: Props) {
   if (!asset) {
     return null;
   }
@@ -13,14 +15,14 @@ export default function Card({ asset }: Props) {
   return (
     <div className="card">
       <div className="blur-bg"></div>
-      <a href={`/asset/${asset.contract}/${asset.id}`} className="link">
+      <a href={`/chain/${chain}/contract/${asset.contract}/nfts/${asset.identifier}`} className="link">
         <div className="image">
           <img src={asset.image_url} alt={asset.name} />
         </div>
         <div className="details">
           <h2 className="name">{asset.name}</h2>
-          <p className="username">{asset.creator}</p>
-          <p className="id">{asset.id}</p>
+          <p className="username">Creator: {asset.creator}</p>
+          <p className="id">ID: {asset.identifier}</p>
         </div>
       </a>
     </div>

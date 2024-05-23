@@ -1,15 +1,15 @@
 import React from 'react';
-import { Asset } from '../../models/nft';
+import { Nft } from '../../models/nft';
 
 interface Props {
-  asset: Asset;
+  asset: Nft | null;
 }
 
 export default function AssetImage ({ asset }: Props) {
   return (
     <div className='asset-view-image'>
-      {asset?.imgUrl ? (
-        <img src={asset.imgUrl} alt={asset.name} />
+      {asset?.image_url ? (
+        <img src={asset.image_url} alt={asset.name} />
       ) : (
         <h3>NO IMAGE AVAILABLE</h3>
       )}

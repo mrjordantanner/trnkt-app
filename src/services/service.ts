@@ -5,7 +5,7 @@ const baseUrl = 'https://api.opensea.io/api/v2';
 
 class NftService {
 
-  async fetchNfts(collectionSlug: string) : Promise<Nft[]> {
+  async fetchNfts(collectionSlug: string) : Promise<Nft[] | null> {
     const options: RequestInit = {
       method: 'GET',
       headers: {
@@ -17,8 +17,7 @@ class NftService {
     try {
       const response = await fetch(`${baseUrl}/collection/${collectionSlug}/nfts`, options);
       const data = await response.json();
-      console.log(data);
-      return data;
+      return data.nfts;
 
     } catch (error) {
       console.error(error);
@@ -26,7 +25,7 @@ class NftService {
     }
   }
 
-  async fetchNft(id: string | undefined, address: string | undefined, chain: string | undefined) : Promise<Nft | null> {
+  async fetchNft(id: string| undefined, address: string | undefined) : Promise<Nft | null> {
     const options: RequestInit = {
       method: 'GET',
       headers: {
@@ -36,10 +35,9 @@ class NftService {
     };
 
     try {
-      const response = await fetch(`${baseUrl}/chain/${chain}/contract/${address}/nfts/${id}`, options);
+      const response = await fetch(`${baseUrl}/chain/ethereum/contract/${address}/nfts/${id}`, options);
       const data = await response.json();
-      console.log(data);
-      return data;
+      return data.nft;
       
     } catch (error) {
       console.error(error);
