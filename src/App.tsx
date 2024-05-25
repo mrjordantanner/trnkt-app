@@ -11,24 +11,24 @@ import AssetView from './components/AssetView';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import NftService from './services/service';
-import { Nft } from './models/nft';
 import Loading from './components/Loading';
+import { Nft } from './models/nft';
 // import dotenv from 'dotenv';
 
 //dotenv.config();
 
 export const service = new NftService();
-const collectionSlug = 'new-dimension-huemin';  //parallel-on-base
-const chain = 'ethereum';
+const collectionSlug = 'parallel-on-base';  // new-dimension-huemin  parallel-on-base  clonex
+const chain = 'base'; // ethereum  base
 
 function App() {
 
   const [data, setData] = useState<Nft[] | null>(null);
-  const [collection, setCollection] = useState<Nft[]>([]);
+  const [collection, setCollection] = useState<Nft[] | null>([]);
 
   useEffect(() => {
     fetchData();
-    //loadCollectionData();
+    loadCollectionData();
   }, []);
 
   const fetchData = async () => {
@@ -54,7 +54,7 @@ function App() {
     console.log("TODO: Randomize Offset");
   }
 
-  const writeCollectionData = (collectionData: Nft[]) => {
+  const writeCollectionData = (collectionData: Nft[] | null) => {
     localStorage.setItem('collection', JSON.stringify({ collection: collectionData }));
   };
 
@@ -70,13 +70,17 @@ function App() {
     setCollection(collectionObj.collection);
   };
 
-  const addToCollection = (asset: Nft) => {
-    const updatedCollection = [...collection, asset];
+  const addToCollection = (asset: Nft | null) => {
+
+    // If Nft[] is null, set it to be an empty array.  Otherwise, spread the collection and add the new item.
+    const updatedCollection: Nft[] = [...(collection || []), asset].filter((item): item is Nft => item !== null);
+
     setCollection(updatedCollection);
     writeCollectionData(updatedCollection);
+  
     console.log(`added: ${asset?.identifier}`);
   };
-
+  
   const clearCollection = () => {
     const confirmation = window.confirm('Really delete your entire Collection?');
     if (confirmation) {
@@ -85,24 +89,35 @@ function App() {
     }
   };
 
-  const removeFromCollection = (asset: Nft) => {
-    const updatedCollection = collection.filter(item => item?.identifier !== asset?.identifier);
+  const removeFromCollection = (asset: Nft | null) => {
+    if (!asset || !collection) {
+      console.log('Asset is null or collection is empty.');
+      return;
+    }
+  
+    const assetExistsInCollection = collection.some(item => item.identifier === asset.identifier);
+    
+    if (!assetExistsInCollection) {
+      console.log('Asset is not in the collection.');
+      return;
+    }
+  
+    const updatedCollection: Nft[] = collection.filter(item => item.identifier !== asset.identifier);
     setCollection(updatedCollection);
     writeCollectionData(updatedCollection);
-    console.log(`removed: ${asset?.identifier}`);
-
-
+  
+    console.log(`removed: ${asset.identifier}`);
   };
-
+  
   if (!data) {
     return <Loading />;
   }
 
   return (
     <>
-    <Navbar randomizeOffset={randomizeOffset} clearCollection={clearCollection}/>
+    <Navbar randomizeOffset={randomizeOffset} />
 
-    <Router>
+    {/* <Router> */}
       <Routes>
 
     {/* CONTENT */}
@@ -133,7 +148,7 @@ function App() {
         <Route path="/asset" element={<NavbarAsset />} /> */}
 
       </Routes>
-    </Router>
+    {/* </Router> */}
     </>
   );
 }

@@ -4,14 +4,16 @@ import AssetImage from './assetProperties/AssetImage';
 import AssetName from './assetProperties/AssetName';
 import AssetTraits from './assetProperties/AssetTraits';
 import CollectionToggleButton from './assetProperties/CollectionToggleButton';
-//import Loading from './Loading';
+import Loading from './Loading';
 import { service } from '../App'
 import { Nft } from '../models/nft';
+import { Box } from '@mui/material';
+import LinkifyText from './LinkifyText';
 
 interface Props {
   addToCollection: (asset: Nft) => void;
   removeFromCollection: (asset: Nft) => void;
-  localCollection: Nft[];
+  localCollection: Nft[] | null;
 }
 
 export default function AssetView({ addToCollection, removeFromCollection, localCollection }: Props ) {
@@ -31,7 +33,7 @@ const { id, chain, address } = useParams<{ id: string, chain: string; address: s
     console.log(`Fetching NFT id: ${id}...`);
   
     try {
-      const nft: Nft | null = await service.fetchNft(id, address);
+      const nft: Nft | null = await service.fetchNft(id, chain, address);
       console.log(nft);
       setAsset(nft);
 
@@ -40,18 +42,18 @@ const { id, chain, address } = useParams<{ id: string, chain: string; address: s
     }
   }
 
-  // if (!asset) {
-  //   return <Loading />;
-  // }
+  if (!asset) {
+    return <Loading />;
+  }
 
   return (
     <>
-      <div className="asset-view-container">
+      <Box className="asset-view-container">
         <AssetImage asset={asset} />
 
-        <div className="asset-properties">
+        <Box className="asset-properties">
           <AssetName name={asset?.name} />
-          <p className="description">{asset?.description}</p>
+          <LinkifyText text={asset?.description} ></LinkifyText>
 
           <ul className="property-list">
             <AssetTraits asset={asset} />
@@ -65,8 +67,8 @@ const { id, chain, address } = useParams<{ id: string, chain: string; address: s
             addToCollection={addToCollection} 
             removeFromCollection={removeFromCollection} 
           />
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 }

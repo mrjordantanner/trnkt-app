@@ -21,11 +21,11 @@ class NftService {
 
     } catch (error) {
       console.error(error);
-      return Promise.resolve([]); 
+      return Promise.resolve([]);
     }
   }
 
-  async fetchNft(id: string| undefined, address: string | undefined) : Promise<Nft | null> {
+  async fetchNft(id: string| undefined, chain: string | undefined, address: string | undefined) : Promise<Nft | null> {
     const options: RequestInit = {
       method: 'GET',
       headers: {
@@ -35,7 +35,7 @@ class NftService {
     };
 
     try {
-      const response = await fetch(`${baseUrl}/chain/ethereum/contract/${address}/nfts/${id}`, options);
+      const response = await fetch(`${baseUrl}/chain/${chain}/contract/${address}/nfts/${id}`, options);
       const data = await response.json();
       return data.nft;
       
@@ -43,10 +43,7 @@ class NftService {
       console.error(error);
       return Promise.resolve(null); 
     }
-
   }
-
-
 }
 
 export default NftService;

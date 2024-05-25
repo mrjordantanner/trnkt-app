@@ -372,38 +372,67 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 
+// HELPERS
+.red {
+    background-color: red;
+}
+
+.red-border {
+    border: 2px solid red;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.blue-border {
+    border: 2px solid blue;
+}
+
 
 // Gallery View
 // region [Purple] 
 .gallery-wrapper {
-    display: flex;
-    align-items: center;
-
-    flex-direction: column;
-    height: 100vh;
     @include scrollbar;
-    background-color: black;
+    display: flex;
+    align-items: start;
+    justify-content: space-evenly;
+    height: 100vh;
+    background-color: rgb(110, 131, 65);
     color: white;
+    padding-top: 80px;
 
-    .gallery-container {
-        margin-top:100px;
-        width:100%;
+    .asset-grid {
+        flex: 2;
         height:auto;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));  // 150px, 1fr
         padding: 0 1rem;
+        background-color: rgb(0, 213, 255);
+    }
+
+    .sidebar {
+        flex: 1;
+        display: flex;
+        height: 100%;
+        width: 500px;
+
+
     }
 }
 
+
+
 .card {
     display: flex;
-    height: 40vh;
-    max-height: 350px; 
+    height: 35vh;
+    max-height: 500px; 
     flex-direction: column;
     justify-content: flex-start;
     padding: 0.5rem;
     margin: 0.5rem;
-    background: #111111;
+    // background: #111111;
+    background-color: #4290ac;
     user-select: none;
     border: #444444 1px solid;
     opacity: 0.9;
@@ -594,15 +623,15 @@ h1, h2, h3, h4, h5, h6, p {
             word-wrap: break-word;
         }
 
-        .description {
-            font-size : 1rem;
-            line-height: 1.5rem;
-            color: lightgray;
-            padding: 1rem;
-            width: 100%;
-            text-align: left;
-            word-wrap: break-word;
-        }
+        // .description {
+        //     font-size : 1rem;
+        //     line-height: 1.5rem;
+        //     color: lightgray;
+        //     padding: 1rem;
+        //     width: 100%;
+        //     text-align: left;
+        //     word-wrap: break-word;
+        // }
 
         .property-list {
             color: white;

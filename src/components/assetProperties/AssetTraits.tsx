@@ -1,8 +1,7 @@
-import React from 'react';
-import { Asset, AssetTrait } from '../../models/nft'
+import { Nft, Trait } from '../../models/nft'
 
 interface Props {
-  asset: Asset;
+  asset: Nft;
 }
 
 export default function AssetTraits ({ asset }: Props) {
@@ -14,9 +13,9 @@ export default function AssetTraits ({ asset }: Props) {
     <>
       <div className='flex-row'><h3>Traits</h3></div>
       <ul className='traits-list'>
-        {asset.traits.map((trait: AssetTrait, index: number) => {
+        {asset.traits.map((trait: Trait, index: number) => {
           return trait ? (
-            <li key={`${trait.type}-${asset.id}-${index}`}>{trait.type}: {trait.value}</li>
+            <li key={`${trait.trait_type}-${asset.identifier}-${index}`}>{trait.trait_type}: {trait.value}</li>
           ) : null;
         })}
       </ul>
