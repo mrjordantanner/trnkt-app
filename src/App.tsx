@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 // import NavbarAsset from './components/NavbarAsset';
 // import NavbarGallery from './components/NavbarGallery';
-// import NavbarCollection from './components/NavbarCollection';
+// import NavbarFavorites from './components/NavbarFavorites';
 import Gallery from './components/Gallery';
-import Collection from './components/Collection';
+import Favorites from './components/Favorites';
 import AssetView from './components/AssetView';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -23,12 +23,18 @@ const chain = 'base'; // ethereum  base
 
 function App() {
 
+  // Array of NFT data that is currently in memory
   const [data, setData] = useState<Nft[] | null>(null);
-  const [collection, setCollection] = useState<Nft[] | null>([]);
+
+  // NFTs that user has saved as a Favorite
+  const [favorites, setFavorites] = useState<Nft[] | null>([]);
+
+  // Which collection are we currently browsing, if any?
+  const [collection, setCollection] = useState<string>('');
 
   useEffect(() => {
     fetchData();
-    loadCollectionData();
+    loadFavoritesData();
   }, []);
 
   const fetchData = async () => {
@@ -45,21 +51,21 @@ function App() {
     }
   }
 
-  const clearLocalCollection = () => {
-    setCollection([]);
-    console.log("Local Collection Cleared."); 
-  };
+  // const clearLocalFavorites = () => {
+  //   setFavorites([]);
+  //   console.log("Local Favorites Cleared."); 
+  // };
 
   const randomizeOffset = () => {
     console.log("TODO: Randomize Offset");
   }
 
-  const writeCollectionData = (collectionData: Nft[] | null) => {
-    localStorage.setItem('collection', JSON.stringify({ collection: collectionData }));
+  const writeFavoritesData = (favoritesData: Nft[] | null) => {
+    localStorage.setItem('favorites', JSON.stringify({ collection: favoritesData }));
   };
 
-  const loadCollectionData = () => {
-    const collectionString = localStorage.getItem('collection');
+  const loadFavoritesData = () => {
+    const collectionString = localStorage.getItem('favorites');
     if (!collectionString) {
       return;
     }
@@ -67,46 +73,47 @@ function App() {
     if (!collectionObj) {
       return;
     }
-    setCollection(collectionObj.collection);
+    setFavorites(collectionObj.collection);
   };
 
-  const addToCollection = (asset: Nft | null) => {
+  const addToFavorites = (asset: Nft | null) => {
 
     // If Nft[] is null, set it to be an empty array.  Otherwise, spread the collection and add the new item.
-    const updatedCollection: Nft[] = [...(collection || []), asset].filter((item): item is Nft => item !== null);
+    const updatedFavorites: Nft[] = [...(favorites || []), asset].filter((item): item is Nft => item !== null);
 
-    setCollection(updatedCollection);
-    writeCollectionData(updatedCollection);
+    setFavorites(updatedFavorites);
+    writeFavoritesData(updatedFavorites);
   
-    console.log(`added: ${asset?.identifier}`);
+    console.log(`Added to Favorites: ${asset?.collection} ${asset?.identifier}`);
   };
   
-  const clearCollection = () => {
-    const confirmation = window.confirm('Really delete your entire Collection?');
-    if (confirmation) {
-      clearLocalCollection();
-      localStorage.clear();
-    }
-  };
+  // const clearFavorites = () => {
+  //   const confirmation = window.confirm('Really clear your Favorites?');
+  //   if (confirmation) {
+  //     clearLocalFavorites();
+  //     localStorage.clear();
+  //   }
+  // };
 
-  const removeFromCollection = (asset: Nft | null) => {
+  const removeFromFavorites = (asset: Nft | null) => {
     if (!asset || !collection) {
-      console.log('Asset is null or collection is empty.');
+      console.log('Asset is null or Favorites is empty.');
       return;
     }
   
-    const assetExistsInCollection = collection.some(item => item.identifier === asset.identifier);
+    const assetExistsInFavorites = favorites && favorites.some((item : Nft) => item.identifier === asset.identifier);
     
-    if (!assetExistsInCollection) {
-      console.log('Asset is not in the collection.');
+    if (!assetExistsInFavorites) {
+      console.log('Asset is not in Favorites.');
       return;
     }
   
-    const updatedCollection: Nft[] = collection.filter(item => item.identifier !== asset.identifier);
-    setCollection(updatedCollection);
-    writeCollectionData(updatedCollection);
+    const updatedFavorites: Nft[] = favorites.filter((item : Nft) => item.identifier !== asset.identifier);
+
+    setFavorites(updatedFavorites);
+    writeFavoritesData(updatedFavorites);
   
-    console.log(`removed: ${asset.identifier}`);
+    console.log(`Removed from Favorites: ${asset?.collection} ${asset?.identifier}`);
   };
   
   if (!data) {
@@ -124,27 +131,27 @@ function App() {
         <Route path='/' element={<Home />} />
 
         <Route path='/explore' element={ 
-          <Gallery data={data} chain={chain} />} />
+          <Gallery data={data} chain={chain} setCollection={setCollection}/>} />
 
-        <Route path='/collection' element={
-                <Collection chain={chain} collection={collection} loadCollectionData={loadCollectionData} />} />
+        <Route path='/favorites' element={
+                <Favorites chain={chain} favorites={favorites} loadFavoritesData={loadFavoritesData} />} />
 
         <Route
           path='/chain/:chain/contract/:address/nfts/:id'
           element={<AssetView
-            addToCollection={addToCollection}
-            removeFromCollection={removeFromCollection}
-            localCollection={collection}
+            addToFavorites={addToFavorites}
+            removeFromFavorites={removeFromFavorites}
+            localFavorites={favorites}
           />}
         />
 
      {/* NAVBAR */}
         {/* <Route path="/explore" element={<NavbarGallery          
           randomizeOffset={randomizeOffset} 
-          clearCollection={clearCollection}/>} />
-        <Route path="/collection" element={<NavbarCollection 
+          clearFavorites={clearFavorites}/>} />
+        <Route path="/collection" element={<NavbarFavorites 
           randomizeOffset={randomizeOffset} 
-          clearCollection={clearCollection} />} />
+          clearFavorites={clearFavorites} />} />
         <Route path="/asset" element={<NavbarAsset />} /> */}
 
       </Routes>

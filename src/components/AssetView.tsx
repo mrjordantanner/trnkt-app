@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import AssetImage from './assetProperties/AssetImage';
 import AssetName from './assetProperties/AssetName';
 import AssetTraits from './assetProperties/AssetTraits';
-import CollectionToggleButton from './assetProperties/CollectionToggleButton';
+import FavoritesToggleButton from './assetProperties/FavoritesToggleButton';
 import Loading from './Loading';
 import { service } from '../App'
 import { Nft } from '../models/nft';
@@ -11,12 +11,12 @@ import { Box } from '@mui/material';
 import LinkifyText from './LinkifyText';
 
 interface Props {
-  addToCollection: (asset: Nft) => void;
-  removeFromCollection: (asset: Nft) => void;
-  localCollection: Nft[] | null;
+  addToFavorites: (asset: Nft) => void;
+  removeFromFavorites: (asset: Nft) => void;
+  localFavorites: Nft[] | null;
 }
 
-export default function AssetView({ addToCollection, removeFromCollection, localCollection }: Props ) {
+export default function AssetView({ addToFavorites, removeFromFavorites, localFavorites }: Props ) {
 
 const [asset, setAsset] = useState<Nft | null>(null);
 const { id, chain, address } = useParams<{ id: string, chain: string; address: string }>();
@@ -61,11 +61,11 @@ const { id, chain, address } = useParams<{ id: string, chain: string; address: s
             <li className="flex-row id">ID: {asset?.identifier}</li>
           </ul>
 
-          <CollectionToggleButton 
+          <FavoritesToggleButton 
             asset={asset} 
-            localCollection={localCollection} 
-            addToCollection={addToCollection} 
-            removeFromCollection={removeFromCollection} 
+            localFavorites={localFavorites} 
+            addToFavorites={addToFavorites} 
+            removeFromFavorites={removeFromFavorites} 
           />
         </Box>
       </Box>
