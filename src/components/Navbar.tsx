@@ -32,8 +32,8 @@ export default function Navbar({ randomizeOffset }: Props) {
 					<Button
 						className='button outline-primary'
 						component={RouterLink}
-						to='/collection'>
-						C O L L E C T I O N
+						to='/favorites'>
+						F A V O R I T E S
 					</Button>
 				</ListItem>
 			</List>

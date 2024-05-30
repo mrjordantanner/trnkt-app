@@ -8,16 +8,19 @@ interface Props {
   chain: string;
   favorites: Nft[] | null;
   loadFavoritesData: () => void;
+  setAsset: React.Dispatch<React.SetStateAction<Nft | null>>;
 }
 
-export default function Favorites({ chain, favorites, loadFavoritesData }: Props) {
+export default function Favorites({ chain, favorites, loadFavoritesData, setAsset }: Props) {
 
   useEffect(() => {
     loadFavoritesData();
   }, [loadFavoritesData]); // Do we need loadFavoritesData as a dependency?  What does having a method in the dep array mean?
 
   if (!favorites || favorites.length == 0) {
-    return <h2 className="empty">Favorites is empty.</h2>
+    return <Box className="empty-favorites">
+      <h2>You have no saved Favorites.</h2>
+      </Box>
   }
 
   return (
@@ -29,7 +32,7 @@ export default function Favorites({ chain, favorites, loadFavoritesData }: Props
       <Box className="container">
         {
           favorites.map((asset: Nft) => (
-            <Card asset={asset} chain={chain} key={asset?.identifier} />
+            <Card asset={asset} setAsset={setAsset} chain={chain} key={asset?.identifier} />
           ))
         }
       </Box>

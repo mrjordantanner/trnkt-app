@@ -5,9 +5,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import NavbarAsset from './components/NavbarAsset';
 // import NavbarGallery from './components/NavbarGallery';
 // import NavbarFavorites from './components/NavbarFavorites';
-import Gallery from './components/Gallery';
+import ExploreView from './components/ExploreView';
 import Favorites from './components/Favorites';
-import AssetView from './components/AssetView';
+//import AssetView from './components/AssetView';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import NftService from './services/service';
@@ -18,8 +18,8 @@ import { Nft } from './models/nft';
 //dotenv.config();
 
 export const service = new NftService();
-const collectionSlug = 'parallel-on-base';  // new-dimension-huemin  parallel-on-base  clonex
-const chain = 'base'; // ethereum  base
+const defaultCollection = 'parallel-on-base';
+const chain = 'base'; // ethereum / base
 
 function App() {
 
@@ -30,10 +30,14 @@ function App() {
   const [favorites, setFavorites] = useState<Nft[] | null>([]);
 
   // Which collection are we currently browsing, if any?
-  const [collection, setCollection] = useState<string>('');
+  const [selectedCollection, setCollection] = useState<string>(defaultCollection);
+
+  // Which Asset, if any, is currently selected for detailed viewing?
+  const [asset, setAsset] = useState<Nft | null>(null);
 
   useEffect(() => {
     fetchData();
+    //loadLocalData();  // TODO get stored NFTs from browser storage (eventually from ASP.NET Backend / AWS S3 bucket)
     loadFavoritesData();
   }, []);
 
@@ -42,9 +46,22 @@ function App() {
     setData(null);  // Clear local data cache
   
     try {
-      const nfts: Nft[] | null = await service.fetchNfts(collectionSlug);
+      const nfts: Nft[] | null = await service.fetchNfts(selectedCollection);
       console.log(nfts);
       setData(nfts);
+
+    } catch (error) {
+      console.error(`Error: ${error}`);
+    }
+  }
+
+  const fetchAsset = async (id : string | undefined, chain : string | undefined, address : string | undefined) => {
+    // console.log(`Fetching NFT id: ${id}...`);
+  
+    try {
+      const nft: Nft | null = await service.fetchNft(id, chain, address);
+      console.log(nft);
+      setAsset(nft);
 
     } catch (error) {
       console.error(`Error: ${error}`);
@@ -96,11 +113,11 @@ function App() {
   // };
 
   const removeFromFavorites = (asset: Nft | null) => {
-    if (!asset || !collection) {
+    if (!asset || !selectedCollection) {
       console.log('Asset is null or Favorites is empty.');
       return;
     }
-  
+
     const assetExistsInFavorites = favorites && favorites.some((item : Nft) => item.identifier === asset.identifier);
     
     if (!assetExistsInFavorites) {
@@ -131,28 +148,31 @@ function App() {
         <Route path='/' element={<Home />} />
 
         <Route path='/explore' element={ 
-          <Gallery data={data} chain={chain} setCollection={setCollection}/>} />
+          <ExploreView 
+            data={data} chain={chain} 
+            selectedCollection={selectedCollection} 
+            setCollection={setCollection} 
+            fetchData={fetchData}
+            fetchAsset={fetchAsset}
+            addToFavorites={addToFavorites}
+            removeFromFavorites={removeFromFavorites}
+            localFavorites={favorites}
+            asset={asset}
+            setAsset={setAsset}
+          />} />
 
         <Route path='/favorites' element={
-                <Favorites chain={chain} favorites={favorites} loadFavoritesData={loadFavoritesData} />} />
+          <Favorites favorites={favorites} chain={chain} 
+          loadFavoritesData={loadFavoritesData} setAsset={setAsset} />} />
 
-        <Route
+        {/* <Route
           path='/chain/:chain/contract/:address/nfts/:id'
           element={<AssetView
             addToFavorites={addToFavorites}
             removeFromFavorites={removeFromFavorites}
             localFavorites={favorites}
           />}
-        />
-
-     {/* NAVBAR */}
-        {/* <Route path="/explore" element={<NavbarGallery          
-          randomizeOffset={randomizeOffset} 
-          clearFavorites={clearFavorites}/>} />
-        <Route path="/collection" element={<NavbarFavorites 
-          randomizeOffset={randomizeOffset} 
-          clearFavorites={clearFavorites} />} />
-        <Route path="/asset" element={<NavbarAsset />} /> */}
+        /> */}
 
       </Routes>
     {/* </Router> */}

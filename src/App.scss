@@ -398,9 +398,9 @@ h1, h2, h3, h4, h5, h6, p {
     align-items: start;
     justify-content: space-evenly;
     height: 100vh;
-    background-color: rgb(110, 131, 65);
+    width: 100%;
+    background-color: rgb(213, 45, 197);
     color: white;
-    padding-top: 80px;
 
     .asset-grid {
         flex: 2;
@@ -410,18 +410,15 @@ h1, h2, h3, h4, h5, h6, p {
         padding: 0 1rem;
         background-color: rgb(0, 213, 255);
     }
-
-    .sidebar {
-        flex: 1;
-        display: flex;
-        height: 100%;
-        width: 500px;
-
-
-    }
 }
 
 
+.button {
+    border: 1px solid red;
+    font-size: '16px';
+    text-transform: 'none';
+    background-color: gray;
+}
 
 .card {
     display: flex;
@@ -550,31 +547,25 @@ h1, h2, h3, h4, h5, h6, p {
         border-bottom: 3px solid black;
     }
 
-    .empty {
-        display: flex;
-        flex-direction: column;
-        width:90vw;
-        height:60vh;
-        justify-content: center;
-        align-items: center;
-        font-size: 2rem;
-        font-weight: bold;
-    }
-    
-
-
 }
 
+.empty-favorites {
+    display: flex;
+    flex-direction: column;
+    width:90vw;
+    height:60vh;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
 
 // endregion 
 
 // Asset View
 // region [Blue] 
 .asset-view-container {
-    // height: 97vh;
     display: flex;
-    flex-direction: row;
-    margin: 70px 0 0 0;
 
     .asset-view-image {
         width: 100%;
