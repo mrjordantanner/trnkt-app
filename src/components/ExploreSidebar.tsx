@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Box, Button, Autocomplete, TextField } from '@mui/material';
 //import clsx from 'clsx';   // utility that helps you conditionally join class names together
 //import diamond from '../images/diamond.svg';
+import { useAssetContext } from '../contexts/AssetContext';
 
 interface Props {
   selectedCollection: string;
   setCollection: React.Dispatch<React.SetStateAction<string>>;
-  fetchData: () => void;
 }
 
 interface Option {
@@ -21,8 +21,15 @@ const collectionOptions: Option[] = [
   { label: 'Chronoforge', value: 'chronoforge' },
 ];
 
+const getOption = (selectedCollection: string): Option | undefined => {
+    return collectionOptions.find(option => option.value === selectedCollection);
+  };
+
+
 // Provide search and filtering options for NFT exploration
-export default function ExploreSidebar({ selectedCollection, setCollection, fetchData }: Props) {
+export default function ExploreSidebar({ selectedCollection, setCollection }: Props) {
+
+  const { fetchNfts } = useAssetContext();
 
     useEffect(() => {
         if (selectedCollection) {
@@ -38,7 +45,7 @@ export default function ExploreSidebar({ selectedCollection, setCollection, fetc
   const handleCollectionChange = (event: React.SyntheticEvent, newValue: Option | null) => {
     if (newValue) {
       setCollection(newValue.value);
-      //fetchData();
+      //fetchNfts();
     } else {
       //setCollection('');
     }
@@ -62,13 +69,17 @@ export default function ExploreSidebar({ selectedCollection, setCollection, fetc
     paddingTop: '50px',
     backgroundColor: 'lightgray',
   }
- 
+
+  const onButtonClick = () => {
+    fetchNfts(selectedCollection);
+  }
 
   return (
 		<Box sx={containerStyle}>
 			<Box sx={contentsStyle}>
+
 				<Autocomplete
-                    //value={selectedCollection}
+          value={getOption(selectedCollection)}
 					options={collectionOptions}
 					getOptionLabel={(option: Option) => option.label}
 					onChange={handleCollectionChange}
@@ -80,7 +91,7 @@ export default function ExploreSidebar({ selectedCollection, setCollection, fetc
                     // className={clsx('button', { 'button-primary': isPrimary })}
                     className='button'
                     sx={{  }}
-                    onClick={fetchData}>
+                    onClick={onButtonClick}>
                     Get NFTs
                 </Button>
 			</Box>

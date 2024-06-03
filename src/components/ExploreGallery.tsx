@@ -7,12 +7,10 @@ import { Box } from '@mui/material';
 
 interface Props {
   data: Nft[] | null;
-  chain: string;
-  fetchAsset: (id : string | undefined, chain : string | undefined, address : string | undefined) => void;
 }
 
 // Display NFTs in a Grid
-export default function ExploreGallery({ data, chain, fetchAsset }: Props) {
+export default function ExploreGallery({ data }: Props) {
 
   const gallery = useRef<HTMLDivElement>(null);
 
@@ -25,7 +23,7 @@ export default function ExploreGallery({ data, chain, fetchAsset }: Props) {
     <Box className="gallery-wrapper" ref={gallery}>
       <Box className="asset-grid">
         {data.map((asset: Nft) => (
-          <AssetCard asset={asset} fetchAsset={fetchAsset} chain={chain} key={asset.identifier} />
+          <AssetCard asset={asset} key={asset.identifier} />
         ))}
       </Box>
       </Box>

@@ -2,14 +2,14 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, List, ListItem } from '@mui/material';
 
-interface Props {
-	randomizeOffset: () => void;
-	//clearCollection: () => void;
-}
+// interface Props {
+// 	//randomizeOffset: () => void;
+// 	//clearCollection: () => void;
+// }
 
 // MASTER NAVBAR COMPONENT
 // TODO conditionally render buttons, etc
-export default function Navbar({ randomizeOffset }: Props) {
+export default function Navbar() {
 	return (
 		<Box className='navbar-container'>
 			<Box className='navbar-blur'></Box>
@@ -24,7 +24,8 @@ export default function Navbar({ randomizeOffset }: Props) {
 						className='button outline-secondary'
 						component={RouterLink}
 						to='/explore'
-						onClick={randomizeOffset}>
+						//onClick={randomizeOffset}
+						>
 						E X P L O R E
 					</Button>
 				</ListItem>

@@ -1,49 +1,95 @@
-import { API_KEY } from '../../config.json';
 import { Nft } from '../models/nft';
 
-const baseUrl = 'https://api.opensea.io/api/v2';
-
 class NftService {
+  private baseUrl = 'http://localhost:5000/api/nft';
 
-  async fetchNfts(collectionSlug: string) : Promise<Nft[] | null> {
+  async fetchNfts(collectionSlug: string): Promise<Nft[] | null> {
     const options: RequestInit = {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        'X-API-KEY': API_KEY
       }
     };
 
     try {
-      const response = await fetch(`${baseUrl}/collection/${collectionSlug}/nfts`, options);
-      const data = await response.json();
-      return data.nfts;
+      console.log(`Fetching batch from Collection: ${collectionSlug}...`);
+      const response = await fetch(`${this.baseUrl}/fetchNfts/${collectionSlug}`, options);
+      
+      if (!response.ok) {
+        console.error(`Error fetching NFTs: ${response.statusText}`);
+        return null;
+      }
+
+      // const data = await response.json();
+      // console.log("Response data:", data);
+
+      const textData = await response.text(); // Get the response as text
+
+      const data = JSON.parse(textData); // Parse the JSON string manually
+      console.log(data);
+
+      if (data && Array.isArray(data.nfts)) {
+        return data.nfts as Nft[];
+      } else {
+        console.error("Unexpected response structure");
+        return null;
+      }
 
     } catch (error) {
-      console.error(error);
-      return Promise.resolve([]);
+      console.error("Fetch error:", error);
+      return null;
     }
   }
 
-  async fetchNft(id: string| undefined, chain: string | undefined, address: string | undefined) : Promise<Nft | null> {
+  async fetchNft(assetToGet: Nft | null): Promise<Nft | null> {
+
     const options: RequestInit = {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        'X-API-KEY': API_KEY
       }
     };
 
+    if (!assetToGet) { return null; }
+
+    const blockchain : string | '' = this.getBlockchainFromUrl(assetToGet.opensea_url);
+  
+    if (!blockchain) {
+      console.error(`Error: Couldn't determine Blockchain from asset data`);
+      return null;
+    }
+
+    const url = `${this.baseUrl}/fetchNft/${blockchain}/${assetToGet.contract}/${assetToGet.identifier}`;
+
     try {
-      const response = await fetch(`${baseUrl}/chain/${chain}/contract/${address}/nfts/${id}`, options);
+      console.log(`Fetching single NFT, Chain/Id: ${blockchain}/${assetToGet.identifier}...`);
+      const response = await fetch(url, options);
       const data = await response.json();
       return data.nft;
-      
+
     } catch (error) {
       console.error(error);
-      return Promise.resolve(null); 
+      return Promise.resolve(null);
     }
   }
+
+  getBlockchainFromUrl = (url: string): string | '' => {
+    try {
+      const parsedUrl = new URL(url);
+      const pathname = parsedUrl.pathname;
+      const segments = pathname.split('/');
+      const assetsIndex = segments.indexOf('assets');
+      
+      // Check if 'assets' is found and it has a segment after it
+      if (assetsIndex !== -1 && assetsIndex + 1 < segments.length) {
+        return segments[assetsIndex + 1];
+      }
+      return '';
+    } catch (error) {
+      console.error('Failed to get Blockchain from URL -- Invalid URL:', error);
+      return '';
+    }
+  };
 }
 
 export default NftService;

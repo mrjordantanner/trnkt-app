@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
-import Card from './AssetCard';
-//import diamond from '../images/diamond.svg';
+import AssetCard from './AssetCard';
 import { Nft } from '../models/nft';
 import { Box } from '@mui/material';
 
 interface Props {
-  chain: string;
   favorites: Nft[] | null;
   loadFavoritesData: () => void;
-  setAsset: React.Dispatch<React.SetStateAction<Nft | null>>;
 }
 
-export default function Favorites({ chain, favorites, loadFavoritesData, setAsset }: Props) {
+export default function Favorites({ favorites, loadFavoritesData  }: Props) {
 
   useEffect(() => {
     loadFavoritesData();
@@ -32,7 +29,7 @@ export default function Favorites({ chain, favorites, loadFavoritesData, setAsse
       <Box className="container">
         {
           favorites.map((asset: Nft) => (
-            <Card asset={asset} setAsset={setAsset} chain={chain} key={asset?.identifier} />
+            <AssetCard asset={asset} key={asset?.identifier} />
           ))
         }
       </Box>

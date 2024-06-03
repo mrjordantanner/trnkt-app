@@ -6,16 +6,12 @@ import AssetSidebar from './AssetSidebar';
 import { Nft } from '../models/nft';
 import { Box, Typography } from '@mui/material';
 //import diamond from '../images/diamond.svg';
+import { useAssetContext } from '../contexts/AssetContext';
 
 interface Props {
-  asset: Nft | null;
   data: Nft[] | null;
-  chain: string;
   selectedCollection: string;
-  setAsset: React.Dispatch<React.SetStateAction<Nft | null>>;
-  fetchAsset: (id : string | undefined, chain : string | undefined, address : string | undefined) => void;
   setCollection: React.Dispatch<React.SetStateAction<string>>;
-  fetchData: () => void;
   addToFavorites: (asset: Nft | null) => void;
   removeFromFavorites: (asset: Nft | null) => void;
   localFavorites: Nft[] | null;
@@ -32,33 +28,27 @@ const containerStyle = {
 }
 
 // Main Explore screen consisting of a Sidebar and a Gallery
-export default function ExploreView({ data, chain, fetchAsset, selectedCollection, setCollection, fetchData, addToFavorites, removeFromFavorites, localFavorites, asset, setAsset }: Props) {
+export default function ExploreView({ data, selectedCollection, setCollection, addToFavorites, removeFromFavorites, localFavorites }: Props) {
 
+  const { selectedAsset } = useAssetContext();
 
   return (
     <>
-
     {/* Developer Stats */}
       <Typography sx={{color: 'white', paddingTop: "80px" }}>
         Favorites: {localFavorites?.length} <br />
-        Selected Asset: {asset?.name} <br />
+        Selected Asset: {selectedAsset?.name} <br />
         Selected Collection: {selectedCollection} <br />
         </Typography>
 
       <Box sx={containerStyle}>
 
-        {/* <div className="gem-background-wrapper">
-          <img className="gem-background invert" src={diamond} alt="diamond" />
-        </div> */}
+        {!selectedAsset && <ExploreSidebar setCollection={setCollection} 
+        selectedCollection={selectedCollection} />}
+        {!selectedAsset && <ExploreGallery data={data} />}
 
-        {!asset && <ExploreSidebar setCollection={setCollection} selectedCollection={selectedCollection} fetchData={fetchData} />}
-        {asset && <AssetSidebar asset={asset} setAsset={setAsset} />}
-
-        {!asset && <ExploreGallery data={data} chain={chain} fetchAsset={fetchAsset}/>}
-        {asset && <AssetView 
-          asset={asset} 
-          setAsset={setAsset} 
-          fetchAsset={fetchAsset}
+        {selectedAsset && <AssetSidebar />}
+        {selectedAsset && <AssetView 
           addToFavorites={addToFavorites}
           removeFromFavorites={removeFromFavorites}
           localFavorites={localFavorites} />}

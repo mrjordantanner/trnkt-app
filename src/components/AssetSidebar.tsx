@@ -1,16 +1,12 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
-import { Nft } from '../models/nft';
+import { useAssetContext } from '../contexts/AssetContext';
 //import clsx from 'clsx';   // utility that helps you conditionally join class names together
-//import diamond from '../images/diamond.svg';
-
-interface Props {
-  asset: Nft | null;
-  setAsset: React.Dispatch<React.SetStateAction<Nft | null>>;
-}
 
 // Sidebar for AssetView
-export default function AssetSidebar({ asset, setAsset }: Props) {
+export default function AssetSidebar() {
+
+  const { selectedAsset, setSelectedAsset } = useAssetContext();
 
   const containerStyle = {
 
@@ -21,8 +17,6 @@ export default function AssetSidebar({ asset, setAsset }: Props) {
     alignItems: 'center',
     justifyContent: 'flex-start',
     backgroundColor: 'green',
-
-
   }
 
   const contentsStyle = {
@@ -36,7 +30,7 @@ export default function AssetSidebar({ asset, setAsset }: Props) {
   }
 
   const onClearAsset = () => {
-    setAsset(null);
+    setSelectedAsset(null);
   }
 
   const buttonStyle = {
@@ -44,7 +38,6 @@ export default function AssetSidebar({ asset, setAsset }: Props) {
     backgroundColor: "gray",
     color: "white",
   }
-  
 
   return (
     <>
@@ -52,7 +45,7 @@ export default function AssetSidebar({ asset, setAsset }: Props) {
 
         <Box sx={contentsStyle}>
         <Button sx={buttonStyle} onClick={onClearAsset}>CLEAR ASSET</Button>
-          {asset?.name}
+          {selectedAsset?.name}
         </Box>
       </Box>
     </>

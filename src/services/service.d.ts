@@ -1,8 +1,9 @@
 import { Nft } from '../models/nft';
 
-declare module 'NftService' {
-  export default class NftService {
-    constructor(base?: string);
-    fetchNfts(collectionSlug: string): Nft[];
-  }
+declare class NftService {
+  private baseUrl: string;
+  fetchNfts(collectionSlug: string): Promise<Nft[] | null>;
+  fetchNft(assetToGet: Nft | null): Promise<Nft | null>;
 }
+
+export default NftService;

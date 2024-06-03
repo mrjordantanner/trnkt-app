@@ -35,6 +35,8 @@ export interface Nft {
   updated_at: string;
   is_disabled: boolean;
   is_nsfw: boolean;
+
+  // These fields are only returned when getting single NFTs, not as a batch
   animation_url: string;
   is_suspicious: boolean;
   creator: string;
