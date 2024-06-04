@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nft } from '../../models/nft';
+import { Box, Button } from '@mui/material';
 
 interface Props {
   addToFavorites: (asset: Nft) => void;
@@ -8,8 +9,7 @@ interface Props {
   localFavorites: Nft[] | null;
 }
 
-export default function FavoritesToggleButton ({ 
-  addToFavorites, removeFromFavorites, asset,localFavorites }: Props) {
+export default function FavoritesToggleButton ({ addToFavorites, removeFromFavorites, asset, localFavorites }: Props) {
     
   const [favoritesState, setFavoritesState] = useState<boolean>(false);
 
@@ -35,16 +35,16 @@ export default function FavoritesToggleButton ({
   };
 
   return (
-    <div className="button-container">
+    <Box className="button-container">
       {favoritesState ? (
-        <div onClick={handleRemoveFromFavorites} className="favorites-button remove">
+        <Button onClick={handleRemoveFromFavorites} className="favorites-button remove">
           Remove from Favorites
-        </div>
+        </Button>
       ) : (
-        <div onClick={handleAddToFavorites} className="favorites-button add">
+        <Button onClick={handleAddToFavorites} className="favorites-button add">
           Add to Favorites
-        </div>
+        </Button>
       )}
-    </div>
+    </Box>
   );
 }

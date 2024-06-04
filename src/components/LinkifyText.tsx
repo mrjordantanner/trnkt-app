@@ -3,26 +3,17 @@ import { Typography } from '@mui/material';
 
 interface Props {
   text: string;
+  style?: React.CSSProperties;
 }
 
-export default function LinkifyText({ text }: Props) {
-
-  const textStyle = {
-    fontSize : '1rem',
-    lineHeight: '1.5rem',
-    color: 'lightgray',
-    padding: '1rem',
-    width: '100%',
-    textAlign: 'left',
-    wordWrap: 'break-word'
-  }
+export default function LinkifyText({ text, style }: Props) {
 
   const urlPattern = /https?:\/\/[^\s]+/g;
   const parts = text.split(urlPattern);
   const urls = text.match(urlPattern);
 
   return (
-    <Typography sx={textStyle}>
+    <Typography style={style}>
       {parts.map((part, index) => (
         <React.Fragment key={index}>
           {part}

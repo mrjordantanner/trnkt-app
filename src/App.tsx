@@ -1,46 +1,17 @@
-import './App.scss';
-import React, { useState, useEffect } from 'react';
-import { AssetProvider } from './contexts/AssetContext';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
+import './App.scss';
+import React, { useState } from 'react';
+import { Nft } from './models/nft';
+import { AssetProvider } from './contexts/AssetContext';
 import ExploreView from './components/ExploreView';
 import Favorites from './components/Favorites';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-import NftService from './services/service';
-import { Nft } from './models/nft';
-//import Loading from './components/Loading';
-
-export const service = new NftService();
-const defaultCollection = 'parallel-on-base';
-//const chain = 'base'; // ethereum / base
 
 function App() {
-
-  // Array of NFT data that is currently cached in memory
-  const [data, setData] = useState<Nft[] | null>(null);
-
-  // NFTs that user has saved as a Favorite
   // TODO convert this to context / Read FavoritesLists from User data
   const [favorites, setFavorites] = useState<Nft[] | null>([]);
-
-  // Which collection are we currently browsing, if any?
-  // TODO convert this to context
-  const [selectedCollection, setCollection] = useState<string>(defaultCollection);
-
-  useEffect(() => {
-    async function getNftBatch(): Promise<Nft[] | null> {
-      const assets = await service.fetchNfts(selectedCollection);
-      console.log(assets);
-      setData(assets);
-      return assets;
-    }
-
-    getNftBatch();
-    loadFavoritesData();
-  }, [selectedCollection]);
 
   // const clearLocalFavorites = () => {
   //   setFavorites([]);
@@ -80,7 +51,9 @@ function App() {
   // };
 
   const removeFromFavorites = (asset: Nft | null) => {
-    if (!asset || !selectedCollection) {
+    if (!asset 
+      //|| !selectedCollection
+    ) {
       console.log('Asset is null or Favorites is empty.');
       return;
     }
@@ -98,19 +71,14 @@ function App() {
   return (
     <>
       <AssetProvider>
-        <Navbar  />
+        <Navbar numberFavorites={favorites?.length}  />
 
-        {/* <Router> */}
           <Routes>
 
-        {/* CONTENT */}
             <Route path='/' element={<Home />} />
 
             <Route path='/explore' element={ 
               <ExploreView 
-                data={data}
-                selectedCollection={selectedCollection} 
-                setCollection={setCollection}
                 addToFavorites={addToFavorites}
                 removeFromFavorites={removeFromFavorites}
                 localFavorites={favorites}
@@ -121,17 +89,7 @@ function App() {
               loadFavoritesData={loadFavoritesData} 
               />} />
 
-            {/* <Route
-              path='/chain/:chain/contract/:address/nfts/:id'
-              element={<AssetView
-                addToFavorites={addToFavorites}
-                removeFromFavorites={removeFromFavorites}
-                localFavorites={favorites}
-              />}
-            /> */}
-
           </Routes>
-        {/* </Router> */}
       </AssetProvider>
     </>
   );

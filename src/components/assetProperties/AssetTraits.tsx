@@ -11,11 +11,13 @@ export default function AssetTraits ({ asset }: Props) {
 
   return (
     <>
-      <div className='flex-row'><h3>Traits</h3></div>
+      <h2>Traits</h2>
       <ul className='traits-list'>
         {asset.traits.map((trait: Trait, index: number) => {
           return trait ? (
-            <li key={`${trait.trait_type}-${asset.identifier}-${index}`}>{trait.trait_type}: {trait.value}</li>
+            <li key={`${asset.identifier}-${index}`}>
+              {trait.trait_type}: {trait.value}
+            </li>
           ) : null;
         })}
       </ul>

@@ -3,43 +3,29 @@ import { Nft } from '../models/nft';
 class NftService {
   private baseUrl = 'http://localhost:5000/api/nft';
 
-  async fetchNfts(collectionSlug: string): Promise<Nft[] | null> {
-    const options: RequestInit = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-      }
-    };
+  async fetchNfts(collectionSlug: string, limit: number = 50, next: string | null = null): Promise<{ nfts: Nft[], next: string | null }> {
+		const options: RequestInit = {
+			method: 'GET',
+			headers: {
+				accept: 'application/json',
+			},
+		};
 
-    try {
-      console.log(`Fetching batch from Collection: ${collectionSlug}...`);
-      const response = await fetch(`${this.baseUrl}/fetchNfts/${collectionSlug}`, options);
-      
-      if (!response.ok) {
-        console.error(`Error fetching NFTs: ${response.statusText}`);
-        return null;
-      }
+    const url = next ? 
+      `${this.baseUrl}/fetchNfts/${collectionSlug}?limit=${limit}&next=${next}` : 
+      `${this.baseUrl}/fetchNfts/${collectionSlug}?limit=${limit}`;
 
-      // const data = await response.json();
-      // console.log("Response data:", data);
+		try {
+			console.log(`Fetching batch from Collection: ${collectionSlug}...`);
+			const response = await fetch(url, options);
+			const data = await response.json();
+			return data;
 
-      const textData = await response.text(); // Get the response as text
-
-      const data = JSON.parse(textData); // Parse the JSON string manually
-      console.log(data);
-
-      if (data && Array.isArray(data.nfts)) {
-        return data.nfts as Nft[];
-      } else {
-        console.error("Unexpected response structure");
-        return null;
-      }
-
-    } catch (error) {
-      console.error("Fetch error:", error);
-      return null;
-    }
-  }
+		} catch (error) {
+			console.error(error);
+			return { nfts: [], next: null };
+		}
+	}
 
   async fetchNft(assetToGet: Nft | null): Promise<Nft | null> {
 
@@ -65,6 +51,7 @@ class NftService {
       console.log(`Fetching single NFT, Chain/Id: ${blockchain}/${assetToGet.identifier}...`);
       const response = await fetch(url, options);
       const data = await response.json();
+      console.log(data.nft);
       return data.nft;
 
     } catch (error) {

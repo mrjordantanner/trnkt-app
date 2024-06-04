@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Autocomplete, TextField } from '@mui/material';
+import { Box, Button, Autocomplete, TextField, Typography } from '@mui/material';
 //import clsx from 'clsx';   // utility that helps you conditionally join class names together
-//import diamond from '../images/diamond.svg';
 import { useAssetContext } from '../contexts/AssetContext';
+import { Nft } from '../models/nft';
 
 interface Props {
-  selectedCollection: string;
-  setCollection: React.Dispatch<React.SetStateAction<string>>;
+  getNftBatch: () => Promise<{ nfts: Nft[], next: string | null }>
 }
 
 interface Option {
@@ -18,18 +17,18 @@ const collectionOptions: Option[] = [
   { label: 'Parallel on Base', value: 'parallel-on-base' },
   { label: 'New Dimension Huemin', value: 'new-dimension-huemin' },
   { label: 'Clone X', value: 'clonex' },
-  { label: 'Chronoforge', value: 'chronoforge' },
+  { label: 'daily.xyz', value: 'daily-xyz' },
+  { label: 'BYOPill', value: 'byopill' },
 ];
 
 const getOption = (selectedCollection: string): Option | undefined => {
     return collectionOptions.find(option => option.value === selectedCollection);
   };
 
-
 // Provide search and filtering options for NFT exploration
-export default function ExploreSidebar({ selectedCollection, setCollection }: Props) {
+export default function ExploreSidebar({ getNftBatch }: Props) {
 
-  const { fetchNfts } = useAssetContext();
+  const { nftLimit, setNftLimit, selectedCollection, setCollection } = useAssetContext();
 
     useEffect(() => {
         if (selectedCollection) {
@@ -37,47 +36,44 @@ export default function ExploreSidebar({ selectedCollection, setCollection }: Pr
           if (matchedOption) { 
             setCollection(matchedOption.value);
           }
-        } else {
-            setCollection('');
         }
       }, [selectedCollection, setCollection]);
 
   const handleCollectionChange = (event: React.SyntheticEvent, newValue: Option | null) => {
     if (newValue) {
       setCollection(newValue.value);
-      //fetchNfts();
-    } else {
-      //setCollection('');
-    }
+    } 
   };
 
-  const containerStyle = {
-    display: 'flex',
-    height: '100vh',
-    width: 500,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    backgroundColor: 'gray',
-  }
-
   const contentsStyle = {
+    display: 'flex',
+    flexDirection: 'column',
     height: '50vh',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     paddingTop: '50px',
-    backgroundColor: 'lightgray',
+    backgroundColor: '#666666',
   }
 
   const onButtonClick = () => {
-    fetchNfts(selectedCollection);
+    getNftBatch();
   }
 
+  const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value, 10);
+    if (value >= 1 && value <= 200) {
+      setNftLimit(value);
+    }
+  };
+ 
+
   return (
-		<Box sx={containerStyle}>
+		<Box className="sidebar-container" >
 			<Box sx={contentsStyle}>
 
+        <Box>
+        <Typography>Select NFT Collection</Typography>
 				<Autocomplete
           value={getOption(selectedCollection)}
 					options={collectionOptions}
@@ -85,15 +81,30 @@ export default function ExploreSidebar({ selectedCollection, setCollection }: Pr
 					onChange={handleCollectionChange}
 					sx={{ width: 300, backgroundColor: 'white' }}
 					renderInput={(params) => <TextField {...params} label='Collection' />}
-				/>
+          />
+          </Box>
 
-                <Button
-                    // className={clsx('button', { 'button-primary': isPrimary })}
-                    className='button'
-                    sx={{  }}
-                    onClick={onButtonClick}>
-                    Get NFTs
-                </Button>
+        <Box>
+          <Typography>NFT Limit 1-200 (Default = 50)</Typography>
+          <TextField
+            sx={{ backgroundColor: 'white', width: '300px' }}
+            type="number"
+            label="NFT Batch Size Limit"
+            value={nftLimit}
+            onChange={handleLimitChange}
+            inputProps={{ min: 1, max: 200 }}
+          />
+        </Box>
+
+        <Button
+            // className={clsx('button', { 'button-primary': isPrimary })}
+            className='button'
+            sx={{ fontSize: '1rem', fontWeight: 'bold', border: '1px solid gray', backgroundColor: 'lightgray', width: '200px' }}
+            onClick={onButtonClick}>
+            Get NFTs
+        </Button>
+
+        
 			</Box>
 		</Box>
 	);

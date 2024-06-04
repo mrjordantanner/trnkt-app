@@ -3,7 +3,6 @@ import AssetCard from './AssetCard';
 import Loading from './Loading';
 import { Nft } from '../models/nft';
 import { Box } from '@mui/material';
-//import diamond from '../images/diamond.svg';
 
 interface Props {
   data: Nft[] | null;

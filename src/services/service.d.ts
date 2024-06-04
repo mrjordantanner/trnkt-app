@@ -2,7 +2,7 @@ import { Nft } from '../models/nft';
 
 declare class NftService {
   private baseUrl: string;
-  fetchNfts(collectionSlug: string): Promise<Nft[] | null>;
+  fetchNfts(collectionSlug: string, next: string | null = null): Promise<{ nfts: Nft[], next: string | null }>;
   fetchNft(assetToGet: Nft | null): Promise<Nft | null>;
 }
 
