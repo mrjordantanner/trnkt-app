@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Autocomplete, TextField, Typography } from '@mui/material';
-//import clsx from 'clsx';   // utility that helps you conditionally join class names together
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
 import { Nft } from '../models/nft';
+//import clsx from 'clsx';   // utility that helps you conditionally join class names together
 
 interface Props {
   getNftBatch: () => Promise<{ nfts: Nft[], next: string | null }>
 }
-
 interface Option {
   label: string;
   value: string;
@@ -21,9 +20,9 @@ const collectionOptions: Option[] = [
   { label: 'BYOPill', value: 'byopill' },
 ];
 
-const getOption = (selectedCollection: string): Option | undefined => {
-    return collectionOptions.find(option => option.value === selectedCollection);
-  };
+// const getOption = (selectedCollection: string): Option | undefined => {
+//     return collectionOptions.find(option => option.value === selectedCollection);
+//   };
 
 // Provide search and filtering options for NFT exploration
 export default function ExploreSidebar({ getNftBatch }: Props) {
@@ -39,11 +38,11 @@ export default function ExploreSidebar({ getNftBatch }: Props) {
         }
       }, [selectedCollection, setCollection]);
 
-  const handleCollectionChange = (event: React.SyntheticEvent, newValue: Option | null) => {
-    if (newValue) {
-      setCollection(newValue.value);
-    } 
-  };
+  // const handleCollectionChange = (event: React.SyntheticEvent, newValue: Option | null) => {
+  //   if (newValue) {
+  //     setCollection(newValue.value);
+  //   } 
+  // };
 
   const contentsStyle = {
     display: 'flex',
@@ -53,7 +52,7 @@ export default function ExploreSidebar({ getNftBatch }: Props) {
     alignItems: 'center',
     justifyContent: 'space-evenly',
     paddingTop: '50px',
-    backgroundColor: '#666666',
+    backgroundColor: '#232323',
   }
 
   const onButtonClick = () => {
@@ -67,12 +66,11 @@ export default function ExploreSidebar({ getNftBatch }: Props) {
     }
   };
  
-
   return (
 		<Box className="sidebar-container" >
 			<Box sx={contentsStyle}>
 
-        <Box>
+        {/* <Box>
         <Typography>Select NFT Collection</Typography>
 				<Autocomplete
           value={getOption(selectedCollection)}
@@ -82,7 +80,9 @@ export default function ExploreSidebar({ getNftBatch }: Props) {
 					sx={{ width: 300, backgroundColor: 'white' }}
 					renderInput={(params) => <TextField {...params} label='Collection' />}
           />
-          </Box>
+          </Box> */}
+
+        <Typography variant="h2">{selectedCollection}</Typography>
 
         <Box>
           <Typography>NFT Limit 1-200 (Default = 50)</Typography>

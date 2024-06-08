@@ -4,6 +4,7 @@ import './App.scss';
 import React, { useState } from 'react';
 import { Nft } from './models/nft';
 import { AssetProvider } from './contexts/AssetContext';
+import CollectionView from './components/CollectionView';
 import ExploreView from './components/ExploreView';
 import Favorites from './components/Favorites';
 import Navbar from './components/Navbar';
@@ -76,6 +77,9 @@ function App() {
           <Routes>
 
             <Route path='/' element={<Home />} />
+
+
+            <Route path='/collections' element={<CollectionView />} />
 
             <Route path='/explore' element={ 
               <ExploreView 

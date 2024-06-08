@@ -16,17 +16,17 @@ interface Props {
 // Main Explore screen consisting of a Sidebar and a Gallery
 export default function ExploreView({ addToFavorites, removeFromFavorites, localFavorites }: Props) {
 
-  const { nftLimit, selectedAsset, fetchNfts, selectedCollection, nextCursor, setNextCursor, nfts, setNfts } = useAssetContext();
+  const { nftLimit, selectedAsset, fetchNfts, selectedCollection, nextNftCursor, setNextNftCursor, nfts, setNfts } = useAssetContext();
 
   useEffect(() => {
     getNftBatch();
   }, []);  // selectedCollection
 
   async function getNftBatch(): Promise<{ nfts: Nft[], next: string | null }> {
-    const response = await fetchNfts(selectedCollection, nftLimit, nextCursor);
+    const response = await fetchNfts(selectedCollection, nftLimit, nextNftCursor);
     console.log(response);
     setNfts(response.nfts);
-    setNextCursor(response.next)
+    setNextNftCursor(response.next)
     return response;
   }
 

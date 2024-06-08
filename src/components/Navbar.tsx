@@ -23,8 +23,17 @@ export default function Navbar({ numberFavorites }: Props) {
 						sx={{color: 'white'}}
 						className='button outline-secondary'
 						component={RouterLink}
+						to='/collections'
+						>
+						C O L L E C T I O N S
+					</Button>
+				</ListItem>
+				<ListItem>
+					<Button
+						sx={{color: 'white'}}
+						className='button outline-secondary'
+						component={RouterLink}
 						to='/explore'
-						//onClick={randomizeOffset}
 						>
 						E X P L O R E
 					</Button>

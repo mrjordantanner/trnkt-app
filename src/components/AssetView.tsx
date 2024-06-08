@@ -39,7 +39,7 @@ export default function AssetView({ addToFavorites, removeFromFavorites, localFa
     padding: '1rem',
     width: '100%',
     alignItems: 'left',
-    border: '1px solid red'
+    //border: '1px solid gray'
   }
 
   return (
@@ -48,7 +48,7 @@ export default function AssetView({ addToFavorites, removeFromFavorites, localFa
         <Box className="asset-view-image">
         {assetInView.animation_url ? (
           <video
-            src={assetInView.animation_url}
+            src={assetInView.animation_url} 
             autoPlay
             loop
             muted
@@ -58,7 +58,7 @@ export default function AssetView({ addToFavorites, removeFromFavorites, localFa
             Sorry, the video can't play in this browser.
           </video>
         ) : (
-          <img src={assetInView.image_url} alt={assetInView.name} style={{ width: '100%' }} />
+          <img src={assetInView.image_url} alt={assetInView.name} style={{ width: '100%', objectFit: 'contain' }} />
         )}
       </Box>
 
@@ -71,7 +71,10 @@ export default function AssetView({ addToFavorites, removeFromFavorites, localFa
               </Link>
             </Box>
 
-          <Box sx={{ marginTop: '30px', backgroundColor: '#231222' }}>
+          <Box sx={{ 
+            marginTop: '30px', 
+            //backgroundColor: '#231222' 
+            }}>
             <LinkifyText text={assetInView.description} style={descriptionStyle} />
           </Box>
 
