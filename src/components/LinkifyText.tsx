@@ -9,12 +9,12 @@ interface Props {
 export default function LinkifyText({ text, style }: Props) {
 
   const urlPattern = /https?:\/\/[^\s]+/g;
-  const parts = text.split(urlPattern);
-  const urls = text.match(urlPattern);
+  const parts = text?.split(urlPattern);
+  const urls = text?.match(urlPattern);
 
   return (
-    <Typography style={style}>
-      {parts.map((part, index) => (
+    <Typography style={{ whiteSpace: 'pre-wrap', ...style }}>
+      {parts && parts.map((part, index) => (
         <React.Fragment key={index}>
           {part}
           {urls && urls[index] && (

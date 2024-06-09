@@ -14,8 +14,8 @@ interface AssetContextType {
   collections: Collection[] | null;
   setCollections: React.Dispatch<React.SetStateAction<Collection[] | null>>;
 
-  selectedCollection: string;
-  setCollection: (collection: string) => void;
+  selectedCollection: Collection | null;
+  setCollection: (collection: Collection | null) => void;
 
   selectedAsset: Nft | null;
   setSelectedAsset: (asset: Nft | null) => void;
@@ -33,7 +33,7 @@ interface Props {
   children: ReactNode;
 }
 
-const defaultCollection = 'parallel-on-base';
+//const defaultCollection = 'parallel-on-base';
 const defaultNftLimit = 50;
 
 const AssetContext = createContext<AssetContextType | undefined>(undefined);
@@ -44,13 +44,13 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
   const [nextNftCursor, setNextNftCursor] = useState<string | null>(null);
   const [collections, setCollections] = useState<Collection[] | null>([]);
   const [nextCollectionCursor, setNextCollectionCursor] = useState<string | null>(null);
-  const [selectedCollection, _setCollection] = useState<string>(defaultCollection);
+  const [selectedCollection, _setCollection] = useState<Collection | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<Nft | null>(null);
   const [nftLimit, setNftLimit] = useState<number>(defaultNftLimit);
 
 
   // Custom 'setState' method to reset nextCursor if we're switching Collections
-  const setCollection = (collection: string) => {
+  const setCollection = (collection: Collection | null) => {
     if (selectedCollection != collection) { 
       setNextNftCursor(null); 
     }

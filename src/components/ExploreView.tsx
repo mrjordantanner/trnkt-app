@@ -23,7 +23,9 @@ export default function ExploreView({ addToFavorites, removeFromFavorites, local
   }, []);  // selectedCollection
 
   async function getNftBatch(): Promise<{ nfts: Nft[], next: string | null }> {
-    const response = await fetchNfts(selectedCollection, nftLimit, nextNftCursor);
+    if (!selectedCollection) return Promise.resolve(null, '');
+
+    const response = await fetchNfts(selectedCollection.collection, nftLimit, nextNftCursor);
     console.log(response);
     setNfts(response.nfts);
     setNextNftCursor(response.next)
@@ -39,7 +41,7 @@ export default function ExploreView({ addToFavorites, removeFromFavorites, local
         {!selectedAsset && <ExploreGallery data={nfts} />}
 
         {/* Detailed Asset View with Sidebar shown if NFT is selected */}
-        {selectedAsset && <AssetSidebar />}
+        {/* {selectedAsset && <AssetSidebar />} */}
         {selectedAsset && <AssetView 
           addToFavorites={addToFavorites}
           removeFromFavorites={removeFromFavorites}

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useAssetContext } from '../contexts/AssetContext';
+import { Nft } from '../models/nft';
+import { Box, Typography, Link, Button } from '@mui/material';
 import AssetTraits from './assetProperties/AssetTraits';
 import FavoritesToggleButton from './assetProperties/FavoritesToggleButton';
 import Loading from './Loading';
-import { Nft } from '../models/nft';
-import { Box, Typography, Link } from '@mui/material';
 import LinkifyText from './LinkifyText';
-import { useAssetContext } from '../contexts/AssetContext';
 
 interface Props {
   addToFavorites: (asset: Nft) => void;
@@ -15,7 +15,7 @@ interface Props {
 
 export default function AssetView({ addToFavorites, removeFromFavorites, localFavorites }: Props) {
 
-  const { selectedAsset, fetchNft } = useAssetContext();
+  const { selectedAsset, selectedCollection, fetchNft, setSelectedAsset } = useAssetContext();
   const [assetInView, setAssetInView] = useState<Nft | null>(null);
 
   useEffect(() => {
@@ -26,6 +26,10 @@ export default function AssetView({ addToFavorites, removeFromFavorites, localFa
     const asset = await fetchNft(selectedAsset);
     setAssetInView(asset);
     return asset;
+  }
+
+  const onClearAsset = () => {
+    setSelectedAsset(null);
   }
 
   if (!assetInView) {
@@ -42,56 +46,88 @@ export default function AssetView({ addToFavorites, removeFromFavorites, localFa
     //border: '1px solid gray'
   }
 
+  const toolbarStyle = {
+    display: 'flex', justifyContent: 'space-around', alignItems: 'center', height: '50px', width: '100%', border: '1px solid black', margin: '10px', borderRadius: '8px', backgroundColor: '#343434'
+  }
+
+  const buttonStyle = {
+    display: 'fixed',
+    position: 'absolute',
+    top: '80px',
+    border: "1px solid white",
+    backgroundColor: "#353535",
+    color: "white",
+    margin: '10px',
+    width: '120px',
+    opacity: '0.5'
+  }
+  
+
   return (
-    <>
-      <Box className="asset-view-container">
-        <Box className="asset-view-image">
-        {assetInView.animation_url ? (
-          <video
-            src={assetInView.animation_url} 
-            autoPlay
-            loop
-            muted
-            controls
-            style={{ height: '100%' }}
-          >
-            Sorry, the video can't play in this browser.
-          </video>
-        ) : (
-          <img src={assetInView.image_url} alt={assetInView.name} style={{ width: '100%', objectFit: 'contain' }} />
-        )}
-      </Box>
+		<Box className='asset-view-container'>
+			<Button sx={buttonStyle} onClick={onClearAsset}>
+				BACK
+			</Button>
+			<Box className='asset-view-image'>
+				{assetInView.animation_url ? (
+					<video
+						src={assetInView.animation_url}
+						autoPlay
+						loop
+						muted
+						controls
+						style={{}}>
+						Sorry, the video can't play in this browser.
+					</video>
+				) : (
+					<img
+						src={assetInView.image_url}
+						alt={assetInView.name}
+						style={{
+							width: '100%',
+							objectFit: 'contain',
+						}}
+					/>
+				)}
+			</Box>
 
-        <Box className="asset-properties">
-          <Typography className="name">{assetInView.name}</Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'space-evenly', height: '50px', border: '1px solid black' }}>
-            <Typography className="id" sx={{ marginTop: '20px' }}>ID: {assetInView.identifier}</Typography>
-            <Link href={assetInView.opensea_url} sx={{ color: 'cyan', fontWeight: 'bold', width: '500px', height: '100%' }} target="_blank" rel="noopener noreferrer">
-                View on Opensea.io
-              </Link>
-            </Box>
+			<Box className='asset-properties'>
+				<Typography className='name'>{assetInView.name}</Typography>
+				<h2>{selectedCollection?.name}</h2>
 
-          <Box sx={{ 
-            marginTop: '30px', 
-            //backgroundColor: '#231222' 
-            }}>
-            <LinkifyText text={assetInView.description} style={descriptionStyle} />
-          </Box>
+				<Box sx={toolbarStyle}>
+					<Link
+						className='detail-text'
+						href={assetInView.opensea_url}
+						sx={{ color: 'cyan' }}
+						target='_blank'
+						rel='noopener noreferrer'>
+						View on Opensea.io
+					</Link>
 
-          <ul className="property-list">
-            <AssetTraits asset={assetInView} />
-          </ul>
+					<FavoritesToggleButton
+						asset={assetInView}
+						localFavorites={localFavorites}
+						addToFavorites={addToFavorites}
+						removeFromFavorites={removeFromFavorites}
+					/>
+				</Box>
 
-          <FavoritesToggleButton
-            asset={assetInView}
-            localFavorites={localFavorites}
-            addToFavorites={addToFavorites}
-            removeFromFavorites={removeFromFavorites}
-          />
+				<Box
+					sx={{
+						marginTop: '30px',
+						//backgroundColor: '#231222'
+					}}>
+					<LinkifyText
+						text={assetInView.description}
+						style={descriptionStyle}
+					/>
+				</Box>
 
-         
-        </Box>
-      </Box>
-    </>
-  );
+				<Box className='property-list'>
+					<AssetTraits asset={assetInView} />
+				</Box>
+			</Box>
+		</Box>
+	);
 }

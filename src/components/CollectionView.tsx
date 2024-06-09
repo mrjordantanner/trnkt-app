@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Collection } from '../models/collection';
 import { useAssetContext } from '../contexts/AssetContext';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Loading from './Loading';
 import CollectionCard from './CollectionCard';
 
@@ -10,7 +10,13 @@ const featuredCollectionSlugs: string[] = [
   'new-dimension-huemin',
   'clonex',
   'daily-xyz',
-  'byopill'
+  'byopill',
+  'the-vault-of-wonders-chapter-1-the-abyssal-unseen',
+  'abstract-nature-albertdros',
+  'azuki',
+  'screens-by-thomas-lin-pedersen',
+  'midnightbreeze'
+
 ];
 
 // Main Explore screen consisting of a Sidebar and a Gallery
@@ -72,7 +78,7 @@ export default function CollectionView() {
   return (
 		<Box sx={containerStyle}>
 
-      <h2>Featured Collections</h2>
+      <Typography variant="h2" sx={{ padding: '10px' }}>Featured Collections</Typography>
 
 			<Box className="collections-gallery">
 

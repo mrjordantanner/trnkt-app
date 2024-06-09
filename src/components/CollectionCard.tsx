@@ -2,7 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Collection } from '../models/collection';
-import { Box, Card, CardContent, Button, Typography } from '@mui/material';
+import { Box, Card, CardContent, ButtonBase, Typography } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 
 export default function CollectionCard({ collection }: Props) {
 
-  const { selectedCollection, setCollection, fetchNfts, nftLimit, nextNftCursor } = useAssetContext();
+  const { selectedCollection, setCollection, setSelectedAsset, fetchNfts, nftLimit, nextNftCursor } = useAssetContext();
   const navigate = useNavigate();
 
   if (!collection || !collection.image_url) {
@@ -20,7 +20,8 @@ export default function CollectionCard({ collection }: Props) {
   }
 
   const onClickCollection = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setCollection(collection.collection);
+    setCollection(collection);
+    setSelectedAsset(null);
     fetchNfts(collection.collection, nftLimit, nextNftCursor);
     navigate('/explore');
   };
@@ -36,45 +37,44 @@ export default function CollectionCard({ collection }: Props) {
 
   const cardStyle = {
     display: 'flex', 
-    width: "80%", 
-    height: '200px', 
-    //objectFit: 'cover', 
+    width: "100%", 
+    height: '400px', 
     margin: '16px', 
-    border: '1px solid red',
-    borderRadius: '20px'
+    borderRadius: '20px',
   }  
 
-  const buttonStyle = {
-    display: 'flex',
+  const buttonBaseStyle = {
     width: '100%',
     height: '100%',
-    position: 'fixed',
-    backgroundColor: 'chartreuse',
-    opacity: '0.1',
-  }
-  
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 3,
+  };
+
+  const contentStyle = {
+    position: 'relative', 
+    zIndex: 2,
+    width: '100%',
+    border: '2px solid blue',
+    padding: '8px',
+    borderRadius: '20px',
+  };
+ 
   return (
-		<Card sx={cardStyle}>
-			<CardContent
-				sx={{
-					width: '100%',
-					border: '2px solid blue',
-					padding: '8px',
-					borderRadius: '20px',
-				}}>
+    <Card sx={{ ...cardStyle, position: 'relative' }}>
+      <ButtonBase onClick={onClickCollection} sx={buttonBaseStyle} />
+      <CardContent sx={contentStyle}>
+        <Typography sx={{ color: 'black' }}>
+          {collection ? collection.name : 'Undefined'}
+        </Typography>
+        <img
+          src={stripQueryParameters(collection.image_url)}
+          alt={collection.name}
+          style={{ width: '100%', objectFit: 'cover', borderRadius: '20px' }}
+        />
+      </CardContent>
+    </Card>
 
-				<Button sx={buttonStyle} onClick={onClickCollection} />
-
-				<Typography sx={{ color: 'black' }}>
-					{collection ? collection.name : 'Undefined'}
-				</Typography>
-
-				<img
-					src={stripQueryParameters(collection.image_url)}
-					alt={collection.name}
-					style={{ width: '100%', objectFit: 'cover' }}
-				/>
-			</CardContent>
-		</Card>
 	);
 }

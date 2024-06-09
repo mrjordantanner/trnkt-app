@@ -56,10 +56,10 @@ $color-tertiary: white;
 $color-background: #231222;
 $color-border: cyan;
 
-$color-scrollbar: #454545;
-$color-scrollbar-bg: #121212;
-$color-scrollbar-hover: #565656;
-$color-scrollbar-active: #676767;
+$color-scrollbar: #888888;
+$color-scrollbar-bg: #222222;
+$color-scrollbar-hover: #949494;
+$color-scrollbar-active: #757575;
 
 // General
 html, body {
@@ -125,7 +125,7 @@ h1, h2, h3, h4, h5, h6, p {
     overflow-y: scroll;
 
     &::-webkit-scrollbar {
-        width: 10px;
+        width: 8px;
         background: $color-scrollbar-bg;
        }
      
@@ -415,17 +415,20 @@ h1, h2, h3, h4, h5, h6, p {
     display: flex;
     width: 100vw;
     height: calc(100vh - 70px);
-    flex-direction: row;
     margin-top: 70px;
     //border: solid yellow 5px;
 }
 
 .collections-gallery {
     @include scrollbar;
-    display: flex;
+    //display: flex;
     width: 100vw;
-    //height: calc(100vh - 70px);
-    flex-direction: row;
+    height: calc(100vh - 70px);
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    //padding: 0 1rem;
+    gap: 16px;
     background-color: rgb(26, 26, 26);
     border: solid blue 5px;
     overflow-y: 'scroll';
@@ -611,44 +614,46 @@ h1, h2, h3, h4, h5, h6, p {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background-color: #1b1b1b,
+    background-color: #1b1b1b;
 }
 
 
 .asset-view-container {
+    @include scrollbar;
     display: flex;
-    height: 100vh;
-    //background-color: red;
+    flex-direction: column;
+    width: 100vw;
+    //height: 100vh;
+    background-color: red;
 }
 
 .asset-view-image {
+    display: flex;
     width: 100%;
-    height: 100%;
-    justify-content: center;
-    //background-color: violet;
+    //height: 100vh;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: violet;
 
-    img { 
-        height: 100%;
+    img, video { 
+        height: calc(90vh - 70px);
         width: 100%;
-        max-height: 1000px;
-        object-fit: cover;
     }
 }
 
 .asset-properties {
-    //@include scrollbar;
     margin: 0px 0rem;
-    height: 90vh;
+    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start; 
     padding: 0rem 2rem;
+    background-color: blue;
 
     .name {
-        margin-bottom: -1.5rem;
-        font-size: 1.75rem;
+        font-size: 2rem;
         font-weight: bold;
         color: white;
         padding: 1rem;
@@ -680,10 +685,11 @@ h1, h2, h3, h4, h5, h6, p {
     .property-list {
         color: white;
         padding: 1rem;
+        height: 100%;
         width: 100%;
         min-width: 30vw;
         margin-top: 30px;
-        //border: 1px #231222 solid;
+        border: 1px #231222 solid;
         //background-color: #231222;
     }
 
@@ -694,10 +700,9 @@ h1, h2, h3, h4, h5, h6, p {
         font-weight: 400;
     }
 
-    .id {
+    .detail-text {
         font-size: 1rem;
         font-weight: bold;
-        color: gold;
     }
 
     .currency {
@@ -709,25 +714,20 @@ h1, h2, h3, h4, h5, h6, p {
     
     .button-container {
         display: flex;
-        flex-direction: column;
         justify-content: flex-end;
         align-items: flex-end;
-        margin: 2rem 0rem;
-        padding: 2rem;
         height: 100%;
-        width: 100%;
+        width: 300px;
+        //background-color: red;
         
-        .collection-button {
+        .favorites-button {
             display: flex;
-            height: 50px;
-            width: 50%;
-            font-size: 1.5rem;
-            text-align: center;
-            flex-direction: column;
-            justify-content:center;
-            font-family: Arial, Helvetica, sans-serif;
+            //height: 50px;
+            width: 100%;
+            font-size: 1rem;
             font-weight: bold;
-            cursor: pointer;
+            text-align: center;
+            justify-content: center;
             opacity: 0.8;
             transition: all .15s;
         }
