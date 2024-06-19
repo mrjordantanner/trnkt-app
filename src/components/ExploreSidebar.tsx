@@ -1,13 +1,10 @@
 import React from 'react';
 import { Box,Typography } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
-import { Nft } from '../models/nft';
+//import { Nft } from '../models/nft';
 import LinkifyText from './LinkifyText';
 //import clsx from 'clsx';   // utility that helps you conditionally join class names together
 
-interface Props {
-  getNftBatch: () => Promise<{ nfts: Nft[], next: string | null }>
-}
 // interface Option {
 //   label: string;
 //   value: string;
@@ -26,7 +23,7 @@ interface Props {
 //   };
 
 // Provide search and filtering options for NFT exploration
-export default function ExploreSidebar({ getNftBatch }: Props) {
+export default function ExploreSidebar() {
 
   const { 
     //nftLimit, 
@@ -71,10 +68,19 @@ export default function ExploreSidebar({ getNftBatch }: Props) {
   //     setNftLimit(value);
   //   }
   // };
+
+  const sidebarStyle = {
+    display: 'flex',
+    width: '20vw',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#1b1b1b'
+  }
  
   return (
 
-		<Box className="sidebar-container" sx={{ width: '20vw' }} >
+		<Box className="full-height-minus-navbar" sx={sidebarStyle} >
       
 			<Box sx={contentsStyle}>
 

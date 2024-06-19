@@ -1,24 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //import { Link } from 'react-router-dom';
 import React from 'react';
-import { Nft } from '../models/nft';
+import { Nft } from '../../models/nft';
 import { Box, Card, CardContent, Button } from '@mui/material';
-import { useAssetContext } from '../contexts/AssetContext';
+import { useAssetContext } from '../../contexts/AssetContext';
+import { useNftService } from '../../contexts/NftServiceContext';
 
 interface Props {
   asset: Nft;
 }
 
 export default function AssetCard({ asset }: Props) {
-  const { selectedAsset, setSelectedAsset, fetchNfts, fetchNft } = useAssetContext();
-
+  const { selectedAsset, setSelectedAsset } = useAssetContext();
+  const nftService = useNftService();
   if (!asset) {
     return null;
   }
 
   const onClickAsset = (event: React.MouseEvent<HTMLButtonElement>) => {
     setSelectedAsset(asset);
-    fetchNft(asset);
+    nftService.fetchNft(asset);
   };
   
   return (

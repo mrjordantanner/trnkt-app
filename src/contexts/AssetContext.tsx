@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Nft } from '../models/nft';
 import { Collection } from '../models/collection';
-import NftService from '../services/service';
+//import NftService from '../services/service';
 
 interface AssetContextType {
+  featuredCollectionSlugs: string[];
   nfts: Nft[] | null;
-  setNfts:  React.Dispatch<React.SetStateAction<Nft[]>>;
+  setNfts:  React.Dispatch<React.SetStateAction<Nft[] | null>>;
   nextNftCursor: string | null;
   setNextNftCursor: React.Dispatch<React.SetStateAction<string | null>>;
   nextCollectionCursor: string | null;
@@ -22,10 +23,10 @@ interface AssetContextType {
   nftLimit: number;
   setNftLimit: React.Dispatch<React.SetStateAction<number>>;
 
-  fetchNfts: (collectionSlug: string, limit: number, next: string | null) => Promise<{ nfts: Nft[], next: string | null }>;
-  fetchNft: (assetToGet: Nft | null) => Promise<Nft | null>;
-  fetchCollection: (collectionSlug: string) => Promise<Collection | null>;
-  fetchCollections: (next: string | null) => Promise<{ collections: Collection[] | null, next: string | null }>;
+  // fetchNfts: (collectionSlug: string, limit: number, next: string | null) => Promise<{ nfts: Nft[], next: string | null }>;
+  // fetchNft: (assetToGet: Nft | null) => Promise<Nft | null>;
+  // fetchCollection: (collectionSlug: string) => Promise<Collection | null>;
+  // fetchCollections: (next: string | null) => Promise<{ collections: Collection[] | null, next: string | null }>;
 
 }
 
@@ -40,14 +41,13 @@ const AssetContext = createContext<AssetContextType | undefined>(undefined);
 
 export const AssetProvider: React.FC<Props> = ({ children }) => {
 
-  const [nfts, setNfts] = useState<Nft[]>([]);
+  const [nfts, setNfts] = useState<Nft[] | null>(null);
   const [nextNftCursor, setNextNftCursor] = useState<string | null>(null);
   const [collections, setCollections] = useState<Collection[] | null>([]);
   const [nextCollectionCursor, setNextCollectionCursor] = useState<string | null>(null);
   const [selectedCollection, _setCollection] = useState<Collection | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<Nft | null>(null);
   const [nftLimit, setNftLimit] = useState<number>(defaultNftLimit);
-
 
   // Custom 'setState' method to reset nextCursor if we're switching Collections
   const setCollection = (collection: Collection | null) => {
@@ -57,37 +57,53 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
     _setCollection(collection);
   };
 
-  const nftService = new NftService();
+  const featuredCollectionSlugs: string[] = [
+    'parallel-on-base',
+    'new-dimension-huemin',
+    'clonex',
+    'daily-xyz',
+    'byopill',
+    'the-vault-of-wonders-chapter-1-the-abyssal-unseen',
+    'abstract-nature-albertdros',
+    'azuki',
+    'screens-by-thomas-lin-pedersen',
+    'midnightbreeze'
+  
+  ];
 
-  const fetchNfts = async (collectionSlug: string, limit: number = 50, next: string | null = null) => {
-    return await nftService.fetchNfts(collectionSlug, limit, next);
-  };
+  // const nftService = return new NftService();
 
-  const fetchNft = async (assetToGet: Nft | null) => {
-    return await nftService.fetchNft(assetToGet);
-  };
+  // const fetchNfts = async (collectionSlug: string, limit: number = 50, next: string | null = null) => {
+  //   return await nftService.fetchNfts(collectionSlug, limit, next);
+  // };
 
-  const fetchCollection = async (collectionSlug: string) => {
-    return await nftService.fetchCollection(collectionSlug);
-  };
+  // const fetchNft = async (assetToGet: Nft | null) => {
+  //   return await nftService.fetchNft(assetToGet);
+  // };
 
-  const fetchCollections = async (next: string | null = null) => {
-    return await nftService.fetchCollections(next);
-  };
+  // const fetchCollection = async (collectionSlug: string) => {
+  //   return await nftService.fetchCollection(collectionSlug);
+  // };
+
+  // const fetchCollections = async (next: string | null = null) => {
+  //   return await nftService.fetchCollections(next);
+  // };
 
   return (
     <AssetContext.Provider value={{
+      featuredCollectionSlugs,
       nfts, setNfts,
       nftLimit, setNftLimit,
       nextNftCursor, setNextNftCursor,
       collections, setCollections,
       nextCollectionCursor, setNextCollectionCursor,
       selectedCollection, setCollection,
-      selectedAsset, setSelectedAsset,
-      fetchCollection,
-      fetchCollections,
-      fetchNfts, 
-      fetchNft 
+      selectedAsset, setSelectedAsset
+
+      // fetchCollection,
+      // fetchCollections,
+      // fetchNfts, 
+      // fetchNft 
       }}>
       {children}
     </AssetContext.Provider>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import { useAssetContext } from '../contexts/AssetContext';
+import { useAssetContext } from '../../contexts/AssetContext';
 //import clsx from 'clsx';   // utility that helps you conditionally join class names together
 
 // Sidebar for AssetView

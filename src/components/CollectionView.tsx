@@ -1,23 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Collection } from '../models/collection';
 import { useAssetContext } from '../contexts/AssetContext';
+import { useNftService } from '../contexts/NftServiceContext';
 import { Box, Typography } from '@mui/material';
-import Loading from './Loading';
+import Loading from './utils/Loading';
 import CollectionCard from './CollectionCard';
-
-const featuredCollectionSlugs: string[] = [
-  'parallel-on-base',
-  'new-dimension-huemin',
-  'clonex',
-  'daily-xyz',
-  'byopill',
-  'the-vault-of-wonders-chapter-1-the-abyssal-unseen',
-  'abstract-nature-albertdros',
-  'azuki',
-  'screens-by-thomas-lin-pedersen',
-  'midnightbreeze'
-
-];
 
 // Main Explore screen consisting of a Sidebar and a Gallery
 export default function CollectionView() {
@@ -25,11 +12,12 @@ export default function CollectionView() {
   const [featuredCollections, setFeaturedCollections] = useState<Collection[] | null>(null);
 
   const { 
-    fetchCollection,
-    fetchCollections, 
+    featuredCollectionSlugs,
     nextCollectionCursor, setNextCollectionCursor,
     collections, setCollections
   } = useAssetContext();
+
+  const nftService = useNftService();
 
   useEffect(() => {
     if (!featuredCollections) {
@@ -42,7 +30,7 @@ export default function CollectionView() {
   async function getFeaturedCollections() {
     const collectionsList: Collection[] = [];
     for (const collectionSlug of featuredCollectionSlugs) {
-      const response = await fetchCollection(collectionSlug);
+      const response = await nftService.fetchCollection(collectionSlug);
       if (!response) continue;
       collectionsList.push(response);
     }
@@ -51,7 +39,7 @@ export default function CollectionView() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function getCollectionBatch(): Promise<{ collections: Collection[] | null, next: string | null }> {
-    const response = await fetchCollections(nextCollectionCursor);
+    const response = await nftService.fetchCollections(nextCollectionCursor);
 
     setCollections(response.collections);
     setNextCollectionCursor(response.next)
@@ -63,7 +51,7 @@ export default function CollectionView() {
   }
 
   const containerStyle = {
-    marginTop: '70px',
+    //marginTop: '70px',
     height: '90vh'
   }
 

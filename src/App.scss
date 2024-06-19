@@ -178,62 +178,6 @@ h1, h2, h3, h4, h5, h6, p {
     padding: 1rem;
 }
 
-.fixed-footer {
-    // position: fixed;
-    bottom: 15px;
-    text-align: center;
-    margin: 20px;
-}
-
-.gem-background-float {
-    display: none;
-	transform: translatey(0px);
-	animation: float 3s ease-in-out infinite;
-
-    @keyframes float {
-        0% {
-            transform: translatey(0px);
-        }
-        50% {
-            transform: translatey(-20px);
-        }
-        100% {
-            transform: translatey(0px);
-        }
-    }
-}
-
-.gem-background-wrapper {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 32vmax;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
-    // filter: blur(4px);
-
-
-    .gem-background {
-        display: block;
-        width: 100vw;
-        height: 100vh;
-        object-fit: contain;
-        z-index: -1;
-        opacity: 0.15;
-        pointer-events: none;
-        user-select: none;
-        -webkit-user-drag: none;
-        padding: 30px;
-        
-    
-    }
-
-}
-
 
 // Navbar, Buttons, and Links
 // Region [Gray]
@@ -246,7 +190,7 @@ h1, h2, h3, h4, h5, h6, p {
     align-items: center;
     width: 100vw;
     height: 70px;
-    pointer-events: none;
+    //pointer-events: none;
     z-index: 900;
     padding-left: 50px;
 
@@ -297,6 +241,8 @@ h1, h2, h3, h4, h5, h6, p {
     font-size: 1rem;
     transition: all 0.15s;
 }
+
+
 
 .outline-primary {
     height: 36px;
@@ -407,30 +353,33 @@ h1, h2, h3, h4, h5, h6, p {
     border: 2px solid blue;
 }
 
+.full-height-minus-navbar {
+    height: calc(100vh - 70px);
+}
+
+.height-80-minus-navbar {
+    height: calc(80vh - 70px);
+    object-fit: contain;
+    width: 100%;
+}
+
+.scrollbar {
+    @include scrollbar;
+}
+
 
 // Explore View
 // region [Purple] 
-
-.explore-container {
-    display: flex;
-    width: 100vw;
-    height: calc(100vh - 70px);
-    margin-top: 70px;
-    //border: solid yellow 5px;
-}
-
 .collections-gallery {
     @include scrollbar;
-    //display: flex;
     width: 100vw;
     height: calc(100vh - 70px);
     padding: 15px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    //padding: 0 1rem;
     gap: 16px;
     background-color: rgb(26, 26, 26);
-    border: solid blue 5px;
+    //border: solid blue 5px;
     overflow-y: 'scroll';
 }
 
@@ -447,44 +396,31 @@ h1, h2, h3, h4, h5, h6, p {
 
 .asset-grid {
     flex: 2;
-    //height:auto;
-    //min-height: 10vh;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    //padding: 0 1rem;
+    padding: 16px;
     gap: 16px;
     background-color: rgb(13, 13, 13);
-    border: solid magenta 5px;
-}
-
-.button {
-    border: 1px solid red;
-    font-size: '16px';
-    text-transform: 'none';
-    background-color: gray;
+    //border: solid magenta 5px;
 }
 
 .card {
     display: flex;
-    // height: 35vh;
     height: 100%;
     max-height: 450px; 
     flex-direction: column;
     justify-content: flex-start;
-    //padding: 0.5rem;
     user-select: none;
     border: #c8c8c8 1px solid;
     z-index: 100;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
 
-
     &:hover {
-        border: rgb(255, 247, 0) 1px solid;
+        border: gold 1px solid;
         cursor: pointer;
         opacity: 0.9;
         color: white;
-
     }
 
     &:active {
@@ -498,10 +434,6 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
     .image {
-        // display: flex;
-        // justify-content: center;  
-        // align-items: center;
-        //max-height: 200px;
         width:100%;
 
         img {
@@ -530,116 +462,29 @@ h1, h2, h3, h4, h5, h6, p {
             word-wrap: break-word;
             color: white;
         }
-
-        .username {
-            color: $color-secondary;
-            text-align: center;
-            margin: 0px;
-            padding: 0.5rem;
-            word-wrap: break-word;
-        }
-
-        .id {
-            font-size: 0.7rem;
-            color: darkgray;
-        }
-
     }
-
 }
 
 // endregion 
 
-// Collection / Favorites
-// Region [Violet]
-.collection-wrapper {
-    width:99.5vw;
-    height:92vh;
-    margin-top: 65px;
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background: $color-primary;
-    color: black;
-    z-index: 1;
-    border: 15px $color-secondary solid;
-    padding: 2rem;
 
-    .container {
-        overflow-y: scroll;
-        min-height: 80vh;
-        width: 90vw;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+.profile-button {
+    background-color: yellow;
 
-        &::-webkit-scrollbar {
-            display: none;
-        }
+    &:hover {
+        cursor: pointer;
+        opacity: 0.7;
     }
 
-    .header {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width:80vw;
-        padding: 1rem;
-        font-size: 4rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        border-bottom: 3px solid black;
+    &:active {
+        opacity: 1;
     }
 
 }
 
-.empty-favorites {
-    display: flex;
-    flex-direction: column;
-    width:90vw;
-    height:60vh;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-// endregion 
 
 // Asset View
 // region [Blue] 
-.sidebar-container {
-    display: flex;
-    height: calc(100vh - 70px);
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: #1b1b1b;
-}
-
-
-.asset-view-container {
-    @include scrollbar;
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    //height: 100vh;
-    background-color: red;
-}
-
-.asset-view-image {
-    display: flex;
-    width: 100%;
-    //height: 100vh;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: violet;
-
-    img, video { 
-        height: calc(90vh - 70px);
-        width: 100%;
-    }
-}
 
 .asset-properties {
     margin: 0px 0rem;
@@ -650,28 +495,8 @@ h1, h2, h3, h4, h5, h6, p {
     align-items: flex-start;
     justify-content: flex-start; 
     padding: 0rem 2rem;
-    background-color: blue;
-
-    .name {
-        font-size: 2rem;
-        font-weight: bold;
-        color: white;
-        padding: 1rem;
-        width: 100%;
-        text-align: left;
-        word-wrap: break-word;
-    }
-
-    .username {
-        font-size: 1.5rem;
-        font-weight: bold;
-        padding: 1rem 3rem;
-        color: $color-secondary;
-        width: 100%;
-        text-align: left;
-        word-wrap: break-word;
-    }
-
+    //background-color: blue;
+    background-color: rgb(33, 33, 33);
     .description {
         font-size : 1rem;
         line-height: 1.5rem;
@@ -680,24 +505,6 @@ h1, h2, h3, h4, h5, h6, p {
         width: 100%;
         text-align: left;
         word-wrap: break-word;
-    }
-
-    .property-list {
-        color: white;
-        padding: 1rem;
-        height: 100%;
-        width: 100%;
-        min-width: 30vw;
-        margin-top: 30px;
-        border: 1px #231222 solid;
-        //background-color: #231222;
-    }
-
-    .traits-list {
-        padding: 0rem;
-        margin: 0.5rem;
-        font-size: 1.25rem;
-        font-weight: 400;
     }
 
     .detail-text {
@@ -767,7 +574,7 @@ h1, h2, h3, h4, h5, h6, p {
 // Endregion 
 
 
-// SPINNER
+// LOADING ANIMATION
 // from https://loading.io/css/ 
 .lds-facebook {
     display: inline-block;

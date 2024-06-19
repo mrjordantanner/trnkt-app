@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Collection } from '../models/collection';
 import { Box, Card, CardContent, ButtonBase, Typography } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
+import { useNftService } from '../contexts/NftServiceContext';
 
 interface Props {
   collection: Collection;
@@ -12,8 +13,9 @@ interface Props {
 
 export default function CollectionCard({ collection }: Props) {
 
-  const { selectedCollection, setCollection, setSelectedAsset, fetchNfts, nftLimit, nextNftCursor } = useAssetContext();
+  const { selectedCollection, setCollection, setSelectedAsset, nftLimit, nextNftCursor } = useAssetContext();
   const navigate = useNavigate();
+  const nftService = useNftService();
 
   if (!collection || !collection.image_url) {
     return null;
@@ -22,7 +24,7 @@ export default function CollectionCard({ collection }: Props) {
   const onClickCollection = (event: React.MouseEvent<HTMLButtonElement>) => {
     setCollection(collection);
     setSelectedAsset(null);
-    fetchNfts(collection.collection, nftLimit, nextNftCursor);
+    nftService.fetchNfts(collection.collection, nftLimit, nextNftCursor);
     navigate('/explore');
   };
 

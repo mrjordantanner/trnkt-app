@@ -10,15 +10,10 @@ export default function Home () {
         <Box className="logo text-outline">TRNKT</Box>
         <Box className="subtitle text-outline-thin">Crypto Artwork Explorer</Box>
         <p className="description">
-          Discover a wide variety of crypto{' '}
-          <a href="https://en.wikipedia.org/wiki/Non-fungible_token" target="_blank" rel="noopener noreferrer">
-            <strong>Nft</strong>
-          </a>{' '}
-          artwork. Use the Explore button to display random Nft's from the Opensea API, click or tap to view them in
-          detail, and save to your Collection for later viewing. <br></br>
+          Discover a wide variety of crypto artwork. Use the Explore button to display random Nft's from the Opensea API, click or tap to view them in detail, and save to a Favorites list for later viewing. <br></br>
         </p>
 
-        <Link to="/explore">
+        <Link to="/collections">
           <Button className="button outline-secondary enter" sx={{ fontSize: '1.25rem', fontWeight: 'bold', width: '300px', height: '70px', border: '2px solid white', display: 'flex' }}>
             E X P L O R E
           </Button>
@@ -32,7 +27,7 @@ export default function Home () {
             </a>
           </p>
           <p>
-            Built by {' '}
+            Built with love by {' '}
             <a href="https://jordansmithdigital.com" target="_blank" rel="noopener noreferrer">
               <strong>Jordan Smith Digital</strong>
             </a>

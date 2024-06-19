@@ -83,6 +83,23 @@ class NftService {
     }
   }
 
+  async fetchRandomNftBatch(collectionSlugs : string[], nftLimit : number = 50): Promise<{ nfts: Nft[], next: string | null }> {
+    let allNFTs : Nft[] = [];
+
+    for (const collection of collectionSlugs) {
+      const response = await this.fetchNfts(collection);
+      allNFTs = allNFTs.concat(response.nfts);
+    }
+    
+    // Shuffle the array
+    for (let i = allNFTs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allNFTs[i], allNFTs[j]] = [allNFTs[j], allNFTs[i]];
+    }
+    
+    const randomNfts = allNFTs.slice(0, nftLimit);
+    return { nfts: randomNfts, next: '' };
+  }
 
   getBlockchainFromUrl = (url: string): string | '' => {
     try {

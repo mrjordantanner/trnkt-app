@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import AssetCard from './AssetCard';
+import AssetCard from './asset/AssetCard';
 import { Nft } from '../models/nft';
 import { Box } from '@mui/material';
 
