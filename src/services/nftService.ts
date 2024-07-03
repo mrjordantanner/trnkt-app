@@ -10,6 +10,10 @@ class NftService {
     }
   };
 
+// TODO use arrow functions 
+// TODO add constructor for baseUrl?
+// TODO use axios instead of fetch
+
   async fetchNfts(collectionSlug: string, limit: number = 50, next: string | null = null): Promise<{ nfts: Nft[], next: string | null }> {
 
     const url = next ? 

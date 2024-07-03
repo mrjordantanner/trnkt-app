@@ -73,7 +73,7 @@ export default function CollectionView() {
 				{!featuredCollections && <h2>No collections available</h2>}
 
 				{featuredCollections.map((collection: Collection) => {
-          console.log(collection);
+          //console.log(collection);
 					return (
 						<CollectionCard
 							collection={collection}

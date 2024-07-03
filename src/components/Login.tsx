@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography, TextField } from '@mui/material';
+import { Box, Button, Typography, TextField, Link } from '@mui/material';
 import { useUserService } from '../contexts/UserServiceContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -64,11 +64,11 @@ export default function Login() {
       return;
     }
 
-    const loginOk = await loginAsync(email, password);
+    const user = await loginAsync(email, password);
     
-    if (loginOk) {
+    if (user) {
       setNotificationMessage("");
-      console.log(`Login successful for user ${email}`);
+      console.log(`Successfully logged in User: - Email: ${user.email}, UserName: ${user.userName}, UserId: ${user.userId}, `);
       navigate('/collections');
     }
     else {
@@ -82,8 +82,6 @@ export default function Login() {
       onClickLogin();
     }
   };
-
-
 
   return (
       <Box sx={containerStyle}>
@@ -110,7 +108,15 @@ export default function Login() {
           />
 
         <Button sx={buttonStyle} onClick={onClickLogin}>Log In</Button>
-
+       
+        <Typography>No account yet?</Typography>
+        <Link
+					className='detail-text'
+					href={'/register'}
+					sx={{ color: 'cyan', fontWeight: 'bold' }}
+        >
+					Sign Up
+				</Link>
 
         </Box>
       </Box>

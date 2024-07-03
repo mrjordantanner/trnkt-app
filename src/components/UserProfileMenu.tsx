@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Box, IconButton, Avatar, Menu, MenuItem, Typography } from '@mui/material';
 import { useUserService } from '../contexts/UserServiceContext';
 
-const UserProfileMenu: React.FC = () => {
+export default function UserProfileMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { isAuthenticated, currentUser, logout } = useUserService();
+  const { isAuthenticated, currentUser, logoutAsync } = useUserService();
   const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    console.log('click');
     setAnchorEl(event.currentTarget);
   };
 
@@ -33,7 +32,7 @@ const UserProfileMenu: React.FC = () => {
   };
 
   const handleLogout = () => {
-    logout();
+    logoutAsync();
     handleClose();
   };
 
@@ -43,15 +42,13 @@ const UserProfileMenu: React.FC = () => {
         <Avatar alt="User Profile" src="/path/to/profile/photo.jpg" />
       </IconButton>
       <Menu
-      sx={{
-        width: '250px'
-      }}
+        sx={{ }}
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
+          vertical: 'bottom',
+          horizontal: 'right',
         }}
         transformOrigin={{
           vertical: 'top',
@@ -59,18 +56,18 @@ const UserProfileMenu: React.FC = () => {
         }}
       >
 
-        <Typography sx={{ fontSize: '16px', fontWeight: '500', width: '200px', backgroundColor: 'cyan', padding: '10px' }}>
-          Menu
+        <Typography sx={{ fontSize: '16px', fontWeight: '500', width: '250px', backgroundColor: 'cyan', padding: '10px' }}>
+          User: {currentUser?.userName}
         </Typography>
+
         {isAuthenticated && <MenuItem onClick={handleProfile}>Profile</MenuItem>}
         {isAuthenticated && <MenuItem onClick={handleMyAccount}>My Account</MenuItem>}
 
-        {isAuthenticated ? <MenuItem onClick={handleLogout}>Logout</MenuItem> : <MenuItem onClick={handleLogin}>Sign In</MenuItem> }
+        {isAuthenticated ? 
+          <MenuItem onClick={handleLogout}>Logout</MenuItem> : 
+          <MenuItem onClick={handleLogin}>Sign In</MenuItem> }
         
       </Menu>
     </Box>
   );
-};
-
-export default UserProfileMenu;
-;
+}

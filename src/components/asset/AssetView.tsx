@@ -3,9 +3,9 @@ import { useAssetContext } from '../../contexts/AssetContext';
 import { Nft } from '../../models/nft';
 import { Box, Typography } from '@mui/material';
 import AssetTraits from './AssetTraits';
-import FavoritesToggleButton from '../FavoritesToggleButton';
+import SaveToFavoritesButton from '../SaveToFavoritesButton';
 import Loading from '../utils/Loading';
-import LinkifyText from '../LinkifyText';
+import LinkifyText from '../text/LinkifyText';
 import { useNftService } from '../../contexts/NftServiceContext';
 
 
@@ -152,7 +152,7 @@ export default function AssetView() {
 						{selectedCollection?.name}
 					</Typography>
 
-					<FavoritesToggleButton />
+					<SaveToFavoritesButton />
 				</Box>
 
 				<Box

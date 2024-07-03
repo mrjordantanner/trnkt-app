@@ -1,16 +1,18 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserService from '../services/userService';
-import { User } from '../models/user';
+import { UpdateUserRequestBody }  from '../models/updateUserRequestBody';
+
+import { User,  } from '../models/user';
 
 interface UserServiceContextProps {
     isAuthenticated: boolean;
-    loginAsync: (email: string, password: string) => Promise<boolean>;
-    logout: () => void;
-
-    // TODO these arent' working?
+    loginAsync: (email: string, password: string) => Promise<User | null>;
+    logoutAsync: () => Promise<boolean>;
     currentUser: User | null;
     setCurrentUser: React.Dispatch<User | null>;
+    registerNewUserAsync: (email: string, userName: string, password: string) => Promise<User | null>;
+    updateUserInfoAsync: (updatedUserInfoBody: UpdateUserRequestBody) => Promise<User | null>;
 }
 
 const UserServiceContext = createContext<UserServiceContextProps | undefined>(undefined);
@@ -28,28 +30,67 @@ export const UserServiceProvider: React.FC<{ children: ReactNode }> = ({ childre
         }
     }, [userService]);
 
-    const loginAsync = async (email: string, password: string) => {
-        const loggedIn = await userService.loginUser(email, password);
-        if (loggedIn) {
+    const registerNewUserAsync = async (email: string, userName: string, password: string) : Promise<User | null> => {
+
+        const user = await userService.registerNewUserAsync(email, userName, password);
+        if (user) {
+            console.log(`Successfully registered New User: ${user.email} / ${user.userName}`);
+            navigate('/login');
+        }
+       
+        return user;
+    };
+
+    const loginAsync = async (email: string, password: string) : Promise<User | null>=> {
+        const user = await userService.loginUserAsync(email, password);
+        if (user) {
             setIsAuthenticated(true);
-            const user = await userService.fetchUserByEmail(email);
-            if (user) {
-                console.log(`Current User: ${user.email}`);
-                setCurrentUser(user);
+            setCurrentUser(user);
+        }
+        return user;
+    };
+
+    const logoutAsync = async (): Promise<boolean> => {
+        try {
+            const success = await userService.logoutUserAsync();
+            if (success) {
+                setCurrentUser(null);
+                setIsAuthenticated(false);
+                navigate('/');
+                console.log('Successfully logged out User.');
+                return true;
             }
         }
-        return loggedIn;
+        catch (error) {
+            console.error(error);
+            return false;
+        }
+        return false;
+
     };
 
-    const logout = () => {
-        userService.logoutUser();
-        setCurrentUser(null);
-        setIsAuthenticated(false);
-        navigate('/logout');
-    };
+    const updateUserInfoAsync = async (updatedUserInfoBody: UpdateUserRequestBody): Promise<User | null> => {
+        try {
+            const user = await userService.updateUserInfoAsync(updatedUserInfoBody);
+            if (user != null) {
+                setCurrentUser(user);
+                return user;
+            }
+        } catch (error) {
+            console.error(error);
+            return Promise.resolve(null);
+          }
+
+          return null;
+    }
 
     return (
-        <UserServiceContext.Provider value={{ isAuthenticated, loginAsync, logout, currentUser, setCurrentUser }}>
+        <UserServiceContext.Provider 
+        value={{
+            isAuthenticated, loginAsync, logoutAsync, 
+            currentUser, setCurrentUser, updateUserInfoAsync,
+            registerNewUserAsync
+        }}>
             {children}
         </UserServiceContext.Provider>
     );

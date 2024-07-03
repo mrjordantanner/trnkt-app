@@ -2,7 +2,7 @@ import React from 'react';
 import { Box,Typography } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
 //import { Nft } from '../models/nft';
-import LinkifyText from './LinkifyText';
+import LinkifyText from './text/LinkifyText';
 //import clsx from 'clsx';   // utility that helps you conditionally join class names together
 
 // interface Option {

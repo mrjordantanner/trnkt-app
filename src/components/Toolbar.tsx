@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAssetContext } from '../contexts/AssetContext';
 import { Box, Typography, Link, Button } from '@mui/material';
