@@ -11,7 +11,8 @@ const containerStyle = {
   width: '100%',
   minWidth: '30vw',
   marginTop: '30px',
-  border: '1px solid lightgray'
+  border: '1px solid lightgray',
+  bgcolor: 'purple'
 }
 
 const traitsListStyle = {

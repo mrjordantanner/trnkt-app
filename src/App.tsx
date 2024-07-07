@@ -17,6 +17,7 @@ import Profile from './components/Profile';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import Register from './components/Register';
+import FavoritesView from './components/favorites/FavoritesView';
 
 function App() {
 
@@ -40,7 +41,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/logout' element={<Logout />} />
             <Route path='/profile' element={<Profile />} />
-            {/* <Route path='/favorites' element={<Favorites />} /> */}
+            <Route path='/favorites' element={<FavoritesView />} />
 
           </Routes>
       </FavoritesServiceProvider>

@@ -7,6 +7,7 @@ import UserProfileMenu from './UserProfileMenu';
 
 export default function Navbar() {
 	const { setSelectedAsset, setCollection } = useAssetContext();
+
 	//const { isAuthenticated, logout } = useUserService();
     //const navigate = useNavigate();
 	
@@ -16,7 +17,6 @@ export default function Navbar() {
 	}
 
 	return (
-		<>
 		<Box className='navbar-container'>
 			{/* <Box className='navbar-blur'></Box> */}
 			<List sx={{ }}>
@@ -49,21 +49,19 @@ export default function Navbar() {
 					</Button>
 				</ListItem>
 
-				{/* <ListItem>
+				<ListItem>
 					<Button
 						sx={{color: 'white'}}
 						className='button outline-primary'
 						component={RouterLink}
 						to='/favorites'>
-						F A V O R I T E S [ {numberFavorites} ]
+						F A V O R I T E S
 					</Button>
-				</ListItem> */}
+				</ListItem>
 			</List>
 
 			<UserProfileMenu />
 
 		</Box>
-
-		</>
 	);
 }

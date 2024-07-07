@@ -41,7 +41,7 @@ export default function ExploreView() {
   }
 
   return (
-    <Box className="full-height-minus-navbar" sx={containerStyle}>
+    <Box className="full-height-plus-navbar" sx={containerStyle}>
 
         {/* Explore Gallery and Sidebar shown if no NFT selected */}
         {!selectedAsset && <ExploreSidebar />}

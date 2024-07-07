@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { useNavigate } from 'react-router-dom';
 import UserService from '../services/userService';
 import { UpdateUserRequestBody }  from '../models/updateUserRequestBody';
-
 import { User,  } from '../models/user';
 
 interface UserServiceContextProps {

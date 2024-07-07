@@ -38,6 +38,8 @@ export interface Nft {
 
   // These fields are only returned when getting single NFTs, not as a batch
   animation_url: string;
+  display_animation_url: string;
+  display_image_url: string;
   is_suspicious: boolean;
   creator: string;
   traits: Trait[];

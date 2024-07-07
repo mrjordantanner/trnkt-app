@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import {Box,Button,TextField,Typography,Checkbox,IconButton,List,ListItem,ListItemText,ListItemIcon,Modal} from '@mui/material';
 import { Close } from '@mui/icons-material';
 //import { Nft } from '../models/nft';
-import { FavoritesList, UserFavorites } from '../models/favorites';
+import { FavoritesList, UserFavorites } from '../../models/favorites';
 import { v4 as uuidv4 } from 'uuid';
-import { useFavoritesService } from '../contexts/FavoritesServiceContext';
-import { useUserService } from '../contexts/UserServiceContext';
-import { useAssetContext } from '../contexts/AssetContext';
+import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
+import { useUserService } from '../../contexts/UserServiceContext';
+import { useAssetContext } from '../../contexts/AssetContext';
+import NftService from '../../services/nftService';
 
 interface Props {
 	open: boolean;
@@ -16,7 +17,7 @@ interface Props {
 export default function FavoritesModal({ open, onClose }: Props) {
 	const defaultFavorites: FavoritesList[] = [
 		{
-			listId: uuidv4(),
+			listId: 'Default-Favorites',
 			name: 'Default Favorites',
 			nfts: [],
 		},
@@ -27,22 +28,22 @@ export default function FavoritesModal({ open, onClose }: Props) {
 	const [isCreatingNewList, setIsCreatingNewList] = useState<boolean>(false);
 	const [checkboxStates, setCheckboxStates] = useState<{[key: string]: boolean;}>({});
 
-	const { getFavorites, updateFavorites } = useFavoritesService();
+	const { getUserFavorites, updateFavorites } = useFavoritesContext();
 	const { currentUser } = useUserService();
 	const { selectedAsset } = useAssetContext();
 
 	useEffect(() => {
-		getUserFavorites();
+		getFavorites();
 	}, []);
 
-	const getUserFavorites = async () => {
+	const getFavorites = async () => {
 		// Get FavoritesLists from backend
 		if (currentUser) {
 			if (!currentUser.userId) {
 				console.error('currentUser.id was null');
 				return null;
 			}
-			const userFavorites = await getFavorites(currentUser.userId);
+			const userFavorites = await getUserFavorites(currentUser.userId);
 			if (userFavorites) {
 				setFavoritesLists(userFavorites.favorites);
 				console.log(
@@ -103,16 +104,15 @@ export default function FavoritesModal({ open, onClose }: Props) {
 		}
 	};
 
+	// Update Favorites
 	const handleSave = async () => {
 		if (selectedAsset && currentUser) {
-			const selectedAssetId = selectedAsset.identifier;
-
-			// Iterate through each favoritesList and if its Checkbox is checked,
+			// Iterate through the local cache of favoritesLists and if each Checkbox is checked,
 			// Add selectedAsset to the current favoritesList if it's not currently in that list
 			const updatedLists = favoritesLists.map((list) => {
 				const listIsChecked = checkboxStates[list.listId];
 				if (listIsChecked) {
-					const listContainsNft = list.nfts.some((nft) => nft.identifier === selectedAssetId);
+					const listContainsNft = list.nfts.some((nft) => nft.identifier === selectedAsset.identifier);
 					if (!listContainsNft) {
 						list.nfts.push(selectedAsset);
 					}
@@ -123,11 +123,14 @@ export default function FavoritesModal({ open, onClose }: Props) {
 
 			onClose();
 
+			// Update Favorites STEP 1 - we are clear up to here
 			// Update the backend with the new UserFavorites object containing the updated Lists
 			const updatedFavorites: UserFavorites | null = await updateFavorites(currentUser.userId, updatedLists);
+
+            // Update Favorites STEP 9
 			if (updatedFavorites) {
 				console.log('Favorites updated successfully:');
-				console.log(updatedFavorites.favorites);
+				console.log(updatedFavorites.favorites);  
 			} else {
 				console.log('HandleSave: No updated UserFavorites were returned from the Save operation');
 			}
