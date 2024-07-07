@@ -3,7 +3,7 @@ import ExploreSidebar from './ExploreSidebar';
 import ExploreGallery from './ExploreGallery';
 import AssetView from './asset/AssetView';
 //import AssetSidebar from './AssetSidebar';
-import { Nft } from '../models/nft';
+import { Nft } from '../models/nftDto';
 import { Box } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
 import { useNftService } from '../contexts/NftServiceContext';

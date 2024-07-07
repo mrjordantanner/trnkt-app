@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //import { Link } from 'react-router-dom';
 import React from 'react';
-import { Nft } from '../../models/nft';
+import { NftModel } from '../../models/nftModel';
 import { Box, Card, CardContent, Button } from '@mui/material';
 import { useAssetContext } from '../../contexts/AssetContext';
 import { useNftService } from '../../contexts/NftServiceContext';
 
 interface Props {
-  asset: Nft;
+  asset: NftModel;
 }
 
 export default function AssetCard({ asset }: Props) {
@@ -36,7 +36,7 @@ export default function AssetCard({ asset }: Props) {
         </Box>
 
         <Box className="image">
-          <img src={asset.image_url} alt={asset.name} />
+          <img src={asset.imageUrl} alt={asset.name} />
         </Box>
 
 

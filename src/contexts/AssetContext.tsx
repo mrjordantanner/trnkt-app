@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Nft } from '../models/nft';
+import { Nft } from '../models/nftDto';
 import { Collection } from '../models/collection';
 //import NftService from '../services/service';
 

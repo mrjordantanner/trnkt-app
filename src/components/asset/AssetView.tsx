@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAssetContext } from '../../contexts/AssetContext';
-import { Nft } from '../../models/nft';
+import { Nft } from '../../models/nftDto';
 import { Box, Typography } from '@mui/material';
 import AssetTraits from './AssetTraits';
 import SaveToFavoritesButton from '../SaveToFavoritesButton';

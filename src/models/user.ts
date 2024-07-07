@@ -1,4 +1,4 @@
-import { Nft } from '../models/nft';
+import { Nft } from './nftDto';
 
 export interface User {
   email: string;

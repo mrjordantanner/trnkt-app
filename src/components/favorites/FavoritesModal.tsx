@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
 import { useUserService } from '../../contexts/UserServiceContext';
 import { useAssetContext } from '../../contexts/AssetContext';
-import NftService from '../../services/nftService';
 
 interface Props {
 	open: boolean;

@@ -1,4 +1,4 @@
-import { Nft, Trait } from '../../models/nft'
+import { Nft, Trait } from '../../models/nftDto'
 import { List, ListItem, Typography, Box } from '@mui/material';
 
 interface Props {

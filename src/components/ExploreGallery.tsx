@@ -1,7 +1,7 @@
 import React from 'react';
 import AssetCard from './asset/AssetCard';
 import Loading from './utils/Loading';
-import { Nft } from '../models/nft';
+import { Nft } from '../models/nftDto';
 import { Box } from '@mui/material';
 
 interface Props {

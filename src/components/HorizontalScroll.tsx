@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { Nft } from '../models/nft';
+import { NftModel } from '../models/nftModel';
 import ObjectViewer from './utils/ObjectViewer';
 
 interface Props {
-    nfts: Nft[];
+    nfts: NftModel[];
 }
 
 const HorizontalScroll = ({ nfts }: Props) => {
@@ -38,6 +38,7 @@ const HorizontalScroll = ({ nfts }: Props) => {
           }}
         >
             <Typography sx={{ fontWeight: 600 }}>{nft.name}</Typography>
+            <img src={nft.imageUrl} style={{ objectFit: 'contain', width: '90%' }}/>
             <ObjectViewer data={nft} />
 
         </Box>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import AssetCard from './asset/AssetCard';
 import Loading from './utils/Loading';
 import AssetView from './asset/AssetView';
-import { Nft } from '../models/nft';
+import { Nft } from '../models/nftDto';
 import { Box } from '@mui/material';
 import { useNftService } from '../contexts/NftServiceContext';
 import { useAssetContext } from '../contexts/AssetContext';
