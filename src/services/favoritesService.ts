@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { FavoritesList, UserFavorites } from '../models/favorites';
 
 class FavoritesService {
-  private apiEndpoint = process.env.API_URL || 'http://localhost:5000/api';
+  private apiEndpoint = import.meta.env.API_URL || 'http://localhost:5000/api';
   baseUrl = `${this.apiEndpoint}/api/favorites`;
   axiosOptions: AxiosRequestConfig = {
     headers: {

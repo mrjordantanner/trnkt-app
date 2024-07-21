@@ -3,7 +3,7 @@ import { User } from '../models/user';
 import { UpdateUserRequestBody } from '../models/updateUserRequestBody';
 
 class UserService {
-  private apiEndpoint = process.env.API_URL || 'http://localhost:5000/api';
+  private apiEndpoint = import.meta.env.API_URL || 'http://localhost:5000/api';
   baseUrl = `${this.apiEndpoint}/api/user`;
   tokenKey = 'jwt';
 

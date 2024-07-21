@@ -4,7 +4,7 @@ import { NftDto } from '../models/nftDto';
 import { Collection } from '../models/collection';
 
 class NftService {
-	private apiEndpoint = process.env.API_URL || 'http://localhost:5000/api';
+	private apiEndpoint = import.meta.env.API_URL || 'http://localhost:5000/api';
 	private baseUrl = `${this.apiEndpoint}/api/nft`;
 	axiosOptions: AxiosRequestConfig = {
 		headers: {
