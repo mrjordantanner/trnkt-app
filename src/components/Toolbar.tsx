@@ -56,7 +56,7 @@ export default function Toolbar() {
     let openseaUrl = '';
     if (selectedCollection) {
       if (selectedAsset) {
-        openseaUrl = selectedAsset.opensea_url;
+        openseaUrl = selectedAsset.openseaUrl;
       } else {
         openseaUrl = selectedCollection.opensea_url;
       }
