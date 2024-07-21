@@ -1,25 +1,17 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { NftModel } from '../models/nftModel';
 import { NftDto } from '../models/nftDto';
 import { Collection } from '../models/collection';
+import config from '../../config.json';
 
 class NftService {
-	private baseUrl = 'http://localhost:5000/api/nft';
-	getRequestOptions: RequestInit = {
-		method: 'GET',
+	apiEndpoint = config.API_URL || 'http://localhost:5000/api';
+	private baseUrl = `${this.apiEndpoint}/api/nft`;
+	axiosOptions: AxiosRequestConfig = {
 		headers: {
-			accept: 'application/json',
+			'Content-Type': 'application/json'
 		},
 	};
-
-	axiosOptions = {
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	};
-
-	// TODO use arrow functions
-	// TODO add constructor for baseUrl?
 
 	async fetchNfts(
 		collectionSlug: string,
@@ -55,41 +47,6 @@ class NftService {
 			return { nfts: [], next: null };
 		}
 	}
-
-	// async fetchNfts(
-	// 	collectionSlug: string,
-	// 	limit: number = 50,
-	// 	next: string | null = null
-	// ): Promise<{ nfts: NftModel[]; next: string | null }> {
-	// 	const url = next
-	// 		? `${this.baseUrl}/fetchNfts/${collectionSlug}?limit=${limit}&next=${next}`
-	// 		: `${this.baseUrl}/fetchNfts/${collectionSlug}?limit=${limit}`;
-
-	// 	try {
-	// 		console.log(`Fetching batch from Collection: ${collectionSlug}...`);
-	// 		const response = await fetch(url, this.getRequestOptions);
-	// 		const data = await response.json();
-
-	// 		const nftModels: NftModel[] = [];
-	// 		if (data.nfts.length > 0) {
-	// 			data.nfts.forEach((nftDto: NftDto) => {
-	// 				const nftModel = this.mapDtoToModel(nftDto);
-	// 				if (nftModel) {
-	// 					nftModels.push(nftModel);
-	// 				} else {
-	// 					console.error('Error mapping NftDto to NftModel');
-	// 				}
-	// 			});
-
-	// 			data.nfts = nftModels;
-	// 		}
-
-	// 		return data;
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 		return { nfts: [], next: null };
-	// 	}
-	// }
 
 	async fetchNft(assetToGet: NftModel | null): Promise<NftModel | null> {
 		if (!assetToGet) {

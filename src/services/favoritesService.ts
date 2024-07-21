@@ -1,12 +1,15 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { FavoritesList, UserFavorites } from '../models/favorites';
+import config from '../../config.json';
 
 class FavoritesService {
-  private baseUrl: string;
-
-  constructor() {
-    this.baseUrl = 'http://127.0.0.1:5000/api/favorites';
-  }
+  apiEndpoint = config.API_URL || 'http://localhost:5000';
+  baseUrl = `${this.apiEndpoint}/api/favorites`;
+  axiosOptions: AxiosRequestConfig = {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
 
   getFavorites = async (userId: string): Promise<UserFavorites | null> => {
     if (!userId) {

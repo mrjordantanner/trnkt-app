@@ -1,78 +1,67 @@
+import axios, { AxiosRequestConfig } from 'axios';
 import { User } from '../models/user';
 import { UpdateUserRequestBody } from '../models/updateUserRequestBody';
-
-// TODO use arrow functions 
-// TODO add constructor for baseUrl?
-// TODO use axios instead of fetch
+import config from '../../config.json';
 
 class UserService {
+  apiEndpoint = config.API_URL || 'http://localhost:5000/api';
+  baseUrl = `${this.apiEndpoint}/api/user`;
   tokenKey = 'jwt';
-  private baseUrl = 'http://localhost:5000/api/user';
-  getRequestOptions: RequestInit = {
-    method: 'GET',
+
+  axiosOptions: AxiosRequestConfig = {
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }
+    },
   };
 
   async registerNewUserAsync(email: string, userName: string, password: string): Promise<User | null> {
     if (!email || !userName || !password) {
       console.error('Required User Info not provided. User registration aborted.');
-      return null; 
+      return null;
     }
-    const options: RequestInit = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        userName: userName,
-        password: password
-      }),
-    };
+
     const url = `${this.baseUrl}/users`;
     try {
       console.log(`Registering new user: ${email} / ${userName}...`);
-      const response = await fetch(url, options);
-      const user = await response.json();
-      return user;
-
+      const response = await axios.post(url, {
+        email,
+        userName,
+        password,
+      }, this.axiosOptions);
+      return response.data;
     } catch (error) {
       console.error(error);
-      return Promise.resolve(null);
+      return null;
     }
   }
- 
+
   async fetchUserByEmailAsync(email: string | null): Promise<User | null> {
-    if (!email) { return null; }
+    if (!email) {
+      return null;
+    }
     const url = `${this.baseUrl}/users/${email}`;
     try {
       console.log(`Fetching User by email: ${email}...`);
-      const response = await fetch(url, this.getRequestOptions);
-      const user = await response.json();
-      return user;
-
+      const response = await axios.get(url, this.axiosOptions);
+      return response.data;
     } catch (error) {
       console.error(error);
-      return Promise.resolve(null);
+      return null;
     }
   }
 
   async fetchAllUsersAsync(email: string | null): Promise<User[] | null> {
-    if (!email) { return null; }
+    if (!email) {
+      return null;
+    }
     const url = `${this.baseUrl}/users/all`;
     try {
       console.log(`Fetching all Users...`);
-      const response = await fetch(url, this.getRequestOptions);
-      const users = await response.json();
-      console.log(users);
-      return users;
+      const response = await axios.get(url, this.axiosOptions);
+      return response.data;
     } catch (error) {
       console.error(error);
-      return Promise.resolve(null);
+      return null;
     }
   }
 
@@ -90,25 +79,16 @@ class UserService {
 
     console.log('UpdateUserInfoAsync: updateUserRequestBody:', updateUserInfo);
 
-    const options: RequestInit = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(body),
-    };
-
     const url = `${this.baseUrl}/users/update`;
     try {
       console.log(`Updating user info for ${email}...`);
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error('Failed to update user information');
-      }
-      const updatedUser: User = await response.json();
-      return updatedUser;
+      const response = await axios.patch(url, body, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+      return response.data;
     } catch (error) {
       console.error(error);
       return null;
@@ -116,27 +96,15 @@ class UserService {
   }
 
   async loginUserAsync(email: string, password: string): Promise<User | null> {
-    const options: RequestInit = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    };
     const url = `${this.baseUrl}/login`;
     try {
       console.log(`Logging in user ${email}...`);
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      localStorage.setItem(this.tokenKey, data.token);
-      return data.user;
+      const response = await axios.post(url, {
+        email,
+        password,
+      }, this.axiosOptions);
+      localStorage.setItem(this.tokenKey, response.data.token);
+      return response.data.user;
     } catch (error) {
       console.error(error);
       return null;
@@ -148,24 +116,19 @@ class UserService {
     if (!token) {
       throw new Error('No JWT token found');
     }
-    const options: RequestInit = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    };
+
     const url = `${this.baseUrl}/logout`;
     try {
       console.log(`Logging out user...`);
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      localStorage.removeItem('jwt');
+      await axios.post(url, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+      localStorage.removeItem(this.tokenKey);
       return true;
-      } catch (error) {
+    } catch (error) {
       console.error('Logout failed:', error);
       return false;
     }
@@ -174,9 +137,6 @@ class UserService {
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
-
-
-
 }
 
 export default UserService;
