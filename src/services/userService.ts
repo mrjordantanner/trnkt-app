@@ -1,10 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { User } from '../models/user';
 import { UpdateUserRequestBody } from '../models/updateUserRequestBody';
-import config from '../../config.json';
 
 class UserService {
-  apiEndpoint = config.API_URL || 'http://localhost:5000/api';
+  private apiEndpoint = process.env.API_URL || 'http://localhost:5000/api';
   baseUrl = `${this.apiEndpoint}/api/user`;
   tokenKey = 'jwt';
 

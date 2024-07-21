@@ -2,10 +2,9 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { NftModel } from '../models/nftModel';
 import { NftDto } from '../models/nftDto';
 import { Collection } from '../models/collection';
-import config from '../../config.json';
 
 class NftService {
-	apiEndpoint = config.API_URL || 'http://localhost:5000/api';
+	private apiEndpoint = process.env.API_URL || 'http://localhost:5000/api';
 	private baseUrl = `${this.apiEndpoint}/api/nft`;
 	axiosOptions: AxiosRequestConfig = {
 		headers: {
