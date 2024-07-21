@@ -1,4 +1,4 @@
-import { Nft } from './nftDto';
+import { NftModel } from './nftModel';
 
 export interface User {
   email: string;
@@ -12,5 +12,5 @@ export interface User {
 export interface FavoritesList {
   listId: string;
   listName: string;
-  favorites: Nft[];
+  favorites: NftModel[];
 }

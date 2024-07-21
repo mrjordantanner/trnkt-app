@@ -1,9 +1,9 @@
-import { NftDto } from './nftModel';
+import { NftModel } from './nftModel';
 
 export interface FavoritesList {
     listId: string;
     name: string;
-    nfts: NftDto[];
+    nfts: NftModel[];
 }
 
 export interface UserFavorites {

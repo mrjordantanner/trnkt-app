@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import AssetCard from './asset/AssetCard';
 import Loading from './utils/Loading';
 import AssetView from './asset/AssetView';
-import { Nft } from '../models/nftDto';
+import { NftModel } from '../models/nftModel';
 import { Box } from '@mui/material';
 import { useNftService } from '../contexts/NftServiceContext';
 import { useAssetContext } from '../contexts/AssetContext';
@@ -34,7 +34,7 @@ export default function RandomGallery() {
 
     {!selectedAsset && <Box className="gallery-wrapper">
       <Box className="asset-grid">
-        {nfts.map((asset: Nft, index: number) => (
+        {nfts.map((asset: NftModel, index: number) => (
           <AssetCard asset={asset} key={`${asset.identifier}-${index}`} />
         ))}
       </Box>

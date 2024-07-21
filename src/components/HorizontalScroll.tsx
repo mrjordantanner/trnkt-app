@@ -1,14 +1,24 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { NftModel } from '../models/nftModel';
 import ObjectViewer from './utils/ObjectViewer';
+import { useAssetContext } from './../contexts/AssetContext';
 
 interface Props {
     nfts: NftModel[];
 }
 
+
+
 const HorizontalScroll = ({ nfts }: Props) => {
-  //const boxes = Array.from({ length: 10 }, (_, index) => index + 1); // Example array to generate 10 boxes
+  const { setSelectedAsset } = useAssetContext();
+
+  const onClickAsset = (asset: NftModel) => {
+    setSelectedAsset(asset);
+    // nftService.fetchNft(asset);
+    console.log(asset);
+  };
+
 
   return (
     <Box 
@@ -37,9 +47,13 @@ const HorizontalScroll = ({ nfts }: Props) => {
             bgcolor: '#343434',
           }}
         >
-            <Typography sx={{ fontWeight: 600 }}>{nft.name}</Typography>
-            <img src={nft.imageUrl} style={{ objectFit: 'contain', width: '90%' }}/>
-            <ObjectViewer data={nft} />
+
+          <Button sx={{ width: "100%", height: "100%", position: "fixed" }} 
+            onClick={() => onClickAsset(nft)} />
+
+          <Typography sx={{ fontWeight: 600 }}>{nft.name}</Typography>
+          <img src={nft.imageUrl} style={{ objectFit: 'contain', width: '90%' }}/>
+          <ObjectViewer data={nft} />
 
         </Box>
       ))}

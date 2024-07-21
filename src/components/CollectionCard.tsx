@@ -39,10 +39,10 @@ export default function CollectionCard({ collection }: Props) {
 
   const cardStyle = {
     display: 'flex', 
-    width: "100%", 
-    height: '400px', 
+    height: '375px', 
     margin: '16px', 
     borderRadius: '20px',
+    position: 'relative'
   }  
 
   const buttonBaseStyle = {
@@ -64,7 +64,7 @@ export default function CollectionCard({ collection }: Props) {
   };
  
   return (
-    <Card sx={{ ...cardStyle, position: 'relative' }}>
+    <Card sx={cardStyle}>
       <ButtonBase onClick={onClickCollection} sx={buttonBaseStyle} />
       <CardContent sx={contentStyle}>
         <Typography sx={{ color: 'black' }}>

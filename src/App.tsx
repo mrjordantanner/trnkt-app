@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.scss';
+//import './MediaQueries.scss';
 
 import { AssetProvider } from './contexts/AssetContext';
 import { NftServiceProvider } from './contexts/NftServiceContext';
@@ -20,7 +21,6 @@ import Register from './components/Register';
 import FavoritesView from './components/favorites/FavoritesView';
 
 function App() {
-
 
   return (
     <>

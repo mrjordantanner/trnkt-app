@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import ExploreSidebar from './ExploreSidebar';
+//import ExploreSidebar from './ExploreSidebar';
 import ExploreGallery from './ExploreGallery';
 import AssetView from './asset/AssetView';
 //import AssetSidebar from './AssetSidebar';
-import { Nft } from '../models/nftDto';
+import { NftModel} from '../models/nftModel';
 import { Box } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
 import { useNftService } from '../contexts/NftServiceContext';
@@ -21,7 +21,7 @@ export default function ExploreView() {
     getNftBatch();
   }, []);  // selectedCollection
 
-  async function getNftBatch(): Promise<{ nfts: Nft[], next: string | null }> {
+  async function getNftBatch(): Promise<{ nfts: NftModel[], next: string | null }> {
     if (!selectedCollection) { 
       return { nfts: [], next: null }
     }
@@ -44,7 +44,7 @@ export default function ExploreView() {
     <Box className="full-height-plus-navbar" sx={containerStyle}>
 
         {/* Explore Gallery and Sidebar shown if no NFT selected */}
-        {!selectedAsset && <ExploreSidebar />}
+        {/* {!selectedAsset && <ExploreSidebar />} */}
         {!selectedAsset && <ExploreGallery data={nfts} />}
 
         {/* Detailed Asset View with Sidebar shown if NFT is selected */}

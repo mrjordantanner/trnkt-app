@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Nft } from '../models/nftDto';
+import { NftModel } from '../models/nftModel';
 import { Collection } from '../models/collection';
 //import NftService from '../services/service';
 
 interface AssetContextType {
   featuredCollectionSlugs: string[];
-  nfts: Nft[] | null;
-  setNfts:  React.Dispatch<React.SetStateAction<Nft[] | null>>;
+  nfts: NftModel[] | null;
+  setNfts:  React.Dispatch<React.SetStateAction<NftModel[] | null>>;
   nextNftCursor: string | null;
   setNextNftCursor: React.Dispatch<React.SetStateAction<string | null>>;
   nextCollectionCursor: string | null;
@@ -18,8 +18,8 @@ interface AssetContextType {
   selectedCollection: Collection | null;
   setCollection: (collection: Collection | null) => void;
 
-  selectedAsset: Nft | null;
-  setSelectedAsset: (asset: Nft | null) => void;
+  selectedAsset: NftModel | null;
+  setSelectedAsset: (asset: NftModel | null) => void;
   nftLimit: number;
   setNftLimit: React.Dispatch<React.SetStateAction<number>>;
 
@@ -41,12 +41,12 @@ const AssetContext = createContext<AssetContextType | undefined>(undefined);
 
 export const AssetProvider: React.FC<Props> = ({ children }) => {
 
-  const [nfts, setNfts] = useState<Nft[] | null>(null);
+  const [nfts, setNfts] = useState<NftModel[] | null>(null);
   const [nextNftCursor, setNextNftCursor] = useState<string | null>(null);
   const [collections, setCollections] = useState<Collection[] | null>([]);
   const [nextCollectionCursor, setNextCollectionCursor] = useState<string | null>(null);
   const [selectedCollection, _setCollection] = useState<Collection | null>(null);
-  const [selectedAsset, setSelectedAsset] = useState<Nft | null>(null);
+  const [selectedAsset, setSelectedAsset] = useState<NftModel | null>(null);
   const [nftLimit, setNftLimit] = useState<number>(defaultNftLimit);
 
   // Custom 'setState' method to reset nextCursor if we're switching Collections

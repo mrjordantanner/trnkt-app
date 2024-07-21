@@ -28,19 +28,17 @@ export default function Login() {
 
   const contentsStyle = {
     display: 'flex',
-    height: '80%',
+    height: '50%',
     width: '50%',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#353535',
+    backgroundColor: '#232323',
+    borderRadius: '15px',
   }
 
   const buttonStyle = {
-    border: "1px solid white",
-    backgroundColor: "blue",
-    color: "white",
-    margin: '10px',
+    margin: '40px',
     width: '250px'
   }
 
@@ -51,7 +49,12 @@ export default function Login() {
   }
 
   const notificationStyle = {
-    fontSize: '18px', fontWeight: '500', color: 'red', width: '60%', textAlign: 'center'
+    fontSize: '18px', 
+    fontWeight: '500', 
+    margin: '10px',
+    color: 'red',
+    width: '60%', 
+    textAlign: 'center'
   }
 
   const onClickLogin = async () => {
@@ -107,7 +110,7 @@ export default function Login() {
           onKeyDown={handleKeyDown}
           />
 
-        <Button sx={buttonStyle} onClick={onClickLogin}>Log In</Button>
+        <Button variant="contained" sx={buttonStyle }onClick={onClickLogin}>Log In</Button>
        
         <Typography>No account yet?</Typography>
         <Link

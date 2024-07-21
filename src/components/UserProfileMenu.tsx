@@ -37,7 +37,7 @@ export default function UserProfileMenu() {
   };
 
   return (
-    <Box sx={{ pr: 4, pt: 2 }}>
+    <Box sx={{ pr: 4 }}>
       <IconButton onClick={handleClick}>
         <Avatar alt="User Profile" src="/path/to/profile/photo.jpg" />
       </IconButton>

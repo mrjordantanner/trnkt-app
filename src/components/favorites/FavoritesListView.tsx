@@ -6,11 +6,13 @@ import HorizontalScroll from '../HorizontalScroll';
 // import { useUserService } from '../../contexts/UserServiceContext';
 // import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
 
+
 interface Props {
   favoritesList: FavoritesList;
 }
 
 export default function FavoritesListView({ favoritesList }: Props) {
+
 
   const handleEdit = () => {
     // Implement edit functionality
@@ -24,17 +26,20 @@ export default function FavoritesListView({ favoritesList }: Props) {
 
   const listViewContainerStyle = {
     mb: 4, 
-    bgcolor: 'salmon', 
+    bgcolor: 'darkslateblue', 
     width: '80%',
     border: '1px solid magenta',
     borderRadius: '10px',
     p: 1
   }
 
+
   return (
     <Box sx={listViewContainerStyle}>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+
+
         <Typography variant="h6" sx={{ flex: 1, ml: 1 }}>
           {favoritesList.name}  [{favoritesList.nfts.length}]
         </Typography>

@@ -1,8 +1,8 @@
-import { Nft, Trait } from '../../models/nftDto'
+import { NftModel, Trait } from '../../models/nftModel'
 import { List, ListItem, Typography, Box } from '@mui/material';
 
 interface Props {
-  asset: Nft;
+  asset: NftModel;
 }
 
 const containerStyle = {
@@ -12,7 +12,7 @@ const containerStyle = {
   minWidth: '30vw',
   marginTop: '30px',
   border: '1px solid lightgray',
-  bgcolor: 'purple'
+  bgcolor: 'darkslateblue'
 }
 
 const traitsListStyle = {
@@ -36,7 +36,7 @@ export default function AssetTraits ({ asset }: Props) {
         {asset.traits.map((trait: Trait, index: number) => {
           return trait ? (
             <ListItem key={`${asset.identifier}-${index}`}>
-              {trait.trait_type}: {trait.value}
+              {trait.traitType}: {trait.value}
             </ListItem>
           ) : null;
         })}

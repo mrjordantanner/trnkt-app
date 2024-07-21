@@ -8,15 +8,15 @@ export default function Home () {
   const { isAuthenticated } = useUserService();
 
   return (
-		<Box className='home-container' sx={{ height: '80vh' }}>
+		<Box className='home-container'>
 			<img
-				className='gem-background-float invert'
+				className='gem'
 				src={diamond}
 				alt='diamond'
 			/>
 			<Box className='logo text-outline'>TRNKT</Box>
 			<Box className='subtitle text-outline-thin'>Crypto Artwork Explorer</Box>
-			<Typography sx={{ fontSize: '16px', width: '70%' }}>
+			<Typography className='description'>
 				Discover a wide variety of crypto artwork. Use the Explore button to
 				display random Nft's from the Opensea API, click or tap to view them in
 				detail, and save to a Favorites list for later viewing. <br></br>
@@ -39,16 +39,7 @@ export default function Home () {
 				</Link>
 			) : (
 				<Link to='/login'>
-					<Button
-						className='button outline-secondary enter'
-						sx={{
-							fontSize: '1.25rem',
-							fontWeight: 'bold',
-							width: '300px',
-							height: '70px',
-							border: '2px solid white',
-							display: 'flex',
-						}}>
+					<Button variant="contained" className='button enter outline-secondary'>
 						L O G   I N
 					</Button>
 				</Link>

@@ -50,11 +50,6 @@ export default function CollectionView() {
     return <Loading />
   }
 
-  const containerStyle = {
-    //marginTop: '70px',
-    height: '90vh'
-  }
-
   // const galleryStyle = {
   //   height: '100%',
   //   //display: 'flex',
@@ -64,7 +59,7 @@ export default function CollectionView() {
   // }
 
   return (
-		<Box sx={containerStyle}>
+		<Box>
 
       <Typography variant="h2" sx={{ padding: '10px' }}>Featured Collections</Typography>
 

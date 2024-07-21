@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { NftModel } from '../models/nftModel';
 import { NftDto } from '../models/nftDto';
 import { Collection } from '../models/collection';
@@ -11,9 +12,14 @@ class NftService {
 		},
 	};
 
+	axiosOptions = {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	};
+
 	// TODO use arrow functions
 	// TODO add constructor for baseUrl?
-	// TODO use axios instead of fetch
 
 	async fetchNfts(
 		collectionSlug: string,
@@ -26,30 +32,22 @@ class NftService {
 
 		try {
 			console.log(`Fetching batch from Collection: ${collectionSlug}...`);
-			const response = await fetch(url, this.getRequestOptions);
-			const data = await response.json();
+			const response = await axios.get(url, this.axiosOptions);
+			const data = response.data;
 
-      console.log('---FETCH NFTS - MapDtoToModel TEST---')
+			const nftModels: NftModel[] = [];
+			if (data.nfts.length > 0) {
+				data.nfts.forEach((nftDto: NftDto) => {
+					const nftModel = this.mapDtoToModel(nftDto);
+					if (nftModel) {
+						nftModels.push(nftModel);
+					} else {
+						console.error('Error mapping NftDto to NftModel');
+					}
+				});
 
-      const nftModels: NftModel[] = [];
-
-      if (data.nfts.length > 0) {
-        data.nfts.forEach((nftDto : NftDto) => {
-          const nftModel = this.mapDtoToModel(nftDto);
-          if (nftModel) {
-            nftModels.push(nftModel);
-          } else {
-            console.error("Error mapping NftDto to NftModel");
-          }
-        });
-
-        data.nfts = nftModels;
-      }
-
-      // TEST
-      data.nfts.forEach((nftModel: NftModel) => {
-        console.log(nftModel);
-      })
+				data.nfts = nftModels;
+			}
 
 			return data;
 		} catch (error) {
@@ -57,6 +55,41 @@ class NftService {
 			return { nfts: [], next: null };
 		}
 	}
+
+	// async fetchNfts(
+	// 	collectionSlug: string,
+	// 	limit: number = 50,
+	// 	next: string | null = null
+	// ): Promise<{ nfts: NftModel[]; next: string | null }> {
+	// 	const url = next
+	// 		? `${this.baseUrl}/fetchNfts/${collectionSlug}?limit=${limit}&next=${next}`
+	// 		: `${this.baseUrl}/fetchNfts/${collectionSlug}?limit=${limit}`;
+
+	// 	try {
+	// 		console.log(`Fetching batch from Collection: ${collectionSlug}...`);
+	// 		const response = await fetch(url, this.getRequestOptions);
+	// 		const data = await response.json();
+
+	// 		const nftModels: NftModel[] = [];
+	// 		if (data.nfts.length > 0) {
+	// 			data.nfts.forEach((nftDto: NftDto) => {
+	// 				const nftModel = this.mapDtoToModel(nftDto);
+	// 				if (nftModel) {
+	// 					nftModels.push(nftModel);
+	// 				} else {
+	// 					console.error('Error mapping NftDto to NftModel');
+	// 				}
+	// 			});
+
+	// 			data.nfts = nftModels;
+	// 		}
+
+	// 		return data;
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 		return { nfts: [], next: null };
+	// 	}
+	// }
 
 	async fetchNft(assetToGet: NftModel | null): Promise<NftModel | null> {
 		if (!assetToGet) {
@@ -76,8 +109,8 @@ class NftService {
 			console.log(
 				`Fetching single NFT, Chain/Id: ${blockchain}/${assetToGet.identifier}...`
 			);
-			const response = await fetch(url, this.getRequestOptions);
-			const data = await response.json();
+			const response = await axios.get(url, this.axiosOptions);
+			const data = response.data;
 			console.log(data.nft);
 
 			const nftModel = this.mapDtoToModel(data.nft);
@@ -98,8 +131,8 @@ class NftService {
 
 		try {
 			//console.log(`Fetching Collection {collectionSlug}...`, collectionSlug);
-			const response = await fetch(url, this.getRequestOptions);
-			const data = await response.json();
+			const response = await axios.get(url, this.axiosOptions);
+			const data = response.data;
 			return data;
 		} catch (error) {
 			console.error(error);
@@ -116,8 +149,8 @@ class NftService {
 
 		try {
 			console.log(`Fetching batch of Collections...`);
-			const response = await fetch(url, this.getRequestOptions);
-			const data = await response.json();
+			const response = await axios.get(url, this.axiosOptions);
+			const data = response.data;
 			return data;
 		} catch (error) {
 			console.error(error);
@@ -189,13 +222,13 @@ class NftService {
 						displayType: trait.display_type,
 						maxValue: trait.max_value,
 						value: trait.value,
-          }))
+                 }))
 				: [],
 			owners: dto.owners
 				? dto.owners.map((owner) => ({
 						address: owner.address,
 						quantity: owner.quantity,
-          }))
+                 }))
 				: [],
 			rarity: {
 				strategyVersion: dto.rarity?.strategy_version,

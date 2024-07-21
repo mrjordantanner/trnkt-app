@@ -82,7 +82,6 @@ export default function FavoritesModal({ open, onClose }: Props) {
 	const handleCreateList = () => {
 		if (newListName) {
 			const newList: FavoritesList = {
-				//userId: currentUser?.id,
 				listId: uuidv4(),
 				name: newListName,
 				nfts: [],
@@ -122,7 +121,7 @@ export default function FavoritesModal({ open, onClose }: Props) {
 
 			onClose();
 
-			// Update Favorites STEP 1 - we are clear up to here
+			// Update Favorites STEP 1
 			// Update the backend with the new UserFavorites object containing the updated Lists
 			const updatedFavorites: UserFavorites | null = await updateFavorites(currentUser.userId, updatedLists);
 
@@ -139,37 +138,6 @@ export default function FavoritesModal({ open, onClose }: Props) {
 			);
 		}
 	};
-
-	// const handleSave = async () => {
-	// 	if (selectedAsset) {
-	// 		const selectedAssetId = selectedAsset.identifier;
-
-	// 		favoritesLists.forEach((list) => {
-	// 			// If the FavoritesList checkbox value is true and currentAsset.identifier is not contained in the FavoritesList.nfts array yet, add it to that FavoritesList Nfts array
-	// 			const listContainsNft = list.nfts.some(
-	// 				(nft) => nft.identifier === selectedAssetId
-	// 			);
-	// 			const listIsChecked = checkboxStates[list.listId];
-
-	// 			if (listIsChecked && !listContainsNft) {
-	// 				list.nfts.push(selectedAsset);
-	// 			}
-	// 		});
-
-	// 		// Update the backend with the new UserFavorites object containing the updated Lists
-	// 		if (currentUser) {
-	// 			try {
-	// 				await updateFavorites(currentUser.id, favoritesLists);
-	// 				console.log('Favorites updated successfully.');
-	// 			} catch (error) {
-	// 				console.error('Error updating favorites:', error);
-	// 			}
-	// 		} else {
-	// 			console.error('Error updating Favorites: currentUser was null.');
-	// 		}
-	// 	} else {
-	// 		console.error('Error updating Favorites: selectedAsset was null.');
-	// 	}
 
 	const modalStyle = {
 		position: 'absolute',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAssetContext } from '../../contexts/AssetContext';
-import { Nft } from '../../models/nftDto';
+import { NftModel } from '../../models/nftModel';
 import { Box, Typography } from '@mui/material';
 import AssetTraits from './AssetTraits';
 import SaveToFavoritesButton from '../SaveToFavoritesButton';
@@ -11,7 +11,7 @@ import { useNftService } from '../../contexts/NftServiceContext';
 
 export default function AssetView() {
 	const { selectedAsset, selectedCollection } = useAssetContext();
-	const [assetInView, setAssetInView] = useState<Nft | null>(null);
+	const [assetInView, setAssetInView] = useState<NftModel | null>(null);
 
 	const nftService = useNftService();
 
@@ -19,7 +19,7 @@ export default function AssetView() {
 		getSelectedAssetDetails();
 	}, []);
 
-	async function getSelectedAssetDetails(): Promise<Nft | null> {
+	async function getSelectedAssetDetails(): Promise<NftModel | null> {
 		const asset = await nftService.fetchNft(selectedAsset);
 		setAssetInView(asset);
 		return asset;
@@ -72,9 +72,9 @@ export default function AssetView() {
 	return (
 		<Box className='scrollbar full-height-plus-navbar' sx={containerStyle}>
 			<Box sx={imageStyle}>
-				{assetInView.animation_url ? (
+				{assetInView.animationUrl ? (
 					<video
-						src={assetInView.animation_url}
+						src={assetInView.animationUrl}
 						autoPlay
 						loop
 						muted
@@ -85,7 +85,7 @@ export default function AssetView() {
 					</video>
 				) : (
 					<img
-						src={assetInView.image_url}
+						src={assetInView.imageUrl}
 						alt={assetInView.name}
 						className='height-80-minus-navbar'
 						style={{ objectFit: 'contain' }}
@@ -104,7 +104,7 @@ export default function AssetView() {
 						padding: '10px',
 					}}>
 					<img
-						src={assetInView.image_url}
+						src={assetInView.imageUrl}
 						alt={assetInView.name}
 						style={{
 							height: imgPreviewSize,
@@ -114,7 +114,6 @@ export default function AssetView() {
 					/>
 
 					<Typography style={nameStyle}>{assetInView.name}</Typography>
-
 					<ObjectViewer data={assetInView} />
 					<SaveToFavoritesButton />
 				</Box>
@@ -127,7 +126,7 @@ export default function AssetView() {
 					width: '100%',
 					display: 'flex',
 					alignItems: 'center',
-					padding: '10px 10px 10px 20px',
+					padding: '30px 10px 10px 45px',
 				}}>
 				<img
 					src={selectedCollection?.image_url}
@@ -147,7 +146,7 @@ export default function AssetView() {
 						fontSize: '1.25rem',
 						fontWeight: 'bold',
 						color: 'lightgray',
-						padding: '0px 10px',
+						padding: '10px 10px',
 					}}>
 					{selectedCollection?.name}
 				</Typography>
