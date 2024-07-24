@@ -6,7 +6,7 @@
 
 ## Features   
    
-This project is currently in development. Below are the key features currently implemented:
+This project is currently in development and is not currently deployed. Below are the key features currently implemented:
    
 - **Dynamic NFT Gallery**: Display and interact with various NFTs in a visually appealing gallery.
 - **User Authentication**: Secure login and registration for users to manage their collections.

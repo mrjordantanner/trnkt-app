@@ -19,6 +19,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import Register from './components/Register';
 import FavoritesView from './components/favorites/FavoritesView';
+import NormalizeUrl from './components/utils/NormalizeUrl';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
       <NftServiceProvider>
       <UserServiceProvider>
       <FavoritesServiceProvider>
+      <NormalizeUrl />
         <Navbar />
         <Toolbar />
 

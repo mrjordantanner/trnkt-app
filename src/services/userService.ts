@@ -9,7 +9,7 @@ class UserService {
 
   axiosOptions: AxiosRequestConfig = {
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
   };
 
@@ -117,12 +117,14 @@ class UserService {
     }
 
     const url = `${this.baseUrl}/logout`;
+    console.log(`BaseUrl for logout: ${this.baseUrl}`);
     try {
       console.log(`Logging out user...`);
       await axios.post(url, {}, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
+          'Access-Control-Request-Method': 'POST'
         }
       });
       localStorage.removeItem(this.tokenKey);

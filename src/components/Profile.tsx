@@ -92,7 +92,7 @@ export default function Profile() {
         <Box sx={contentsStyle}>
 
         <IconButton onClick={handleAvatarClick} sx={{ width: '200px', height: '200px'  }}>
-          <Avatar alt="User Profile" src="/path/to/profile/photo.jpg"
+          <Avatar alt="User Profile" src="/"
           sx={{ width: '100%', height: '100%', fontSize: '70px' }}></Avatar>
         </IconButton>
 

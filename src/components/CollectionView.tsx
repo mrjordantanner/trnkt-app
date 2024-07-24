@@ -72,7 +72,7 @@ export default function CollectionView() {
 					return (
 						<CollectionCard
 							collection={collection}
-							key={collection.collection}
+							key={collection.name}
 						/>
 					);
 				})} 
