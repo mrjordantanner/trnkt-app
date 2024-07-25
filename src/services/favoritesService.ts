@@ -2,13 +2,14 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { FavoritesList, UserFavorites } from '../models/favorites';
 
 class FavoritesService {
-  private apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  private apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   baseUrl = `${this.apiEndpoint}/api/favorites`;
-  axiosOptions: AxiosRequestConfig = {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  };
+	axiosOptions: AxiosRequestConfig = {
+		headers: {
+			'Content-Type': 'application/json',
+			//'Access-Control-Allow-Origin': 'http://localhost:5173',
+		},
+	};
 
   getFavorites = async (userId: string): Promise<UserFavorites | null> => {
     if (!userId) {

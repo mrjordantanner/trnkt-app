@@ -3,15 +3,15 @@ import { User } from '../models/user';
 import { UpdateUserRequestBody } from '../models/updateUserRequestBody';
 
 class UserService {
-  private apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  private apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   baseUrl = `${this.apiEndpoint}/api/user`;
   tokenKey = 'jwt';
-
-  axiosOptions: AxiosRequestConfig = {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  };
+	axiosOptions: AxiosRequestConfig = {
+		headers: {
+			'Content-Type': 'application/json',
+			//'Access-Control-Allow-Origin': 'http://localhost:5173',
+		},
+	};
 
   async registerNewUserAsync(email: string, userName: string, password: string): Promise<User | null> {
     if (!email || !userName || !password) {
@@ -117,14 +117,12 @@ class UserService {
     }
 
     const url = `${this.baseUrl}/logout`;
-    console.log(`BaseUrl for logout: ${this.baseUrl}`);
     try {
       console.log(`Logging out user...`);
       await axios.post(url, {}, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-          'Access-Control-Request-Method': 'POST'
+          'Authorization': `Bearer ${token}`
         }
       });
       localStorage.removeItem(this.tokenKey);
