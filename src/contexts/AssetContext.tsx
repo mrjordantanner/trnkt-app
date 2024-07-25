@@ -59,15 +59,15 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
 
   const featuredCollectionSlugs: string[] = [
     'parallel-on-base',
-    'new-dimension-huemin',
-    'clonex',
-    'daily-xyz',
     'byopill',
-    'the-vault-of-wonders-chapter-1-the-abyssal-unseen',
-    'abstract-nature-albertdros',
-    'azuki',
-    'screens-by-thomas-lin-pedersen',
-    'midnightbreeze'
+    // 'new-dimension-huemin',
+    // 'clonex',
+    // 'daily-xyz',
+    // 'the-vault-of-wonders-chapter-1-the-abyssal-unseen',
+    // 'abstract-nature-albertdros',
+    // 'azuki',
+    // 'screens-by-thomas-lin-pedersen',
+    // 'midnightbreeze'
   
   ];
 

@@ -13,6 +13,7 @@ class UserService {
 		},
 	};
 
+
   async registerNewUserAsync(email: string, userName: string, password: string): Promise<User | null> {
     if (!email || !userName || !password) {
       console.error('Required User Info not provided. User registration aborted.');
@@ -117,6 +118,10 @@ class UserService {
     }
 
     const url = `${this.baseUrl}/logout`;
+    console.log(`-- LOGOUT URL --`);
+    console.log('API Endpoint:', this.apiEndpoint);
+    console.log('Base URL:', this.baseUrl);
+    console.log('URL:', url);
     try {
       console.log(`Logging out user...`);
       await axios.post(url, {}, {

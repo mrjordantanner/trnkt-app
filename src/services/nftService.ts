@@ -83,7 +83,7 @@ class NftService {
 		const url = `${this.baseUrl}/fetchCollection/${collectionSlug}`;
 
 		try {
-			console.log(`Fetching Collection {collectionSlug}...`, collectionSlug);
+			console.log(`Fetching Collection: ${collectionSlug}`);
 			const response = await axios.get(url, this.axiosOptions);
 			const data = response.data;
 			return data;
