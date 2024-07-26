@@ -32,7 +32,7 @@ export const UserServiceProvider: React.FC<{ children: ReactNode }> = ({ childre
     const registerNewUserAsync = async (email: string, userName: string, password: string) : Promise<User | null> => {
 
         const user = await userService.registerNewUserAsync(email, userName, password);
-        if (user) {
+        if (user?.email) {
             console.log(`Successfully registered New User: ${user.email} / ${user.userName}`);
             navigate('/login');
         }
