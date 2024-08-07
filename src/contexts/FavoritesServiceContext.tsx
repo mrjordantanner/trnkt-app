@@ -1,22 +1,35 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import FavoritesService from '../services/favoritesService';
 import { FavoritesList, UserFavorites } from '../models/favorites';
+import { v4 as uuidv4 } from 'uuid';
+import { useUserService } from '../contexts/UserServiceContext';
 
 interface ContextProps {
     getUserFavorites: (userId: string) => Promise<UserFavorites | null>;
     updateFavorites: (userId: string, updatedLists: FavoritesList[]) => Promise<UserFavorites | null>;
     userFavorites: UserFavorites | null;
-    //setUserFavorites: React.Dispatch<UserFavorites | null>;
+    favoritesLists: FavoritesList[];
+    setFavoritesLists: React.Dispatch<FavoritesList[]>;
+    createNewFavoritesList: (newListName: string) => Promise<UserFavorites | null> 
     deleteFavoritesList: (userId: string, listId: string) => Promise<UserFavorites | null>;
     deleteUserFavorites: (userId: string) => Promise<boolean>;
 }
 
 const FavoritesServiceContext = createContext<ContextProps | undefined>(undefined);
 
-
 export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+	const defaultFavorites: FavoritesList[] = [
+		{
+			listId: 'Default-Favorites',
+			name: 'Default Favorites',
+			nfts: [],
+		},
+	];
+
     const favoritesService = new FavoritesService();
+    const { currentUser } = useUserService();
     const [userFavorites, setUserFavorites] = useState<UserFavorites | null>(null);
+    const [favoritesLists, setFavoritesLists] = useState<FavoritesList[]>(defaultFavorites);
 
     const getUserFavorites = async (userId: string) : Promise<UserFavorites | null> => {
         const userFavorites = await favoritesService.getFavorites(userId);
@@ -25,6 +38,37 @@ export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ ch
         }
         return userFavorites;
     };
+
+    const createNewFavoritesList = async (newListName: string | '') : Promise<UserFavorites | null> => {
+        if (newListName == '') {
+            const listNumber = userFavorites?.favorites?.length;
+            newListName = `New List ${listNumber ? listNumber + 1 : 1}`
+        }
+        const newList: FavoritesList = {
+            listId: uuidv4(),
+            name: newListName,
+            nfts: [],
+        };
+        const newFavoritesLists = favoritesLists
+            ? [...favoritesLists, newList]
+            : [newList];
+        setFavoritesLists(newFavoritesLists);
+
+        let updatedFavorites;
+        try {
+            if (!currentUser) {
+                console.error('Error creating new Favorites List. Local CurrentUser was null.');
+                return null;
+            }
+            updatedFavorites = await updateFavorites(currentUser.userId, favoritesLists);
+        }
+        catch (ex) {
+            console.error('Error creating new Favorites List:', ex);
+            return null;
+        }
+        console.log(`Total Favorites: ${updatedFavorites?.favorites.length}`);
+        return updatedFavorites;
+    }
 
     // Update Favorites STEP 2
     const updateFavorites = async (userId: string, updatedLists: FavoritesList[]) : Promise<UserFavorites | null> => {
@@ -66,7 +110,10 @@ export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ ch
                 userFavorites,
                 updateFavorites,
                 deleteFavoritesList,
-                deleteUserFavorites
+                deleteUserFavorites,
+                favoritesLists,
+                setFavoritesLists,
+                createNewFavoritesList
              }}>
             {children}
         </FavoritesServiceContext.Provider>

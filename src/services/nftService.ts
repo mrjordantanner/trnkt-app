@@ -4,14 +4,20 @@ import { NftDto } from '../models/nftDto';
 import { Collection } from '../models/collection';
 
 class NftService {
-	private apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-	private baseUrl = `${this.apiEndpoint}/api/nft`;
-	axiosOptions: AxiosRequestConfig = {
-		headers: {
-			'Content-Type': 'application/json',
-			//'Access-Control-Allow-Origin': 'http://localhost:5173',
-		},
-	};
+    private apiEndpoint: string;
+    private baseUrl: string;
+    private axiosOptions: AxiosRequestConfig;
+
+    constructor() {
+        this.apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        this.baseUrl = `${this.apiEndpoint}/api/nft`;
+        this.axiosOptions = {
+            headers: {
+                'Content-Type': 'application/json',
+                //'Access-Control-Allow-Origin': 'http://localhost:5173',
+            },
+        };
+    }
 
 	async fetchNfts(
 		collectionSlug: string,
@@ -23,7 +29,7 @@ class NftService {
 			: `${this.baseUrl}/fetchNfts/${collectionSlug}?limit=${limit}`;
 
 		try {
-			console.log(`Fetching batch from Collection: ${collectionSlug}...`);
+			//console.log(`Fetching batch from Collection: ${collectionSlug}...`);
 			const response = await axios.get(url, this.axiosOptions);
 			const data = response.data;
 
@@ -48,11 +54,17 @@ class NftService {
 
 	async fetchNft(assetToGet: NftModel | null): Promise<NftModel | null> {
 		if (!assetToGet) {
+			console.error('Error fetching full NFT Data: Asset was null.')
 			return null;
 		}
-		const blockchain: string | '' = this.getBlockchainFromUrl(
-			assetToGet.openseaUrl
-		);
+
+		if (!assetToGet.openseaUrl) {
+			console.error('Error fetching full NFT Data: Unable to determine Blockchain because Opensea URL was null.')
+			return null;
+		}
+
+		const blockchain: string | '' = this.getBlockchainFromUrl(assetToGet.openseaUrl);
+
 		if (!blockchain) {
 			console.error(`Error: Couldn't determine Blockchain from asset data`);
 			return null;
@@ -83,7 +95,7 @@ class NftService {
 		const url = `${this.baseUrl}/fetchCollection/${collectionSlug}`;
 
 		try {
-			console.log(`Fetching Collection: ${collectionSlug}`);
+			//console.log(`Fetching Collection: ${collectionSlug}`);
 			const response = await axios.get(url, this.axiosOptions);
 			const data = response.data;
 			return data;

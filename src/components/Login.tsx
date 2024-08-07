@@ -15,37 +15,10 @@ export default function Login() {
   //   //setNotificationMessage("");
   // }, []);
 
-  // Styles
-  const containerStyle = {
-    display: 'flex',
-    height: '100vh',
-    width: '100vw',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#121212',
-  }
-
-  const contentsStyle = {
-    display: 'flex',
-    height: '50%',
-    width: '50%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#232323',
-    borderRadius: '15px',
-  }
-
-  const buttonStyle = {
-    margin: '40px',
-    width: '250px'
-  }
-
   const inputFieldStyle  = {
     width: '300px',
     height: '75px',
-    backgroundColor: 'white'
+    bgcolor: 'white'
   }
 
   const notificationStyle = {
@@ -54,7 +27,7 @@ export default function Login() {
     margin: '10px',
     color: 'red',
     width: '60%', 
-    textAlign: 'center'
+    textAlign: 'center',
   }
 
   const onClickLogin = async () => {
@@ -72,7 +45,7 @@ export default function Login() {
     if (user) {
       setNotificationMessage("");
       console.log(`Successfully logged in User: - Email: ${user.email}, UserName: ${user.userName}, UserId: ${user.userId}, `);
-      navigate('/collections');
+      navigate('/nfts/collections/featured');
     }
     else {
       setNotificationMessage("Incorrect email or password.");
@@ -87,14 +60,16 @@ export default function Login() {
   };
 
   return (
-      <Box sx={containerStyle}>
-        <Box sx={contentsStyle}>
+    <Box className='full-height-minus-bars'>
+      <Box className='container'>
+        <Box className='flex-column-center' sx={{ justifyContent: 'center', height: '100%' }}>
 
-        <Typography variant="h4" sx={{ margin: '15px' }}>L O G I N</Typography>
+        <Typography variant="h4" sx={{ margin: '15px' }}>SIGN IN</Typography>
         <Typography sx={notificationStyle}>{notificationMessage}</Typography>
 
         <TextField 
           label="email" 
+          variant='outlined'
           sx={inputFieldStyle}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -110,18 +85,23 @@ export default function Login() {
           onKeyDown={handleKeyDown}
           />
 
-        <Button variant="contained" sx={buttonStyle }onClick={onClickLogin}>Log In</Button>
+        <Button 
+        variant="contained" 
+        sx={{ margin: '40px', width: '250px'}} 
+        onClick={onClickLogin}>
+          Log In
+          </Button>
        
         <Typography>No account yet?</Typography>
         <Link
 					className='detail-text'
-					href={'/register'}
-					sx={{ color: 'cyan', fontWeight: 'bold' }}
-        >
-					Sign Up
-				</Link>
+					href={'/user/register'}
+					sx={{ color: 'cyan', fontWeight: 'bold' }}>
+					Create a Free Account
+          </Link>
 
         </Box>
       </Box>
+    </Box>
 	);
 }

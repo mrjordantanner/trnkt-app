@@ -1,411 +1,347 @@
 @import './App.scss';
 
+// iPhone
 // region [Magenta] 
-// Mobile
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 430px) {
 
     html, body {
-        // border: 2px solid blue;
-        overflow-y: scroll;
-        overflow-x: hidden;
+        border: 1px solid magenta;
     }
 
-    a {
-        color: $color-secondary;
-        font-size: 1.25rem;
+    .full-height-minus-bars {
+        height: $adjusted-height-mobile;
+    }
+
+    .home-container {
+
+        .gem {
+            top: 10vh !important;
+            width: 90vmin !important;
+        }
+
+        .content {
+            .logo {
+                padding: 0px !important;
+                font-size: 12vmax !important;
+            }
+
+            .subtitle {
+    
+            }
+    
+            .description {
+                max-width: 900px;
+                font-size: 2rem;
+            }
+    
+            .enter-button {
+                width: 66vw;
+            }
+        }
+    }
+
+    // TODO make this collapsible on mobile
+    .description-container {
+        display: none !important;
+        // flex: 4;
+        // width: 100%;
+        // max-height: 150px;
+        // overflow-y: scroll;
+    }
+
+    .controls-container {
+        //width: 50%;
+        padding: 10px 50px;
+    }
+
+    .linkify-text, a {
+        font-size: 0.85rem !important;
     }
 
     .button {
-        height: 30px; 
-        font-size: 0.8rem;
+        height: 25px !important;
+        width: 100px !important;
     }
 
-    .gem-background-float {
-        display: block;
-        width: 50vw;
-       
-    } 
-
-    .enter {
-        font-size: 1.25rem;
-        height: 50px;
-        width: 50vw;
-
+    .asset-grid {
+        @include scrollbar;
+        grid-template-columns: repeat(2, 1fr) !important;
+        //height: $adjusted-height-mobile;
+        height: 100vh !important;
+        border: 3px solid red;
+        overflow-y: scroll !important;
     }
 
-    // .home-container {
-    //     margin-top: 10vh;
-    //     height: 90vh; 
+    .collection-name-text {
+        font-size: 1rem !important;
+        line-height: 2rem !important;
+        padding-left: 10px !important;
+    }
 
-    //     .logo {
-    //         font-size: 20vw;
-    //         border-bottom: 10px solid $color-primary;
-    //     }
+    .asset-image-container {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 100%;
+        overflow-y: hidden;
+        border-bottom: 2px solid gray;
+        border: 4px solid magenta;
+    
+        img, video {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw !important;
+            max-width: 100vw !important;
+        }
+    }
 
-    //     .description {
-    //        width: 90vw;
-    //        font-size: 5vw;
-    //     }
+    .nft-card {
+        margin: 10px;
+        height: 225px !important;
+        transition: all 0.1s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .collection-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        padding: 0px !important;
+        gap: 0px !important; 
+
+        .collection-card {
+            display: flex;
+            width: 100%;
+            height: 200px;
+        }
+    }
+
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: flex !important;
+    }
+
+    .navbar {
+        height: $navbar-height-mobile !important;
+        border: 3px solid magenta !important;
+
+        .nav-button {
+            display: none;
+        }
+    }
+
+    .mobile-navbar {
+        width: 100%;
+        bottom: 0px;
+        height: $mobile-navbar-height;
+        border: 3px solid magenta !important;
+        position: absolute;
+        display: flex !important;
+        justify-content: space-around;
+        align-items: center;
+        background-color: $color-dark;
+        z-index: 50;
+    }
+
+    .toolbar {
+        display: none;
+        height: $toolbar-height-mobile;
+    }
+
+    .toolbar-button {
+        flex: 1;
+        height: 30px;
+        width: 135px;
+    }
+
+    // .back-button {
+    //     width: 20px !important;
+    //     height: 30px !important;
     // }
 
-    .navbar-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-        padding-left: 70px;
+    .panel-header {
+        font-weight: 800;
+        font-size: 1rem !important;
+    }
 
-        .nav-link {
-            position: fixed;
-            top: 23px;
-            left: 25px;
-            font-size: 1.25rem;
+    .asset-main-content {
+        flex-direction: column !important;
+        border: 3px solid chartreuse;
+    }
+
+    .explore-main-content {
+        flex-direction: column !important;
+        border: 3px solid chartreuse;
+    }
+
+    .asset-titlebar {
+        width: 100%;
+        
+    }
+
+    .asset-description {
+        width: 100%;
+    }
+
+    .asset-trait-text {
+        font-size: 0.75rem !important; 
+        line-height: 0.75rem;
+    }
+
+
+
+    .asset-view-properties {
+        width: 100%;
+        padding: 0px 15px;
+        //max-height: 120px;
+        border: 1px solid chartreuse;
+    
+        .asset-view-collection-image {
+            display: none;
+            // height: 40px;
+            // width: 40px;
+        }
+    
+        .asset-view-title {
+            height: 50px !important;
+            font-size: 2rem !important;
+        }
+    
+        .asset-view-collection-name {
+            width: 100%;
+            font-size: 0.5rem !important;
+            padding: 0px !important;
+        }
+    
+        .link {
+            font-size: 0.75rem !important;
+        }
+    
+    
+    }
+
+
+
+    .section-header {
+        justify-content: space-around !important;
+
+        //border: 1px solid blue !important;
+    
+        .section-header-icon {
+            height: 50px !important;
+            width: 50px !important;
+        }
+    
+        .section-header-text {
+            font-size: 2rem !important; 
+            font-weight: bold;
+            text-transform: uppercase;
             padding: 0px;
         }
+    }
 
-        .navbar-blur {
-            position: fixed;
-            display: block;
-            z-index: -1;
-            width: 150vw;
-            height: 70px;
-            margin: 0 0 0 -100px;
-        }
 
-        li {
-            padding:0rem;
-        }
+    .sidebar {
+        order: 0;
+        width: 100vw;
+    }
 
-        .outline-primary, .outline-secondary, .outline-tertiary {
-            font-size: .9rem;
-            border: none;
-        }
-
-        .clear-collection {
-            position: relative;
-            display: inline;
-            right: 0px;
-        }
+    .gallery {
+        width: 100vw;
+        //max-height: 50vh;
+        height: 100vh !important;
+        overflow-y: scroll !important;
 
     }
 
-    .asset-view-container {
-        flex-direction: column;
-
-        .asset-view-image {
-            margin: 50px 0 0 0;
-        }
-
-        .asset-properties {
-            overflow-y: visible;
-            height: 100%;
-
-            .button-container {
-                height: 10%;
-                padding: 0px;
-
-                .collection-button {
-                    width: 100% !important;
-                }
-            }
-        }
+    .explore-sidebar {
+        flex: 0 !important;
     }
-
-    .collection-wrapper {
+    
+    .explore-gallery {
+        flex: 1 !important;
+        height: 100vh !important;
+        overflow-y: scroll !important;
+    }
+    
+    .asset-sidebar {
+        flex: 1 1 33% !important;
+        min-height: 250px;
+        width: 100% !important;
+    }
+    
+    .asset-gallery {
+        flex: 1 1 66% !important;
+        max-height: 50vh;
+        width: 100% !important;
         overflow-y: hidden;
-        max-height: calc(99vh - 70px);
-        margin-top: 70px;
-        border: 10px $color-secondary solid;
-
-        .header {
-            font-size: 1.75rem;
-        }
-
-        .gem-background-wrapper {
-            height: 28vh;
-        }
-
-        .container {
-            overflow-y: scroll;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-
-            &::-webkit-scrollbar {
-                display: none;
-                width: 0px;
-
-            }
-        }
     }
+
+    .footer {
+        height: 100px !important;
+    }
+
+    .account-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+    
+
 
 } 
 
 
-/* Tablet */
-@media only screen and (min-width: 768px) and (max-height: 1366px) {  
+
+//region [Yellow]
+// Desktop Monitor - Vertical
+// @media screen and (max-width: 1200px)   // was 1081
+// and (max-height: 3000px) 
+@media screen and (max-width: 1600px) 
+and (max-aspect-ratio: 1/1) 
+and (min-height: 1000px) {
 
     html, body {
-        // border: 2px solid orange;
+        border: 1px solid yellow;
+    }
+
+    .full-height-minus-bars {
+        overflow-y: scroll !important;
     }
 
     a {
-        color: $color-secondary;
         font-size: 1.25rem;
     }
 
-    .gem-background-float {
-        display: block;
-        width: 25vh;
-    }
+    .home-container {
 
-    .fixed-footer {
-        position: fixed;
-        bottom: 15px;
-    }
+        .gem {
+            top: 10vh !important;
+            width: 90vmin !important;
+        }
 
-    .enter {
-        width: 25vw;
-    }
+        .content {
+            //padding-top: 30vh;
+            height: 50vh;
 
-    // .home-container {
-    //     margin-top: 5vh;
-    //     height: 80vh;
-    //     justify-content: space-between;
+            .logo {
+                padding: 0px !important;
+                font-size: 12vmax !important;
+            }
 
-    //     .logo {
-    //         font-size: 10rem;
-    //     }
-        
-    //     .description {
-    //         width: 90vw;
-    //         font-size: 1.25rem;
-    //         line-height: 2.25rem;
-    //     }
-    // }
-
-}
-
-// 1440 x 763 - 13" Macbook Pro
-// Laptops with Retina Screen
-@media only screen 
-  and (min-device-width: 1200px) 
-  and (max-device-width: 1600px) 
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (min-resolution: 192dpi) { 
-
-    html, body {
-        // border: 2px solid red;
-    }
-
-    .gem-background-float {
-        display: block;
-        width: 25vh;
-    } 
-
-    .enter {
-        width: 20vw;
-        height: 50px;
-        // margin: 20px 0 70px 0;
-    }
-
-    // .home-container {
-    //     height: 95vh;
-    //     justify-content: center;
-
-    //     .gem-background-wrapper {
-    //         display: none;
-    //     }
+            .subtitle {
     
-    //     .logo {
-    //         font-size: 9rem !important;
-    //     }
-        
-    //     .description {
-    //         width: 70vw;
-    //         font-size: 1.25rem !important;
-    //         line-height: 2rem;
-    //     }
-    // }
-
-    .fixed-footer {
-        position: fixed;
-    }
+            }
     
-}
-
-// Desktop Monitor - Half Screen
-@media only screen and (max-width: 1188px) and (min-width: 769px)  { 
-
-    html, body {
-        // border: 2px solid pink;
-    }
-
-    .asset-properties {
-        .button-container {
-            .collection-button {
-                width: 100% !important;
+            .description {
+                max-width: 900px;
+                font-size: 2rem;
+            }
+    
+            .enter-button {
+                width: 66vw;
             }
         }
-    }
-
-    .enter {
-        width: 25vw;
-    }
-
-    .gem-background-float {
-        display: block;
-        width: 25vh;
-    }
-
-    .fixed-footer {
-        display: fixed;
-    }
-
-    // .home-container {
-    //     margin-top: 0vh;
-    //     height: 85vh;
-    //     justify-content: space-between;
-
-    //     .gem-background-wrapper {
-    //         display: none;
-    //     }
-    
-    //     .logo {
-    //         font-size: 10rem;
-    //     }
-        
-    //     .description {
-    //         width: 70vw;
-    //         font-size: 1.25rem;
-    //         line-height: 2.25rem;
-    //     }
-    // }
-
-}
-
-// 2560 x 943
-// Desktop Monitor - Widescreen
-@media only screen and (min-width: 1921px) { 
-
-    html, body {
-        // border: 2px solid gray;
-    }
-
-    .gem-background-float {
-        display: block;
-        width: 25vh;
-    }
-
-    .fixed-footer {
-        display: fixed;
-    }
-
-    // .home-container {
-    //     margin-top: 0vh;
-    //     height: 85vh;
-    //     justify-content: space-between;
-    
-    //     .logo {
-    //         font-size: 12rem;
-    //     }
-        
-    //     .description {
-    //         width: 30vw;
-    //         font-size: 1.5rem;
-    //         line-height: 2.25rem;
-    //     }
-    // }
-
-}
-
-// Desktop Monitor - Horizontal
-@media only screen and (min-width: 1187px) and (max-width: 1921px) and (max-height: 945px) { 
-
-    html, body {
-        // border: 2px solid chartreuse;
-    }
-
-    li {
-        padding: 0.25rem 2rem;
-    }
-
-    .asset-view-container {
-        flex-direction: row;
-        height: 90vh;
-    }
-
-    .gallery-container {
-        width:80%;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-
-    .asset-properties {
-        width:100%;
-        align-items: flex-start;
-        justify-content: center;
-        text-align: left;
-
-        .name {
-            padding: 0px 0.5rem;
-            font-size: 3.5rem;
-        }
-
-        .username {
-            padding: 0px 0.5rem;
-            font-size: 2.5rem;
-        }
-    }
-
-    .flex-row {
-        justify-content: flex-start;
-    }
-
-    .card {
-        margin: 1rem;
-    }
-
-    .collection-wrapper {
-        .container {
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        }
-
-    }
-
-    .gem-background-float {
-        display: block;
-        width: 25vh;
-    }
-
-    .fixed-footer {
-        display: fixed;
-    }
-
-    // .home-container {
-    //     margin-top: 5vh;
-    //     height: 90vh;
-    //     justify-content: space-between;
-
-    //     .logo {
-    //         font-size: 10rem;
-    //     }
-        
-    //     .description {
-    //         width: 65vw;
-    //         font-size: 1.25rem;
-    //         line-height: 2.25rem;
-    //     }
-    // }
-}
-
-// Desktop Monitor - Vertical
-@media screen and (max-width: 1081px) and (min-height: 1081px) {
-
-    html, body {
-        // border: 2px solid magenta;
-        height: 99vh;
-    }
-
-    a {
-        font-size: 1.25rem;
     }
 
     .gem-background-float {
@@ -413,83 +349,142 @@
         width: 35vw;
     }
 
-    // .home-container {
-    //     //margin-top: 20vh;
-    //     height: 50px;
-    //     justify-content: center;
-    //     background-color: yellow;
-        
-
-    //     .logo {
-    //         font-size: 13rem;
-    //     }
-        
-    //     .description {
-    //         width: 65vw;
-    //         font-size: 1.5rem;
-    //         line-height: 2.25rem;
-    //     }
-    // }
-
-    .enter {
-        font-size: 1.75rem;
-        height: 70px;
-        width: 50vw;
-    }
-    
-    .fixed-footer {
-        position: fixed;
+    .asset-main-content {
+        flex-direction: column !important;
+        overflow-y: auto;
+        height: 100vh;
     }
 
-    .collection-wrapper {
-        min-height: 96vh;
+    .explore-main-content {
+        flex-direction: row !important;
     }
 
-    .asset-view-container {
-        flex-direction: column;
-        height: calc(99vh - 50px);
+    .sidebar {
+        //max-height: 250px;
+        padding: 0px !important;
+        margin: 0px !important;
+    }
 
-        .asset-view-image {
-            justify-content: center;
-            height: calc(50vh - 50px);
-    
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-            }
-        }
+    .description-container {
+        @include scrollbar;
+        flex: 4;
+        width: 80%;
+        height: 100%;
+        max-height: 50vh !important;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 
-        .asset-properties {
-            align-items: center;
+    .controls-container {
+        width: 50%;
+        padding: 10px 50px;
+    }
+
+    .collection-container {
+        grid-template-columns: repeat(2, 1fr);
+
+        .collection-card {
+            display: flex;
             width: 100%;
-            height: 50vh;
-
-            .name {
-                margin: 1rem 0rem 1rem 0rem;
-                padding: 0px 0.5rem;
-                font-size: 3.5rem;
-                width: 80%;
-                text-align: center;
-            }
-
-            .username {
-                margin: 0rem 0rem 2rem 0rem;
-                padding: 0px 0.5rem;
-                width: 80%;
-                text-align: center;
-            }
-
-            .description {
-                width: 80%;
-                text-align: center;
-            }
-
-            .property-list {
-                width: 80%;
-            }
-
+            height: 200px;
         }
     }
+
+    .asset-grid {
+        grid-template-columns: repeat(2, 1fr);
+        height: $adjusted-height-mobile;
+        border: 3px solid cyan;
+    }
+
+
+    .asset-titlebar {
+        width: 100%;
+    }
+
+    .asset-description {
+        width: 100%;
+    }
+
+    .asset-image-container {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        max-height: 75vh;
+        border-bottom: 2px solid gray;
+        overflow-y: hidden;
+    
+        img, video {
+            max-width: 100vw !important;
+        }
+    }
+
+    .explore-sidebar {
+        flex: 0 !important;
+    }
+    
+    .explore-gallery {
+        flex: 1 !important;
+    }
+    
+    .asset-sidebar {
+        flex: 1 1 33% !important;
+        min-height: 250px;
+        width: 100vw !important;
+        padding: 15px !important;
+    }
+    
+    .asset-gallery {
+        flex: 1 1 66% !important;
+        max-height: 50vh;
+        width: 100vw !important;
+        overflow-y: hidden !important;
+    }
+
+    .footer {
+        height: 100px !important;
+    }
+
+
+
  }
+
+//endregion
+//endregion
+
+ // Tablet
+// @media only screen and (min-width: 768px) and (max-height: 1366px) {  
+
+// .desktop-only {
+//     display: none;
+// }
+
+// .mobile-only {
+//     display: flex;
+// }
+
+// }
+
+// // 1440 x 763 - 13" Macbook Pro
+// // Laptops with Retina Screen
+// @media only screen 
+//   and (min-device-width: 1200px) 
+//   and (max-device-width: 1600px) 
+//   and (-webkit-min-device-pixel-ratio: 2)
+//   and (min-resolution: 192dpi) { 
+    
+// }
+
+
+// // Desktop Monitor - Half Screen
+// @media only screen and (max-width: 1188px) and (min-width: 769px)  { 
+
+// }
+
+
+// // 2560 x 943
+// // Desktop Monitor - Widescreen
+// @media only screen and (min-width: 1921px) { 
+
+
+// }
+
  // endregion 

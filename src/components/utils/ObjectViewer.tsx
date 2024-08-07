@@ -21,23 +21,24 @@ const modalStyle = {
   };
 
 const ObjectViewer: React.FC<Props> = ({ data }) => {
-  const [open, setOpen] = useState(false);
-
+  const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <Box sx={{ pr: 2, pl: 2 }}>
-      <Button variant="outlined" onClick={handleOpen} >
-        Properties
+
+      <Button variant="outlined" onClick={handleOpen} sx={{ minWidth: '115px' }}>
+        Raw Data
       </Button>
+
       <Modal
-        open={open}
+        open={isOpen}
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
-        <Box className="scrollbar" sx={modalStyle}>
+        <Box className="scrollbar properties-modal">
           <Typography id="modal-title" variant="h6" component="h2" sx={{ color: 'cyan', fontWeight: 600 }}>
             Object Properties
           </Typography>

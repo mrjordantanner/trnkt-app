@@ -4,64 +4,76 @@ import { Box, Button, List, ListItem } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
 //import { useUserService } from '../contexts/UserServiceContext';
 import UserProfileMenu from './UserProfileMenu';
+import BackButton from './BackButton';
 
 export default function Navbar() {
-	const { setSelectedAsset, setCollection } = useAssetContext();
+	const { setSelectedAsset, setCollection, selectedAsset, selectedCollection } = useAssetContext();
 
-	//const { isAuthenticated, logout } = useUserService();
-    //const navigate = useNavigate();
-	
+	//const navigate = useNavigate();
+
 	const onClickCollections = () => {
 		setSelectedAsset(null);
 		setCollection(null);
+	};
+
+	const clearSelections = () => {
+		if (selectedAsset) {
+            setSelectedAsset(null);
+            return;
+        }
+
+        if (selectedCollection) {
+            setCollection(null);
+            //navigate('/nfts/collections/featured');
+            return;
+        }
 	}
 
 	return (
-		<Box className='navbar-container'>
-			{/* <Box className='navbar-blur'></Box> */}
-			<List sx={{ }}>
+		<Box className='navbar'>
+			{/* <Box className='blur-layer'></Box> */}
 
-				<ListItem>
-					<Button className='nav-link' component={RouterLink} to='/'>
-						TRNKT
-					</Button>
-				</ListItem>
+			{(selectedCollection || selectedAsset) && (
+				<BackButton clearSelections={clearSelections}/>
+			)}
 
-				<ListItem>
-					<Button
-						sx={{color: 'white'}}
-						className='button outline-secondary'
-						component={RouterLink}
-						onClick={onClickCollections}
-						to='/collections'
-						>
-						C O L L E C T I O N S
-					</Button>
-				</ListItem>
+			<Button className='nav-logo' component={RouterLink} to='/'>
+				TRNKT
+			</Button>
 
-				<ListItem>
-					<Button
-						sx={{color: 'white'}}
-						className='button outline-primary'
-						component={RouterLink}
-						to='/random'>
-						R A N D O M
-					</Button>
-				</ListItem>
+			{/* Placeholder */}
+			{/* <Box className='nav-logo'/> */}
 
-				<ListItem>
-					<Button
-						sx={{color: 'white'}}
-						className='button outline-primary'
-						component={RouterLink}
-						to='/favorites'>
-						F A V O R I T E S
-					</Button>
-				</ListItem>
-			</List>
+			<Box className='desktop-only'>
+				<List sx={{ border: 'none' }}>
+					<ListItem>
+						<Button
+							className='nav-button'
+							component={RouterLink}
+							onClick={onClickCollections}
+							to='/nfts/collections/featured'>
+							F E A T U R E D
+						</Button>
+					</ListItem>
+
+					<ListItem>
+						<Button className='nav-button' component={RouterLink} to='/nfts/random'>
+							R A N D O M I Z E
+						</Button>
+					</ListItem>
+
+					<ListItem>
+						<Button
+							className='nav-button'
+							component={RouterLink}
+							to='/nfts/favorites'>
+							F A V O R I T E S
+						</Button>
+					</ListItem>
+				</List>
+			</Box>
 
 			<UserProfileMenu />
-
 		</Box>
 	);
 }

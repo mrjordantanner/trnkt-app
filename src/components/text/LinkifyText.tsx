@@ -13,7 +13,7 @@ export default function LinkifyText({ text, style }: Props) {
   const urls = text?.match(urlPattern);
 
   return (
-    <Typography style={{ whiteSpace: 'pre-wrap', ...style }}>
+    <Typography className='linkify-text' style={{ whiteSpace: 'pre-wrap', ...style }}>
       {parts && parts.map((part, index) => (
         <React.Fragment key={index}>
           {part}

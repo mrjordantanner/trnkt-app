@@ -30,17 +30,16 @@ export default function Profile() {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#121212',
   }
 
   const contentsStyle = {
     display: 'flex',
-    height: '80%',
-    width: '50%',
+    height: '100%',
+    width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#353535',
+    backgroundColor: 'white',
   }
 
   const handleAvatarClick = () => {
@@ -89,24 +88,33 @@ export default function Profile() {
 
   return (
       <Box sx={containerStyle}>
-        <Box sx={contentsStyle}>
+        <Box className='panel' sx={contentsStyle}>
 
         <IconButton onClick={handleAvatarClick} sx={{ width: '200px', height: '200px'  }}>
           <Avatar alt="User Profile" src="/"
           sx={{ width: '100%', height: '100%', fontSize: '70px' }}></Avatar>
         </IconButton>
 
-        <Typography variant="h4" sx={{ margin: '15px' }}>User Profile</Typography>
-        <Typography sx={{ color: 'gray' }}>{`UserId: ${currentUser?.userId || ''}`}</Typography>
+        <Typography variant="h4" sx={{ margin: '15px', color: 'black' }}>{currentUser?.userName}</Typography>
 
-        <EditableLabel onSave={onSaveEmail} initialValue={currentUser?.email}>{currentUser?.email}</EditableLabel>
-        <EditableLabel onSave={onSaveUserName} initialValue={currentUser?.userName}>{currentUser?.userName}</EditableLabel>
-        <EditableLabel onSave={onSavePassword} initialValue={currentUser?.password}>{currentUser?.password}</EditableLabel>
+        {/* <Typography sx={{ color: 'gray' }}>{`UserId: ${currentUser?.userId || ''}`}</Typography> */}
 
-        <Button onClick={onApplyChanges}>
-          Apply Changes
+        <Box sx={{ p: 4 }}>
+          <EditableLabel onSave={onSaveEmail} initialValue={currentUser?.email}>{currentUser?.email}</EditableLabel>
+          <EditableLabel onSave={onSaveUserName} initialValue={currentUser?.userName}>{currentUser?.userName}</EditableLabel>
+          <EditableLabel onSave={onSavePassword} initialValue={currentUser?.password}>{currentUser?.password}</EditableLabel>
+        </Box>
+
+        <Button variant='outlined' onClick={onApplyChanges}>
+          Save Changes
         </Button>
 
+        </Box>
+
+        <Box>
+        <Button onClick={onApplyChanges}>
+          Delete Account
+        </Button>
         </Box>
       </Box>
 	);

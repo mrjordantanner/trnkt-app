@@ -1,0 +1,120 @@
+@import './App.scss';
+
+@keyframes glitch1 {
+    0% { transform: translate(0, 0); }
+    10% { transform: translate(-1px, -1px); }
+    20% { transform: translate(1px, 1px); }
+    30% { transform: translate(-1px, 0); }
+    40% { transform: translate(1px, -2px); }
+    50% { transform: translate(-1px, 1px); }
+    60% { transform: translate(1px, -1px); }
+    70% { transform: translate(-1px, 4px); }
+    80% { transform: translate(1px, -1px); }
+    90% { transform: translate(-1px, 1px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  @keyframes glitch2 {
+    0% { transform: translate(0, 0); }
+    12% { transform: translate(1px, -1px); }
+    24% { transform: translate(0px, 1px); }
+    36% { transform: translate(1px, -1px); }
+    48% { transform: translate(-1px, -0px); }
+    60% { transform: translate(4px, -1px); }
+    72% { transform: translate(-1px, 1px); }
+    84% { transform: translate(0x, -0px); }
+    96% { transform: translate(0px, 1px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  @keyframes glitch3 {
+    0% { transform: translate(0, 0); }
+    15% { transform: translate(-1px, 1px); }
+    30% { transform: translate(1px, -1px); }
+    45% { transform: translate(-2px, 2px); }
+    60% { transform: translate(5px, -2px); }
+    75% { transform: translate(3px, 1px); }
+    90% { transform: translate(1px, -1px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  .glitch-element-1 {
+    transition: none !important;
+    animation: glitch1 1.5s infinite alternate-reverse;
+    z-index: 10;
+  }
+  
+  .glitch-element-2 {
+    transition: none !important;
+    animation: glitch2 1s infinite alternate-reverse;
+    z-index: 20;
+  }
+  
+  .glitch-element-3 {
+    transition: none !important;
+    animation: glitch3 .5s infinite alternate-reverse;
+    z-index: 30;
+  }
+  
+
+// LOADING ANIMATION
+// from https://loading.io/css/ 
+.lds-facebook {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: $color-light;
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 56px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+}
+
+.gradient-loading-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #212121 25%, #464646 50%, #3c3c3c 75%);
+  background-size: 200% 200%;
+  animation: loading 0.6s infinite ease-in-out;
+}
+
+@keyframes loading {
+  0% {
+      background-position: 0% 0%;
+  }
+  50% {
+      background-position: 100% 100%;
+  }
+  100% {
+      background-position: 0% 0%;
+  }
+}

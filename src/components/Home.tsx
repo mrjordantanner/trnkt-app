@@ -3,68 +3,74 @@ import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 import diamond from '../images/diamond.svg';
 import { useUserService } from '../contexts/UserServiceContext';
+import Footer from '../components/Footer';
 
 export default function Home () {
   const { isAuthenticated } = useUserService();
 
   return (
-		<Box className='home-container'>
-			<img
-				className='gem'
-				src={diamond}
-				alt='diamond'
-			/>
-			<Box className='logo text-outline'>TRNKT</Box>
-			<Box className='subtitle text-outline-thin'>Crypto Artwork Explorer</Box>
-			<Typography className='description'>
-				Discover a wide variety of crypto artwork. Use the Explore button to
-				display random Nft's from the Opensea API, click or tap to view them in
-				detail, and save to a Favorites list for later viewing. <br></br>
-			</Typography>
+		<Box className='home-container flex-column-center flex-center'>
+			<img className='gem' src={diamond} alt='diamond'/>
 
-			{isAuthenticated ? (
-				<Link to='/collections'>
-					<Button
-						className='button outline-secondary enter'
-						sx={{
-							fontSize: '1.25rem',
-							fontWeight: 'bold',
-							width: '300px',
-							height: '70px',
-							border: '2px solid white',
-							display: 'flex',
-						}}>
-						E X P L O R E
-					</Button>
-				</Link>
-			) : (
-				<Link to='/login'>
-					<Button variant="contained" className='button enter outline-secondary'>
-						L O G   I N
-					</Button>
-				</Link>
-			)}
+			<Box className="content flex-column-center">
+				<Box className='flex-column-center'>
 
-			{/* <footer className='fixed-footer'>
-				<p>
-					Powered by{' '}
-					<a
-						href='https://opensea.io/'
-						target='_blank'
-						rel='noopener noreferrer'>
-						<strong>Opensea.io</strong>
-					</a>
-				</p>
-				<p>
-					Built with love by{' '}
-					<a
-						href='https://jordansmithdigital.com'
-						target='_blank'
-						rel='noopener noreferrer'>
-						<strong>Jordan Smith Digital</strong>
-					</a>
-				</p>
-			</footer> */}
+				{/* <Box sx={{ position:'absolute', display: 'flex', width: '100vmin', height: '100vmin', bgcolor: 'yellow', justifyContent: 'center', alignItems: 'center' }} >
+							<Typography sx={{ position: 'absolute' }} className='logo text-outline glitch-element-1 stroke-red opacity-25'>TRNKT</Typography>
+							<Typography sx={{ position: 'absolute' }} className='logo text-outline glitch-element-2 stroke-blue opacity-25'>TRNKT</Typography>
+							<Typography sx={{ position: 'absolute' }} className='logo text-outline opacity-50'>TRNKT</Typography>
+					</Box> */}
+				
+
+					{/* <Typography variant='h3' className='subtitle'>
+					Be inspired by the strange & beautiful world of crypto artwork.
+					</Typography> */}
+				</Box>
+
+				{/* <Typography className='description'>
+					Browse Featured Collections of NFT art pieces or venture off on your own by exploring Randomized galleries. <br /><br />
+					Click or tap to view artwork in
+					detail, and save favorites to Favorite Sets for later enjoyment. <br />
+				</Typography> */}
+
+		<Box className='flex-column-center' 
+				sx={{ pt: 25, width: '100vw', height: '80vh', alignItems: 'space-between'}}>
+
+
+			<Box sx={{ display: 'flex', width: '100vw', height: '100%' }}>
+				<Typography sx={{ position: 'absolute' }} className='logo text-outline glitch-element-1 stroke-red opacity-25'>TRNKT</Typography>
+				<Typography sx={{ position: 'absolute' }} className='logo text-outline glitch-element-2 stroke-blue opacity-25'>TRNKT</Typography>
+				<Typography sx={{ position: 'absolute' }} className='logo text-outline opacity-50'>TRNKT</Typography>
+			</Box>
+
+				<Box sx={{ display: 'flex'}}>
+						{isAuthenticated ? (
+							<Link to='/nfts/collections/featured'>
+								<Button
+									sx={{ width: '350px'}}
+									variant="contained"
+									className='enter-button'>
+									E X P L O R E
+								</Button>
+							</Link>
+						) : (
+							<Link to='/user/login'>
+								<Button 
+									sx={{ width: '350px'}}
+									variant="contained"
+									className='enter-button'>
+									SIGN IN
+								</Button>
+							</Link>
+						)}
+					</Box>
+					
+				</Box>
+
+			</Box>
+
+			<Footer />
+
 		</Box>
 	);
 }

@@ -70,7 +70,7 @@ export default function Register() {
 			return;
 		}
 		registerNewUserAsync(email, userName, password);
-		navigate('/collections');
+		navigate('/nfts/collections/featured');
 	};
 
 	const handleClickShowPassword = () => setShowPassword(!showPassword);

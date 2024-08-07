@@ -4,7 +4,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NftModel } from '../../models/nftModel';
 import { Box, ButtonBase, IconButton } from '@mui/material';
-import { Delete as DeleteIcon, Favorite as FavoriteIcon } from '@mui/icons-material';
+import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useAssetContext } from '../../contexts/AssetContext';
 import { useNftService } from '../../contexts/NftServiceContext';
 import ObjectViewer from '../utils/ObjectViewer';
@@ -13,7 +13,7 @@ interface Props {
   asset: NftModel;
 }
 
-export default function AssetCard({ asset }: Props) {
+export default function FavoriteCard({ asset }: Props) {
   const navigate = useNavigate();
   const { selectedAsset, setSelectedAsset } = useAssetContext();
   const nftService = useNftService();
@@ -24,25 +24,22 @@ export default function AssetCard({ asset }: Props) {
   const onClickAsset = (event: React.MouseEvent<HTMLButtonElement>) => {
     setSelectedAsset(asset);
     nftService.fetchNft(asset);
-    navigate(`/nfts/${asset.collection}/${asset.identifier}`);
-
-	// NOTE For 'smart linking' the back button
-	// navigate(`/nfts/${asset.collection}/${asset.identifier}`, 
-	// 	{ state: { from: '/current-page' } });
+	navigate(`/nfts/${asset.collection}/${asset.identifier}`);
   };
 
+  // const handleRightClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   console.log(`Right-clicked asset: ${asset.name}`)
+  // };
 
-  const handleAddToFavorites = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
+  const handleRemove = (event: React.MouseEvent<HTMLButtonElement>) => {
+	event.stopPropagation();
 
-      // TODO "Quick Add" Asset to Default Favorites list
-    
   };
   
   return (
 		<Box>
 			<ButtonBase
-				className='nft-card'
+				className='favorite-card'
 				onClick={onClickAsset}
 				// onContextMenu={handleRightClick}
 			>
@@ -57,12 +54,15 @@ export default function AssetCard({ asset }: Props) {
 					}}>
 					<Box className='nft-name'>
 						{asset.name}
-						{/* <IconButton onClick={handleAddToFavorites} aria-label='add'>
-							<FavoriteIcon className='icon' />
-						</IconButton> */}
+
 					</Box>
 				</Box>
 			</ButtonBase>
+			<Box>
+				<IconButton onClick={handleRemove} aria-label='remove'>
+					<DeleteIcon className='icon' />
+				</IconButton>
+			</Box>
 		</Box>
 	);
 }

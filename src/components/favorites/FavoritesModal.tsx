@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {Box,Button,TextField,Typography,Checkbox,IconButton,List,ListItem,ListItemText,ListItemIcon,Modal} from '@mui/material';
-import { Close } from '@mui/icons-material';
+import { Close, Delete as DeleteIcon, } from '@mui/icons-material';
 //import { Nft } from '../models/nft';
-import { FavoritesList, UserFavorites } from '../../models/favorites';
-import { v4 as uuidv4 } from 'uuid';
+import { UserFavorites } from '../../models/favorites';
 import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
 import { useUserService } from '../../contexts/UserServiceContext';
 import { useAssetContext } from '../../contexts/AssetContext';
@@ -14,20 +13,12 @@ interface Props {
 }
 
 export default function FavoritesModal({ open, onClose }: Props) {
-	const defaultFavorites: FavoritesList[] = [
-		{
-			listId: 'Default-Favorites',
-			name: 'Default Favorites',
-			nfts: [],
-		},
-	];
 
-	const [favoritesLists, setFavoritesLists] = useState<FavoritesList[]>(defaultFavorites);
 	const [newListName, setNewListName] = useState<string>('');
 	const [isCreatingNewList, setIsCreatingNewList] = useState<boolean>(false);
 	const [checkboxStates, setCheckboxStates] = useState<{[key: string]: boolean;}>({});
 
-	const { getUserFavorites, updateFavorites } = useFavoritesContext();
+	const { getUserFavorites, updateFavorites, favoritesLists, setFavoritesLists, createNewFavoritesList, deleteFavoritesList } = useFavoritesContext();
 	const { currentUser } = useUserService();
 	const { selectedAsset } = useAssetContext();
 
@@ -46,14 +37,14 @@ export default function FavoritesModal({ open, onClose }: Props) {
 			if (userFavorites) {
 				setFavoritesLists(userFavorites.favorites);
 				console.log(
-					`Successfuly got UserFavorites for userId ${currentUser.userId} with ${userFavorites.favorites.length} FavoritesLists`
+					`Successfuly got UserFavorites for userId ${currentUser.userId} with ${favoritesLists.length} FavoritesLists`
 				);
 
 				if (selectedAsset) {
 					const selectedAssetId = selectedAsset?.identifier;
 
 					// Set each list's checkbox value based on whether or not it contains the current asset
-					userFavorites.favorites.forEach((list) => {
+					favoritesLists.forEach((list) => {
 						const listContainsNft = list.nfts.some(
 							(nft) => nft.identifier === selectedAssetId
 						);
@@ -70,7 +61,7 @@ export default function FavoritesModal({ open, onClose }: Props) {
 		setCheckboxStates((prevState) => ({ ...prevState, [listId]: state }));
 	};
 
-	const handleCreateNewList = () => {
+	const handleStartCreate = () => {
 		setIsCreatingNewList(true);
 	};
 
@@ -79,28 +70,32 @@ export default function FavoritesModal({ open, onClose }: Props) {
 		setNewListName('');
 	};
 
+	const handleOnClose = () => {
+
+		// If user closes a modal after creating a new list but not saving the NFT,
+		// it should still have created the list
+
+		handleCancelCreate();
+		onClose();
+	}
+
 	const handleCreateList = () => {
 		if (newListName) {
-			const newList: FavoritesList = {
-				listId: uuidv4(),
-				name: newListName,
-				nfts: [],
-			};
-			const newFavoritesLists = favoritesLists
-				? [...favoritesLists, newList]
-				: [newList];
-			setFavoritesLists(newFavoritesLists);
+			console.log(`Creating new list ${newListName}...`)
+			createNewFavoritesList(newListName);
 			setIsCreatingNewList(false);
 			setNewListName('');
-        //handleSave(); // Instead of doing this...
-
-      // Assuming the user checks the checkbox for the new list and clicks Save, all FavoritesLists (including the new one) will be updated and written to DynamoDb.
-      // If they make a new list and don't add anything, meaning handleSave() doesn't get called,
-      // will the new List persist in the state of the component if we navigate away and come back?
-      // Upon clicking the Close button, or the modal otherwise closing, if we didn't save any new NFTs (meaning that handleSave() wasnt called) we need to save any new FavoritesLists that were created.
-
+		} else {
+			setIsCreatingNewList(false);
+			console.log('Creating new list was aborted -- list name was blank.');
 		}
 	};
+
+	const handleDeleteList = (listId: string) => {
+		if (currentUser) {
+			deleteFavoritesList(currentUser?.userId, listId);
+		}
+	}
 
 	// Update Favorites
 	const handleSave = async () => {
@@ -139,19 +134,6 @@ export default function FavoritesModal({ open, onClose }: Props) {
 		}
 	};
 
-	const modalStyle = {
-		position: 'absolute',
-		top: '50%',
-		left: '50%',
-		transform: 'translate(-50%, -50%)',
-		width: 400,
-		bgcolor: 'black',
-		opacity: '0.85',
-		border: '1px solid lightgray',
-		boxShadow: 24,
-		p: 4,
-	};
-
 	const closeButtonStyle = {
 		position: 'absolute',
 		color: 'lightgray',
@@ -166,9 +148,9 @@ export default function FavoritesModal({ open, onClose }: Props) {
 	};
 
 	return (
-		<Modal open={open} onClose={onClose}>
-			<Box sx={modalStyle}>
-				<IconButton sx={closeButtonStyle} onClick={onClose}>
+		<Modal open={open} onClose={handleOnClose}>
+			<Box className= 'favorites-lists-modal'>
+				<IconButton sx={closeButtonStyle} onClick={handleOnClose}>
 					<Close />
 				</IconButton>
 				<Typography variant='h6' sx={{ mb: 2 }}>
@@ -189,6 +171,9 @@ export default function FavoritesModal({ open, onClose }: Props) {
 									/>
 								</ListItemIcon>
 								<ListItemText primary={list.name} />
+								<IconButton onClick={() => handleDeleteList(list.listId)} aria-label="delete">
+									<DeleteIcon className='icon'  />
+								</IconButton>
 							</ListItem>
 						))}
 				</List>
@@ -201,7 +186,7 @@ export default function FavoritesModal({ open, onClose }: Props) {
 							value={newListName}
 							onChange={(e) => setNewListName(e.target.value)}
 							fullWidth
-              autoFocus
+                            autoFocus
 						/>
 						<Box sx={buttonContainerStyle}>
 							<Button
@@ -231,7 +216,7 @@ export default function FavoritesModal({ open, onClose }: Props) {
 							sx={{ mt: 2 }}
 							variant='outlined'
 							color='secondary'
-							onClick={handleCreateNewList}>
+							onClick={handleStartCreate}>
 							New List
 						</Button>
 					</Box>

@@ -1,90 +1,140 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+//import { useNavigate } from 'react-router-dom';
+//import { Link as RouterLink } from 'react-router-dom';
 import { useAssetContext } from '../contexts/AssetContext';
-import { Box, Typography, Link, Button } from '@mui/material';
-import { useUserService } from '../contexts/UserServiceContext';
+import { useNftService } from '../contexts/NftServiceContext';
 
-const toolbarStyle = {
-	display: 'flex',
-    flexDirection: 'row',
-	justifyContent: 'space-around',
-	alignItems: 'center',
-	height: '30px',
-	width: '100%',
-	borderBottom: '3px solid #121212',
-	marginTop: '50px',
-    //marginBottom: '-70px',
-	//borderRadius: '8px',
-	backgroundColor: '#232323',
-};
-
-const buttonStyle = {
-	border: '1px solid white',
-	backgroundColor: '#353535',
-	color: 'white',
-	margin: '10px',
-	width: '80px',
-	opacity: '0.5',
-	zIndex: '5',
-    height: '65%',
-    borderRadius: '15px'
-};
+import { NftModel } from '../models/nftModel';
+import {
+	Box,
+	Button,
+	//TextField,
+	//IconButton,
+	//List,
+	//ListItem,
+} from '@mui/material';
+// import { useUserService } from '../contexts/UserServiceContext';
+// import { useFavoritesContext } from '../contexts/FavoritesServiceContext';
+import MediaSettings from './MediaSettings';
+import DevTools from './utils/DevTools';
+//import { Home as HomeIcon } from '@mui/icons-material';
 
 export default function Toolbar() {
-	const { selectedAsset, selectedCollection, setSelectedAsset, setCollection } = useAssetContext();
-    const navigate = useNavigate();
 
-	const { isAuthenticated, currentUser } = useUserService();
+	const {
+		nftLimit,
+		selectedAsset,
+		selectedCollection,
+		nextNftCursor,
+		setNextNftCursor,
+		setNftLimit,
+		setNfts,
+	} = useAssetContext();
 
-	// useEffect(() => {
+	// //const navigate = useNavigate();
+	// const { isAuthenticated, currentUser } = useUserService();
+	// const { favoritesLists } = useFavoritesContext();
 
-    // }, []);
+	// const onClickCollections = () => {
+	// 	setSelectedAsset(null);
+	// 	setCollection(null);
+	// };
 
-	const onClickBackButton = () => {
-        if (selectedAsset) {
-            setSelectedAsset(null);
-            return;
-        }
+	useEffect(() => {
+		setNfts(null);
+		getNftBatch();
+	}, []); // selectedCollection
 
-        if (selectedCollection) {
-            setCollection(null);
-            navigate('/collections');
-            return;
-        }
+	const nftService = useNftService();
+
+	async function getNftBatch(): Promise<{
+		nfts: NftModel[];
+		next: string | null;
+	}> {
+		if (!selectedCollection) {
+			return { nfts: [], next: null };
+		}
+		const response = await nftService.fetchNfts(
+			selectedCollection.collection,
+			nftLimit,
+			nextNftCursor
+		);
+		console.log(response);
+		setNfts(response.nfts);
+		setNextNftCursor(response.next);
+		return response;
+	}
+
+	const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = parseInt(event.target.value, 10);
+		setNftLimit(value);
+		// if (value >= 1 && value <= 200) {
+		// 	setNftLimit(value);
+		// }
 	};
 
-    let openseaUrl = '';
-    if (selectedCollection) {
-      if (selectedAsset) {
-        openseaUrl = selectedAsset.openseaUrl;
-      } else {
-        openseaUrl = selectedCollection.opensea_url;
-      }
-    }
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+		if (event.key === 'Enter' || event.key === 'NumpadEnter') {
+			onButtonClick();
+		}
+	};
+
+    const onButtonClick = () => {
+			if (selectedCollection) {
+				getNftBatch();
+			}
+		};
 
 	return (
-		<Box sx={toolbarStyle}>
-			{(selectedCollection || selectedAsset) && (
-				<Button sx={buttonStyle} onClick={onClickBackButton}>
-					BACK
-				</Button>
-			)}
+		<>
+			<Box className='toolbar color-panel'>
 
-			{selectedCollection || selectedAsset ? (
-				<Link
-					className='detail-text'
-					href={openseaUrl}
-					sx={{ color: 'cyan', fontWeight: 'bold' }}
-					target='_blank'
-					rel='noopener noreferrer'>
-					View on Opensea.io
-				</Link>
-			) : null}
+			{selectedAsset && <MediaSettings />}
 
-			<Typography>Collection: {selectedCollection?.name}</Typography>
-			<Typography>Asset: {selectedAsset?.name}</Typography>
-			<Typography>IsAuth: {`${isAuthenticated}`}</Typography>
-			<Typography>User: {currentUser?.userName}</Typography>
-		</Box>
+			{(selectedCollection && !selectedAsset) &&
+				<Box className='controls-container'>
+					{/* <p style={{ height: '100%', display: 'flex', color: 'cyan' }}>
+						Results per page <i>(1-200)</i>
+					</p> */}
+
+					<Box sx={{ display: 'flex' }}>
+						<input
+							className='toolbar-input-field'
+							type='number'
+							value={nftLimit}
+							onChange={handleLimitChange}
+							onKeyDown={handleKeyDown}
+							// inputProps={{ min: 1, max: 200, default: 50 }}
+						/>
+
+						<Button
+							variant='contained'
+							className='toolbar-button button'
+							onClick={onButtonClick}>
+							Get NFTs
+						</Button>
+					</Box>
+				</Box>}
+
+				<DevTools />
+
+			</Box>
+
+			{/* 
+		<Box className=''>
+			<List sx={{ border: 'none', display: 'flex' }}>
+				<ListItem>
+					<IconButton
+						component={RouterLink}
+						aria-label=''
+						onClick={onClickCollections}
+						to='/nfts/collections/featured'>
+						<HomeIcon className='icon' />
+					</IconButton>
+				</ListItem>
+			</List>
+		
+		</Box> */}
+		</>
 	);
 }

@@ -1,16 +1,16 @@
 import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useAssetContext } from '../../contexts/AssetContext';
 //import clsx from 'clsx';   // utility that helps you conditionally join class names together
 
 // Sidebar for AssetView
 export default function AssetSidebar() {
 
-  const { selectedAsset, setSelectedAsset, selectedCollection } = useAssetContext();
+  const { selectedAsset, selectedCollection } = useAssetContext();
 
-  const onClearAsset = () => {
-    setSelectedAsset(null);
-  }
+  // const onClearAsset = () => {
+  //   setSelectedAsset(null);
+  // }
 
   const containerStyle = {
     display: 'flex',
@@ -19,7 +19,7 @@ export default function AssetSidebar() {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-   //backgroundColor: 'green',
+    //bgcolor: 'green',
   }
 
   const contentsStyle = {
@@ -28,16 +28,16 @@ export default function AssetSidebar() {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: '50px',
-    //backgroundColor: 'chartreuse',
+    padding: '30px',
+    //bgcolor: 'chartreuse',
   }
 
-  const buttonStyle = {
-    border: "1px solid white",
-    backgroundColor: "gray",
-    color: "white",
-    margin: '10px',
-  }
+  // const buttonStyle = {
+  //   border: "1px solid white",
+  //   backgroundColor: "gray",
+  //   color: "white",
+  //   margin: '10px',
+  // }
 
   return (
       <Box sx={containerStyle}>
@@ -47,7 +47,7 @@ export default function AssetSidebar() {
 
         <Typography className="detail-text" sx={{ color: 'gray' }}>ID: {selectedAsset?.identifier}</Typography>
 
-        <Button sx={buttonStyle} onClick={onClearAsset}>BACK TO COLLECTION</Button>
+        {/* <Button sx={buttonStyle} onClick={onClearAsset}>BACK TO COLLECTION</Button> */}
 
 
         </Box>

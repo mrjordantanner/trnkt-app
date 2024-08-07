@@ -11,17 +11,6 @@ const containerStyle = {
   width: '100%',
   minWidth: '30vw',
   marginTop: '30px',
-  border: '1px solid lightgray',
-  bgcolor: 'darkslateblue'
-}
-
-const traitsListStyle = {
-  color: 'white',
-  padding: '0rem',
-  margin: '0.5rem',
-  fontSize: '1.25rem',
-  fontWeight: '400'
-
 }
 
 export default function AssetTraits ({ asset }: Props) {
@@ -30,17 +19,25 @@ export default function AssetTraits ({ asset }: Props) {
   }
 
   return (
-    <Box sx={containerStyle}>
-      <Typography variant="h4">Traits</Typography>
-      <List sx={{traitsListStyle}}>
-        {asset.traits.map((trait: Trait, index: number) => {
-          return trait ? (
-            <ListItem key={`${asset.identifier}-${index}`}>
-              {trait.traitType}: {trait.value}
-            </ListItem>
-          ) : null;
-        })}
-      </List>
+    <Box className="panel" sx={containerStyle}>
+      <Typography className='panel-header'>
+        Traits
+      </Typography>
+
+      {asset.traits.length > 0 ? (
+        <List className='asset-trait-list'>
+          {asset.traits.map((trait: Trait, index: number) => {
+            return trait ? (
+              <ListItem className='asset-trait-text'
+                key={`${asset.identifier}-${index}`}>
+                {trait.traitType}: {trait.value}
+              </ListItem>
+            ) : null
+          })}
+        </List>
+      ) : (
+        <Typography sx={{ p: 2 }}>No traits.</Typography>
+      )}
     </Box>
   );
 }

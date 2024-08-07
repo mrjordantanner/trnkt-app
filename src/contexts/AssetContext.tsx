@@ -23,20 +23,25 @@ interface AssetContextType {
   nftLimit: number;
   setNftLimit: React.Dispatch<React.SetStateAction<number>>;
 
-  // fetchNfts: (collectionSlug: string, limit: number, next: string | null) => Promise<{ nfts: Nft[], next: string | null }>;
-  // fetchNft: (assetToGet: Nft | null) => Promise<Nft | null>;
-  // fetchCollection: (collectionSlug: string) => Promise<Collection | null>;
-  // fetchCollections: (next: string | null) => Promise<{ collections: Collection[] | null, next: string | null }>;
+  shouldFillMedia: boolean;
+  setShouldFillMedia: React.Dispatch<React.SetStateAction<boolean>>;
 
+  //collectionMenuOptions: MenuOption[] | null;
+  //getLocalCollectionBySlug: (slug: string) => Collection | null;
 }
 
 interface Props {
   children: ReactNode;
 }
 
-//const defaultCollection = 'parallel-on-base';
-const defaultNftLimit = 50;
+// TODO Export this
+// interface MenuOption {
+//   label: string;
+//   value: string;
+// }
 
+
+const defaultNftLimit = 50;
 const AssetContext = createContext<AssetContextType | undefined>(undefined);
 
 export const AssetProvider: React.FC<Props> = ({ children }) => {
@@ -44,10 +49,12 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
   const [nfts, setNfts] = useState<NftModel[] | null>(null);
   const [nextNftCursor, setNextNftCursor] = useState<string | null>(null);
   const [collections, setCollections] = useState<Collection[] | null>([]);
+  // const [collectionMenuOptions, setCollectionMenuOptions] = useState<MenuOption[]>([]);
   const [nextCollectionCursor, setNextCollectionCursor] = useState<string | null>(null);
   const [selectedCollection, _setCollection] = useState<Collection | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<NftModel | null>(null);
   const [nftLimit, setNftLimit] = useState<number>(defaultNftLimit);
+  const [shouldFillMedia, setShouldFillMedia] = useState(false);
 
   // Custom 'setState' method to reset nextCursor if we're switching Collections
   const setCollection = (collection: Collection | null) => {
@@ -57,37 +64,47 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
     _setCollection(collection);
   };
 
+  // const getLocalCollectionBySlug = (slug: string): Collection | null => {
+  //   if (collections) {
+  //     const collection = collections.find(collection => collection.collection === slug);
+  //     return collection || null;
+  //   }
+  //   return null;
+  // };
+
   const featuredCollectionSlugs: string[] = [
-    'parallel-on-base',
+    
+    'paschamo-brushtalk-absractions',
     'byopill',
-    // 'new-dimension-huemin',
-    // 'clonex',
-    // 'daily-xyz',
-    // 'the-vault-of-wonders-chapter-1-the-abyssal-unseen',
-    // 'abstract-nature-albertdros',
-    // 'azuki',
-    // 'screens-by-thomas-lin-pedersen',
-    // 'midnightbreeze'
+    'asm-brains',
+    'synthetic-dreams',
+    'new-dimension-huemin',
+    'parallel-on-base',
+    'terraforms',
+    'courtyard-nft',
+    'daily-xyz',
+    'rtfkt-project-animus',
+    'pixelmongen1',
+    'xcopy-remnants',
+    'the-vault-of-wonders-chapter-1-the-abyssal-unseen',
+    'azuki',
+    'castile-tarot',
+    'screens-by-thomas-lin-pedersen',
+    'midnightbreeze',
+    'drip-drop-by-dave-krugman',
   
   ];
 
-  // const nftService = return new NftService();
-
-  // const fetchNfts = async (collectionSlug: string, limit: number = 50, next: string | null = null) => {
-  //   return await nftService.fetchNfts(collectionSlug, limit, next);
-  // };
-
-  // const fetchNft = async (assetToGet: Nft | null) => {
-  //   return await nftService.fetchNft(assetToGet);
-  // };
-
-  // const fetchCollection = async (collectionSlug: string) => {
-  //   return await nftService.fetchCollection(collectionSlug);
-  // };
-
-  // const fetchCollections = async (next: string | null = null) => {
-  //   return await nftService.fetchCollections(next);
-  // };
+  // Creates dropdown menu options from the Featured Collection slugs
+  // useEffect(() => {
+  //   if (featuredCollectionSlugs) {
+  //     const options = featuredCollectionSlugs.map(slug => ({
+  //       label: slug,
+  //       value: slug
+  //     }));
+  //     setCollectionMenuOptions(options);
+  //   }
+  // }, [featuredCollectionSlugs]);
 
   return (
     <AssetContext.Provider value={{
@@ -98,12 +115,10 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
       collections, setCollections,
       nextCollectionCursor, setNextCollectionCursor,
       selectedCollection, setCollection,
-      selectedAsset, setSelectedAsset
-
-      // fetchCollection,
-      // fetchCollections,
-      // fetchNfts, 
-      // fetchNft 
+      selectedAsset, setSelectedAsset,
+      shouldFillMedia, setShouldFillMedia
+      //collectionMenuOptions,
+      //getLocalCollectionBySlug
       }}>
       {children}
     </AssetContext.Provider>

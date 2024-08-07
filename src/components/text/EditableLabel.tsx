@@ -31,7 +31,7 @@ export default function EditableLabel({ initialValue, onSave }: Props) {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
 
   return (
-    <div>
+    <Box sx={{ p: 1 }}>
       {isEditing ? (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <TextField
@@ -49,13 +49,13 @@ export default function EditableLabel({ initialValue, onSave }: Props) {
           </IconButton>
         </Box>
       ) : (
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', border: '1px solid gray', width: '250px' }}>
-          <Typography variant="h6">{value}</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', borderBottom: '1px solid gray', width: '250px' }}>
           <IconButton onClick={handleEdit}>
             <EditIcon />
           </IconButton>
+          <Typography variant="h6" sx={{ color: 'dimgray' }}>{value}</Typography>
         </Box>
       )}
-    </div>
+    </Box>
   );
 }

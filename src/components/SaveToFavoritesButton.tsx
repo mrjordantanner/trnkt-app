@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import FavoritesModal from './favorites/FavoritesModal';
 
 export default function SaveToFavoritesButton() {
@@ -15,13 +15,10 @@ export default function SaveToFavoritesButton() {
 
   return (
     <>
-      <Button 
-      variant='contained' 
-      color='primary' 
-      sx={{ height: '36px', lineHeight: '1.25', fontSize: '12px' }}
-      // className="favorites-button add" 
-      onClick={handleShowModal}>
-        Save as Favorite
+      <Button className='add-to-favorites-button button'
+        onClick={handleShowModal}
+      >
+        Save to Favorites
       </Button>
       <FavoritesModal open={isModalOpen} onClose={handleCloseModal} />
     </>

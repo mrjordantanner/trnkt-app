@@ -1,58 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import { Edit as EditIcon, Delete as DeleteIcon, ExpandMore as ExpandMoreIcon, ExpandLess as ExpandLessIcon } from '@mui/icons-material';
 import { FavoritesList } from '../../models/favorites';
-import HorizontalScroll from '../HorizontalScroll';
-// import { useUserService } from '../../contexts/UserServiceContext';
-// import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
-
+import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
+import { useUserService } from '../../contexts/UserServiceContext';
+import FavoritesContainer from './FavoritesContainer';
 
 interface Props {
   favoritesList: FavoritesList;
 }
 
 export default function FavoritesListView({ favoritesList }: Props) {
-
+  const { currentUser } = useUserService();
+  const { deleteFavoritesList } = useFavoritesContext();
+  const [isExpanded, setExpanded] = useState(false);
 
   const handleEdit = () => {
-    // Implement edit functionality
+    // TODO Implement edit functionality
     console.log('Edit list:', favoritesList.listId);
   };
 
   const handleDelete = () => {
-    // Implement delete functionality
-    console.log('Delete list:', favoritesList.listId);
+    if (!currentUser) {
+      console.error(`Error deleting FavoritesList ${favoritesList.listId}. CurrentUser is null.`);
+      return;
+    }
+    deleteFavoritesList(currentUser.userId, favoritesList.listId);
   };
 
-  const listViewContainerStyle = {
-    mb: 4, 
-    bgcolor: 'darkslateblue', 
-    width: '80%',
-    border: '1px solid magenta',
-    borderRadius: '10px',
-    p: 1
-  }
-
+  // TODO save/load this setting from Local Storage
+  const toggleExpand = () => {
+    setExpanded(!isExpanded);
+  };
 
   return (
-    <Box sx={listViewContainerStyle}>
-
+    <Box sx={{ mb: 4, width: '80%', p: 1 }} className='panel'>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-
-
+      <IconButton onClick={toggleExpand} aria-label={isExpanded ? "collapse" : "expand"} className='scale-150'>
+          {isExpanded ? 
+          <ExpandMoreIcon className='icon'  /> : <ExpandLessIcon className='icon rotate-90'  />}
+        </IconButton>
         <Typography variant="h6" sx={{ flex: 1, ml: 1 }}>
           {favoritesList.name}  [{favoritesList.nfts.length}]
         </Typography>
         <IconButton onClick={handleEdit} aria-label="edit">
-          <EditIcon />
+          <EditIcon className='icon'  />
         </IconButton>
         <IconButton onClick={handleDelete} aria-label="delete">
-          <DeleteIcon />
+          <DeleteIcon className='icon'  />
         </IconButton>
+
       </Box>
-
-      <HorizontalScroll nfts={favoritesList.nfts} />
-
+      {isExpanded && <FavoritesContainer nfts={favoritesList.nfts} />}
     </Box>
   );
 }

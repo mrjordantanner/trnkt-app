@@ -3,7 +3,7 @@ import { User } from '../models/user';
 import { UpdateUserRequestBody } from '../models/updateUserRequestBody';
 
 class UserService {
-  private apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  private apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:8080';
   baseUrl = `${this.apiEndpoint}/api/user`;
   tokenKey = 'jwt';
 	axiosOptions: AxiosRequestConfig = {
