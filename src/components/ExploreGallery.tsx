@@ -15,12 +15,12 @@ export default function ExploreGallery({ data }: Props) {
   }
 
   return (
-    <Box className='gallery explore-gallery asset-grid' >
-      {/* <Box className='asset-grid'> */}
+    <Box className='gallery explore-gallery' >
+      <Box className='asset-grid'>
         {data.map((asset: NftModel) => (
           <AssetCard asset={asset} key={asset.identifier} />
         ))}
-      {/* </Box> */}
+      </Box>
     </Box>
   );
 }

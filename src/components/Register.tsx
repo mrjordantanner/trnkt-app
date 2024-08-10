@@ -152,7 +152,7 @@ export default function Register() {
 				<Typography>Already have an account?</Typography>
 				<Link
 					className='detail-text'
-					href={'/login'}
+					href={'/user/login'}
 					sx={{ color: 'cyan', fontWeight: 'bold' }}>
 					Log In
 				</Link>
