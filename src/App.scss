@@ -8,11 +8,12 @@
 
 // Bar Sizes
 $body-height: 99.75vh;
+$body-height: 100dvh;         // Override previous value if browser supports dvh units
 $navbar-height: 80px;
 $navbar-height-mobile: 60px;  // Top navbar in mobile
 $mobile-navbar-height: 60px;  // Mobile-only navbar
 $toolbar-height: 40px;
-$toolbar-height-mobile: 60px;
+$toolbar-height-mobile: 40px;
 
 $adjusted-height: calc($body-height - $navbar-height - $toolbar-height);
 
@@ -116,7 +117,7 @@ html, body {
     font-family: 'Akzidensk Light', sans-serif;
     line-height: 1.25rem;
     color: $color-light;
-    height: 99.75vh;
+    height: $body-height;
     overflow: hidden;
     background: black;
     color: white;
@@ -415,7 +416,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .center {
     display: flex;
-    height: 85vh;
+    height: 85dvh;
     width: 100%;
     text-align: center;
     flex-direction: column;
@@ -567,13 +568,13 @@ h1, h2, h3, h4, h5, h6 {
 // region [White]
 .home-container {
     width: 100vw;
-    height: 100vh;
+    height: $body-height;
     background-color: $background-light;
     text-align: center;
 
     .gem {
         position: absolute;
-        top: 5vh;
+        top: 5dvh;
         width: 70vmin;
         opacity: 0.04;
         z-index: 0;
@@ -1017,16 +1018,18 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .home-container {
-
         .gem {
-            top: 10vh;
+            top: 20dvh;
             width: 90vmin;
         }
 
         .content {
+            height: 65dvh;
+
             .logo {
                 padding: 0px;
                 font-size: 12vmax;
+                height: 50dvh;
             }
 
             .subtitle {
@@ -1071,7 +1074,7 @@ h1, h2, h3, h4, h5, h6 {
         @include scrollbar;
         grid-template-columns: repeat(2, 1fr);
         //height: $adjusted-height-mobile;
-        height: 100vh;
+        height: $body-height;
         overflow-y: scroll;
         //border: 3px solid red;
     }
@@ -1104,17 +1107,19 @@ h1, h2, h3, h4, h5, h6 {
         height: 225px;
         transition: all 0.1s;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid gray !important;
     }
 
     .collection-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         padding: 0px;
         gap: 0px; 
 
         .collection-card {
             display: flex;
             width: 100%;
-            height: 200px;
+            height: 150px;
+            border: 1px solid gray;
         }
     }
 
@@ -1245,8 +1250,8 @@ h1, h2, h3, h4, h5, h6 {
 
     .gallery {
         width: 100vw;
-        //max-height: 50vh;
-        height: 100vh;
+        //max-height: 50dvh;
+        height: $body-height;
         overflow-y: scroll;
 
     }
@@ -1257,7 +1262,7 @@ h1, h2, h3, h4, h5, h6 {
     
     .explore-gallery {
         flex: 1;
-        height: 100vh;
+        height: $body-height;
         overflow-y: scroll;
     }
     
@@ -1269,7 +1274,7 @@ h1, h2, h3, h4, h5, h6 {
     
     .asset-gallery {
         flex: 1 1 66%;
-        max-height: 50vh;
+        max-height: 50dvh;
         width: 100%;
         overflow-y: hidden;
     }
@@ -1313,13 +1318,13 @@ and (min-height: 1000px) {
     .home-container {
 
         .gem {
-            top: 10vh;
+            top: 10dvh;
             width: 90vmin;
         }
 
         .content {
-            //padding-top: 30vh;
-            height: 50vh;
+            //padding-top: 30dvh;
+            height: 50dvh;
 
             .logo {
                 padding: 0px;
@@ -1349,7 +1354,7 @@ and (min-height: 1000px) {
     .asset-main-content {
         flex-direction: column;
         overflow-y: auto;
-        height: 100vh;
+        height: $body-height;
     }
 
     .explore-main-content {
@@ -1404,7 +1409,7 @@ and (min-height: 1000px) {
     .asset-image-container {
         width: 100vw;
         max-width: 100vw;
-        max-height: 75vh;
+        max-height: 75dvh;
         border-bottom: 2px solid gray;
         overflow-y: hidden;
     
@@ -1434,7 +1439,7 @@ and (min-height: 1000px) {
     
     .asset-gallery {
         flex: 1 1 66%;
-        max-height: 50vh;
+        max-height: 50dvh;
         width: 100vw;
         overflow-y: hidden;
     }

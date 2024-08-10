@@ -24,7 +24,7 @@ export default function MediaSettings() {
       <Typography 
       className='flex-center color-primary'
       sx={{ padding: '0px 10px'}}>
-        Media fill style:</Typography>
+        Style:</Typography>
 
       <Button 
       sx={{ height: '20px' }}
