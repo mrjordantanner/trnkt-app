@@ -81,6 +81,7 @@ export default function Toolbar() {
 
     const onButtonClick = () => {
 			if (selectedCollection) {
+				setNfts(null);
 				getNftBatch();
 			}
 		};

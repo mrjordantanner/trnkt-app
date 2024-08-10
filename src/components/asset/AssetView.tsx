@@ -88,7 +88,7 @@ export default function AssetView() {
 							{/* COLLECTION INFO */}
 							<Box
 								className='flex-center'
-								sx={{ width: '100%', border: '1px solid cyan' }}>
+								sx={{ width: '100%' }}>
 								
 								<img
 									src={selectedCollection?.image_url}

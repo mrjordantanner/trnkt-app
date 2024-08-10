@@ -24,11 +24,12 @@ export default function MediaSettings() {
       <Typography 
       className='flex-center color-primary'
       sx={{ padding: '0px 10px'}}>
-        Media Style</Typography>
+        Media fill style:</Typography>
 
       <Button 
       sx={{ height: '20px' }}
-      variant={shouldFillMedia ? 'contained' : 'outlined'}
+      //variant={shouldFillMedia ? 'contained' : 'outlined'}
+      variant='contained'
       onClick={handleToggleClass}>
         {shouldFillMedia ? 'Filled' : 'Contained'}
       </Button>

@@ -56,7 +56,7 @@ export default function App() {
               <Route path='favorites' element={<FavoritesView />} />
             </Route>
             
-            {/* Routes for '/user' */}
+            {/* Routes for '/user' without NavBars */}
             <Route path='/user' element={
               <>
                 {/* <Navbar />
@@ -67,10 +67,22 @@ export default function App() {
             }>
               <Route path='register' element={<Register/>} />
               <Route path='login' element={<Login />} />
-              {/* <Route path='logout' element={<Logout />} /> */}
+
+            </Route>
+
+            {/* Routes for '/user' with NavBars */}
+            <Route path='/user' element={
+              <>
+                <Navbar />
+                <Toolbar />
+                <Outlet />
+                <MobileNavbar />
+              </>
+            }>
               <Route path='profile' element={<Profile />} />
 
             </Route>
+
           </Routes>
       </FavoritesServiceProvider>
       </UserServiceProvider>
