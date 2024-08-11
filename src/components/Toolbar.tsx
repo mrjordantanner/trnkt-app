@@ -94,11 +94,11 @@ export default function Toolbar() {
 
 			{(selectedCollection && !selectedAsset) &&
 				<Box className='controls-container'>
-					{/* <p style={{ height: '100%', display: 'flex', color: 'cyan' }}>
+					<p>
 						Results per page <i>(1-200)</i>
-					</p> */}
+					</p>
 
-					<Box sx={{ display: 'flex' }}>
+					<Box sx={{ display: 'flex', alignItems: 'center' }}>
 						<input
 							className='toolbar-input-field'
 							type='number'
@@ -120,22 +120,6 @@ export default function Toolbar() {
 				<DevTools />
 
 			</Box>
-
-			{/* 
-		<Box className=''>
-			<List sx={{ border: 'none', display: 'flex' }}>
-				<ListItem>
-					<IconButton
-						component={RouterLink}
-						aria-label=''
-						onClick={onClickCollections}
-						to='/nfts/collections/featured'>
-						<HomeIcon className='icon' />
-					</IconButton>
-				</ListItem>
-			</List>
-		
-		</Box> */}
 		</>
 	);
 }
