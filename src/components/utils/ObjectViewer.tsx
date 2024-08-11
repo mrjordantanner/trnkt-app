@@ -6,20 +6,6 @@ interface Props {
   data: Record<string, any>;
 }
 
-const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 1000,
-    bgcolor: '#353535',
-    border: '1px solid cyan',
-    boxShadow: 24,
-    p: 4,
-    overflowY: 'scroll',
-    maxHeight: '90%'
-  };
-
 const ObjectViewer: React.FC<Props> = ({ data }) => {
   const [isOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

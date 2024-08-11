@@ -7,11 +7,10 @@
 }
 
 // Bar Sizes
-$body-height: 99.75vh;
-$body-height: 100dvh;         // Override previous value if browser supports dvh units
+$body-height: 100dvh;         
 $navbar-height: 80px;
-$navbar-height-mobile: 60px;  // Top navbar in mobile
-$mobile-navbar-height: 60px;  // Mobile-only navbar
+$navbar-height-mobile: 40px;  // Top navbar in mobile
+$mobile-navbar-height: 40px;  // Mobile-only navbar
 $toolbar-height: 40px;
 $toolbar-height-mobile: 40px;
 
@@ -25,8 +24,8 @@ $color-secondary: gold;
 $color-tertiary: rgb(36, 11, 54);
 
 $color-light: lightgray;
-$color-mid: gray;
-$color-dark: rgb(68, 68, 68);
+$color-mid: rgb(107, 107, 107);
+$color-dark: rgb(41, 41, 41);
 $color-panel: #232323;
 
 $background-dark: #151515;
@@ -150,13 +149,15 @@ p, .p {
 }
 
 ul {        
-    border: 1px solid black;
-    padding: 0;
+    padding: 0px;
+    margin: 0px;
 }
 
 li {
     list-style: none;
     padding: 0 1rem;
+    padding: 0px;
+    margin: 0px;
 }
 
 img, video  {
@@ -243,7 +244,7 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 10;
 
     &:hover {
-        color: $color-tertiary;
+        color: $color-secondary;
     }
 }
 
@@ -258,7 +259,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .save-to-favorites-button {
-    min-width: 200px !important;
+    width: 60%;
+    min-width: 200px;
 }
 
 .opacity-50 {
@@ -332,8 +334,9 @@ h1, h2, h3, h4, h5, h6 {
 .container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: $body-height;
     background-color: $color-dark;
+    height: 100%;
 }
 
 .asset-main-content, .explore-main-content {
@@ -484,10 +487,11 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     width: 100vw;
     height: $navbar-height;
-    z-index: 1900;
     padding-left: 50px;
-    border-bottom: 1px solid rgb(23, 23, 23);
-    background-color: $color-dark;
+    z-index: 15;
+    box-shadow: 0px 0px 24px rgba(0, 0, 0, 1);
+    border-bottom: 1px solid black;
+    background-color: $color-tertiary;
 
     li {
         display: inline;
@@ -547,6 +551,9 @@ h1, h2, h3, h4, h5, h6 {
     height: $toolbar-height;
     align-items: center;
     justify-content: flex-end;
+    border-bottom: 1px solid $color-mid;
+    z-index: 20;
+
 }
 
 .toolbar-input-field  {
@@ -563,6 +570,34 @@ h1, h2, h3, h4, h5, h6 {
 .toolbar-button {
 
 }
+
+.menu {
+
+    .menu-header {
+        font-size: 1.25rem;
+        font-weight: 600;
+        width: 350px;
+        padding: 5px 15px;
+        color: white;
+        background-color: $color-tertiary;
+    }
+
+    .menu-item {
+        color: $color-dark;
+    }
+}
+
+.menu-icon-container {
+    padding-right: 15px;
+
+    .menu-icon {
+    height: 35px;
+    width: 35px;
+
+    }
+
+}
+
 
 // Home
 // region [White]
@@ -593,28 +628,6 @@ h1, h2, h3, h4, h5, h6 {
             user-select: none;
         }
     
-        .subtitle {
-            padding: 1;
-            font-weight: 600;
-            margin-left: 3;
-            color: $color-mid;
-            width: 85%;
-        }
-        
-        .description {
-            color: $color-mid;
-            width: 66%;
-            max-width: 800px;
-            word-wrap: normal;
-            line-height: 1.35rem;
-            text-align: center;
-            z-index: 1;
-            padding: 1rem;
-            margin: 1rem;
-            font-size: 1.5rem;
-            z-index: 1;
-        }
-    
         .enter-button {
             display: flex;
             flex-direction: column;
@@ -643,7 +656,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 1000px;
+    width: 90%;
     background-color: #353535;
     border: 1px solid cyan;
     box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.5);
@@ -653,10 +666,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .description-container {
-    flex: 4;
-    padding: 10px;
-    height: 100%;
-    max-height: 500px;
+    //flex: 4;
+    padding: 20px;
+    min-height: 300px;
 }
 
 .controls-container {
@@ -674,7 +686,11 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     max-height: 150px;
     padding: 8px;
-    padding-left: 15px ;
+    padding-left: 15px;
+    z-index: 10;
+    background-color: $color-dark;
+    box-shadow: 0px 10px 15px black;
+    border-bottom: 1px solid black;
     //border: 1px solid chartreuse;
 
     .section-header-icon {
@@ -861,8 +877,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .asset-trait-list {
-
-
+    border: none;
 }
 
 .asset-trait-text {
@@ -875,7 +890,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     width: 100%;
     max-width: 50vw;
-    margin: 10px;
+    //margin: 10px;
     align-items: center;
     justify-content: center;
     overflow-y: hidden;
@@ -935,25 +950,17 @@ h1, h2, h3, h4, h5, h6 {
         padding: 10px;
         //border: 1px solid blue;
     }
-
-    .link {
-        color: $color-secondary;
-        font-size: 0.75rem;
-        line-height: 0.85rem;
-        font-weight: bold;
-        text-align: center;
-        padding: 5px;
-        //border: 1px solid blue;
-    }
-
-
 }
 
-
-  
-
-  
-
+.link {
+    color: $color-secondary;
+    font-size: 1rem;
+    line-height: 0.85rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    //border: 1px solid blue;
+}
 
 // Endregion 
 
@@ -994,316 +1001,21 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-
-
 ////////////////////////////////////////////////////////////
-/// ///////////////////////////////////////////////////
-/// 
-/// 
-/// 
+////////////// MOBILE STYLES //////////////////////////////
+//////////////////////////////////////////////////////////
 
-
-//@import './App.scss';
-
-// iPhone
-// region [Magenta] 
-@media screen and (max-width: 430px) {
-
-    html, body {
-        //border: 1px solid magenta;
-    }
-
-    .full-height-minus-bars {
-        //height: $adjusted-height-mobile;
-    }
-
-    .home-container {
-        .gem {
-            top: 20dvh;
-            width: 90vmin;
-        }
-
-        .content {
-            height: 65dvh;
-
-            .logo {
-                padding: 0px;
-                font-size: 12vmax;
-                height: 50dvh;
-            }
-
-            .subtitle {
-    
-            }
-    
-            .description {
-                max-width: 900px;
-                font-size: 2rem;
-            }
-    
-            .enter-button {
-                width: 66vw;
-            }
-        }
-    }
-
-    // TODO make this collapsible on mobile
-    .description-container {
-        display: none;
-        // flex: 4;
-        // width: 100%;
-        // max-height: 150px;
-        // overflow-y: scroll;
-    }
-
-    .controls-container {
-        //width: 50%;
-        padding: 10px 50px;
-    }
-
-    .linkify-text, a {
-        font-size: 0.85rem;
-    }
-
-    .button {
-        height: 25px;
-        width: 100px;
-    }
-
-    .asset-grid {
-        @include scrollbar;
-        grid-template-columns: repeat(2, 1fr);
-        //height: $adjusted-height-mobile;
-        height: $body-height;
-        overflow-y: scroll;
-        //border: 3px solid red;
-    }
-
-    .collection-name-text {
-        font-size: 1rem;
-        line-height: 2rem;
-        padding-left: 10px;
-    }
-
-    .asset-image-container {
-        width: 100vw;
-        max-width: 100vw;
-        height: 100%;
-        overflow-y: hidden;
-        border-bottom: 2px solid gray;
-        //border: 4px solid magenta;
-    
-        img, video {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100vw;
-            max-width: 100vw;
-        }
-    }
-
-    .nft-card {
-        margin: 10px;
-        height: 225px;
-        transition: all 0.1s;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border: 1px solid gray !important;
-    }
-
-    .collection-container {
-        grid-template-columns: repeat(1, 1fr);
-        padding: 0px;
-        gap: 0px; 
-
-        .collection-card {
-            display: flex;
-            width: 100%;
-            height: 150px;
-            border: 1px solid gray;
-        }
-    }
-
-    .desktop-only {
-        display: none;
-    }
-
-    .mobile-only {
-        display: flex;
-    }
-
-    .navbar {
-        height: $navbar-height-mobile;
-        //border: 3px solid magenta;
-
-        .nav-button {
-            display: none;
-        }
-    }
-
-    .mobile-navbar {
-        width: 100%;
-        bottom: 0px;
-        height: $mobile-navbar-height;
-        //border: 3px solid magenta;
-        position: absolute;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        background-color: $color-dark;
-        z-index: 50;
-    }
-
-    .toolbar {
-        //display: none;
-        height: $toolbar-height-mobile;
-    }
-
-    .toolbar-button {
-        flex: 1;
-        height: 30px;
-        width: 135px;
-    }
-
-    .panel-header {
-        font-weight: 800;
-        font-size: 1rem;
-    }
-
-    .asset-main-content {
-        flex-direction: column;
-        //border: 3px solid chartreuse;
-    }
-
-    .explore-main-content {
-        flex-direction: column;
-        //border: 3px solid chartreuse;
-    }
-
-    .asset-titlebar {
-
-    }
-
-    .asset-description {
-        width: 100%;
-    }
-
-    .asset-trait-text {
-        font-size: 0.75rem; 
-        line-height: 0.75rem;
-    }
-
-    .asset-view-properties {
-        width: 100%;
-        padding: 0px 15px;
-        //max-height: 120px;
-        //border: 1px solid chartreuse;
-    
-        .asset-view-collection-image {
-            display: none;
-            // height: 40px;
-            // width: 40px;
-        }
-    
-        .asset-view-title {
-            height: 60px;
-            font-size: 1.75rem !important;
-            line-height: 1.75rem !important;
-        }
-    
-        .asset-view-collection-name {
-            width: 100%;
-            font-size: 0.5rem;
-            padding: 0px;
-        }
-    
-        .link {
-            font-size: 0.75rem;
-        }
-    
-    
-    }
-
-
-
-    .section-header {
-        justify-content: space-around;
-
-        //border: 1px solid blue;
-    
-        .section-header-icon {
-            height: 50px;
-            width: 50px;
-        }
-    
-        .section-header-text {
-            font-size: 2rem; 
-            font-weight: bold;
-            text-transform: uppercase;
-            padding: 0px;
-        }
-    }
-
-    .sidebar {
-        order: 0;
-        width: 100vw;
-    }
-
-    .gallery {
-        width: 100vw;
-        //max-height: 50dvh;
-        height: $body-height;
-        overflow-y: scroll;
-
-    }
-
-    .explore-sidebar {
-        flex: 0;
-    }
-    
-    .explore-gallery {
-        flex: 1;
-        height: $body-height;
-        overflow-y: scroll;
-    }
-    
-    .asset-sidebar {
-        flex: 1 1 33%;
-        min-height: 250px;
-        width: 100%;
-    }
-    
-    .asset-gallery {
-        flex: 1 1 66%;
-        max-height: 50dvh;
-        width: 100%;
-        overflow-y: hidden;
-    }
-
-    .footer {
-        height: 100px;
-    }
-
-    .account-icon {
-        width: 25px;
-        height: 25px;
-    }
-    
-
-
-} 
 
 
 
 //region [Yellow]
 // Desktop Monitor - Vertical
-// @media screen and (max-width: 1200px)   // was 1081
-// and (max-height: 3000px) 
 @media screen and (max-width: 1600px) 
 and (max-aspect-ratio: 1/1) 
 and (min-height: 1000px) {
 
     html, body {
-        //border: 1px solid yellow;
+        //border: 2px solid yellow;
     }
 
     .full-height-minus-bars {
@@ -1316,9 +1028,10 @@ and (min-height: 1000px) {
     }
 
     .home-container {
+        
 
         .gem {
-            top: 10dvh;
+            top: 15dvh;
             width: 90vmin;
         }
 
@@ -1352,9 +1065,11 @@ and (min-height: 1000px) {
     }
 
     .asset-main-content {
-        flex-direction: column;
-        overflow-y: auto;
-        height: $body-height;
+        @include scrollbar;
+        flex-direction: column !important;
+        //overflow-y: auto;
+        overflow-x: hidden;
+        height: $adjusted-height;
     }
 
     .explore-main-content {
@@ -1369,9 +1084,9 @@ and (min-height: 1000px) {
 
     .description-container {
         @include scrollbar;
-        flex: 4;
+        //flex: 4;
         width: 90%;
-        height: 100%;
+        //height: auto !important;
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -1452,44 +1167,324 @@ and (min-height: 1000px) {
 
  }
 
-//endregion
-//endregion
+// iPhone
+// region [Magenta] 
+@media screen and (max-width: 430px) {
 
- // Tablet
-// @media only screen and (min-width: 768px) and (max-height: 1366px) {  
+    html, body {
+        //border: 1px solid magenta;
+    }
 
-// .desktop-only {
-//     display: none;
-// }
+    .full-height-minus-bars {
+        height: $adjusted-height-mobile !important;
+    }
 
-// .mobile-only {
-//     display: flex;
-// }
+    .container {
+        //height: 100dvh !important;
+    }
 
-// }
+    .home-container {
+        
+        .gem {
+            top: 20dvh;
+            width: 90vmin;
+        }
 
-// // 1440 x 763 - 13" Macbook Pro
-// // Laptops with Retina Screen
-// @media only screen 
-//   and (min-device-width: 1200px) 
-//   and (max-device-width: 1600px) 
-//   and (-webkit-min-device-pixel-ratio: 2)
-//   and (min-resolution: 192dpi) { 
+        .content {
+            height: 65dvh;
+
+            .logo {
+                padding: 0px;
+                font-size: 12vmax;
+                height: 50dvh;
+            }
+
+            .subtitle {
     
-// }
+            }
+    
+            .description {
+                max-width: 900px;
+                font-size: 2rem;
+            }
+    
+            .enter-button {
+                width: 66vw;
+            }
+        }
+    }
+
+    // TODO make this collapsible on mobile
+    .description-container {
+        display: none;
+        // flex: 4;
+        // width: 100%;
+        // max-height: 150px;
+        // overflow-y: scroll;
+    }
+
+    .controls-container {
+        //width: 50%;
+        padding: 10px 50px;
+    }
+
+    .linkify-text, a {
+        font-size: 0.85rem;
+    }
+
+    .button {
+
+    }
+
+    .asset-grid {
+        @include scrollbar;
+        grid-template-columns: repeat(2, 1fr);
+        //height: $adjusted-height-mobile;
+        height: $body-height;
+        overflow-y: scroll;
+        //border: 3px solid red;
+    }
+
+    .collection-name-text {
+        font-size: 1.5rem !important;
+        line-height: 2rem;
+        padding-left: 10px;
+    }
+
+    .asset-image-container {
+        width: 100vw;
+        max-width: 100vw;
+        height: 100%;
+        overflow-y: hidden;
+        border-bottom: 2px solid gray;
+        //border: 4px solid magenta;
+    
+        img, video {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            max-width: 100vw;
+        }
+    }
+
+    .nft-card {
+        margin: 10px;
+        height: 225px;
+        transition: all 0.1s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid gray !important;
+    }
+
+    .collection-container {
+        grid-template-columns: repeat(1, 1fr);
+        padding: 0px;
+        gap: 0px; 
+
+        .collection-card {
+            display: flex;
+            width: 100%;
+            height: 150px;
+            border: 1px solid gray;
+        }
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: flex;
+    }
+
+    .navbar {
+        height: $navbar-height-mobile;
+        //border: 3px solid magenta;
+
+        .nav-button {
+            display: none;
+        }
+    }
+
+    .mobile-navbar {
+        width: 100%;
+        bottom: 0px;
+        height: $mobile-navbar-height;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $color-dark;
+        z-index: 5;
+        border: 1px solid $color-mid;
+
+        .icon-list {
+            border: none;
+            display: flex; 
+            height: 100%;
+            width: 80%;
+            align-items: center !important;
+            justify-content: space-evenly !important;
+        }
+    }
+
+    .toolbar {
+        //display: none;
+        height: $toolbar-height-mobile !important;
+    }
+
+    .toolbar-button {
+        flex: 1;
+        height: 30px;
+        width: 135px;
+    }
+
+    .panel-header {
+        font-weight: 800;
+        font-size: 1rem;
+    }
+
+    .asset-main-content {
+        flex-direction: column !important;
+        height: $adjusted-height-mobile;
+        overflow-y: scroll;
+        //border: 3px solid chartreuse;
+    }
+
+    .explore-main-content {
+        flex-direction: column;
+        //border: 3px solid chartreuse;
+    }
+
+    .asset-description {
+        width: 100%;
+    }
+
+    .asset-trait-text {
+        font-size: 0.75rem; 
+        line-height: 0.75rem;
+    }
+
+    .asset-view-properties {
+        width: 100%;
+        padding: 0px 15px;
+        //max-height: 120px;
+        //border: 1px solid chartreuse;
+    
+        .asset-view-collection-image {
+            display: none;
+            // height: 40px;
+            // width: 40px;
+        }
+    
+        .asset-view-title {
+            height: 60px;
+            font-size: 1.75rem !important;
+            line-height: 1.75rem !important;
+        }
+    
+        .asset-view-collection-name {
+            width: 100%;
+            font-size: 0.65rem;
+            padding: 0px;
+            color: $color-light;
+            overflow-x: visible;
+            word-wrap: break-word;
+        }
+    }
+
+    .link {
+        font-size: 0.75rem;
+        padding: 10px;
+    }
+
+    .save-to-favorites-button {
+        min-width: 115px !important;
+        min-height: 30px;
+        line-height: 1rem !important;
+        font-size: 0.5rem !important;
+    }
+
+    .section-header {
+        justify-content: space-around;
+        //border: 1px solid blue;
+    
+        .section-header-icon {
+            height: 40px;
+            width: 40px;
+            margin-right: 15px;
+        }
+    
+        .section-header-text {
+            font-size: 1.5rem; 
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0px;
+            //padding-left: 15px;
+        }
+    }
+
+    .sidebar {
+        order: 0;
+        width: 100vw;
+    }
+
+    .gallery {
+        width: 100vw;
+        //max-height: 50dvh;
+        height: $body-height;
+        overflow-y: scroll;
+    }
+
+    .explore-sidebar {
+        flex: 0;
+        box-shadow: 0px 0px 24px rgba(0, 0, 0, 1);
+        border-bottom: 1px solid black;
+        z-index: 10;
+    }
+    
+    .explore-gallery {
+        flex: 1;
+        height: $body-height;
+        overflow-y: scroll;
+    }
+    
+    .asset-sidebar {
+        flex: 1 1 33%;
+        min-height: 250px;
+        width: 100%;
+    }
+    
+    .asset-gallery {
+        flex: 1 1 66%;
+        max-height: 50dvh;
+        width: 100%;
+        overflow-y: hidden;
+    }
+
+    .footer {
+        height: 100px;
+    }
+    
+    .menu {
+        .menu-header {
+            width: 250px;
+            font-size: 1rem;
+        }
+    }
+
+    .menu-icon-container {
+        .menu-icon {
+        height: 25px;
+        width: 25px;
+    }
+} 
 
 
-// // Desktop Monitor - Half Screen
-// @media only screen and (max-width: 1188px) and (min-width: 769px)  { 
-
-// }
-
-
-// // 2560 x 943
-// // Desktop Monitor - Widescreen
-// @media only screen and (min-width: 1921px) { 
-
-
-// }
-
- // endregion 
+//endregion
+//endregion
+//endregion
+//endregion
+//endregion
+//endregion
+}

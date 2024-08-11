@@ -3,9 +3,13 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAssetContext } from '../contexts/AssetContext';
 import { Box, IconButton, List, ListItem } from '@mui/material';
-import { Home as HomeIcon, FavoriteBorder as FavoriteIcon } from '@mui/icons-material';
-import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
+// import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+// import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
+//import Home from '@mui/icons-material/Home';
 import CasinoIcon from '@mui/icons-material/Casino';
+import CollectionsIcon from '@mui/icons-material/Collections';
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+
 
 export default function MobileNavbar() {
 	const { setSelectedAsset, setCollection } = useAssetContext();
@@ -20,44 +24,44 @@ export default function MobileNavbar() {
 
 	return (
 		<Box className='mobile-navbar'>
-			<List sx={{ border: 'none', display: 'flex' }}>
-			<ListItem>
+			<List className='icon-list'>
+				{/* <ListItem>
 					<IconButton
 						component={RouterLink}
 						aria-label=''
 						onClick={onClickCollections}
 						to='/'>
-						<HomeIcon className='icon' />
-					</IconButton>
-				</ListItem>
+						<Home className='icon' />
+					</IconButton> 
+				</ListItem> */}
 
-				<ListItem>
+				<ListItem sx={{ display: 'flex', flex: 1 }}>
 					<IconButton
 						component={RouterLink}
-						aria-label=''
+						aria-label='collections'
 						onClick={onClickCollections}
 						to='/nfts/collections/featured'>
-						<FeaturedVideoIcon className='icon' />
+						<CollectionsIcon className='icon' />
 					</IconButton>
 				</ListItem>
 
-				<ListItem>
+				<ListItem sx={{ display: 'flex', flex: 1 }}>
 					<IconButton
 						component={RouterLink}
-						aria-label=''
+						aria-label='random'
 						onClick={onClickCollections}
 						to='/nfts/random'>
-						<CasinoIcon className='icon' sx={{ transform: 'rotate(45deg)' }} />
+						<CasinoIcon className='icon' />
 					</IconButton>
 				</ListItem>
 
-				<ListItem>
+				<ListItem sx={{ display: 'flex', flex: 1 }}>
 					<IconButton
 						component={RouterLink}
-						aria-label=''
+						aria-label='favorites'
 						onClick={onClickCollections}
 						to='/nfts/favorites'>
-						<FavoriteIcon className='icon' />
+						<CollectionsBookmarkIcon className='icon' />
 					</IconButton>
 				</ListItem>
 			</List>

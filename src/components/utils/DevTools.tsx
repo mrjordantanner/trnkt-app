@@ -20,7 +20,7 @@ export default function DevTools() {
 		<Box sx={{ pr: 2, pl: 2 }}>
 			<IconButton
 				onClick={handleOpen}
-				sx={{ color: 'white' }}>
+				sx={{ color: 'gray' }}>
 				<BuildIcon />
 			</IconButton>
 

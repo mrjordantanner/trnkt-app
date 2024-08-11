@@ -5,13 +5,13 @@ interface Props {
   asset: NftModel;
 }
 
-const containerStyle = {
-  padding: '1rem',
-  height: '100vh',
-  width: '100%',
-  minWidth: '30vw',
-  marginTop: '30px',
-}
+// const containerStyle = {
+//   padding: '1rem',
+//   height: '100vh',
+//   width: '100%',
+//   minWidth: '30vw',
+//   marginTop: '30px',
+// }
 
 export default function AssetTraits ({ asset }: Props) {
   if (!asset?.traits) {
@@ -19,7 +19,7 @@ export default function AssetTraits ({ asset }: Props) {
   }
 
   return (
-    <Box className="panel" sx={containerStyle}>
+    <Box className="panel" sx={{ width: '100%' }} >
       <Typography className='panel-header'>
         Traits
       </Typography>

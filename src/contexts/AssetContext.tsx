@@ -73,15 +73,14 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
   // };
 
   const featuredCollectionSlugs: string[] = [
-    
     'paschamo-brushtalk-absractions',
     'byopill',
-    'asm-brains',
+     //'asm-brains',
     'synthetic-dreams',
     'new-dimension-huemin',
     'parallel-on-base',
     'terraforms',
-    'courtyard-nft',
+    //'courtyard-nft',
     'daily-xyz',
     'rtfkt-project-animus',
     'pixelmongen1',
@@ -91,7 +90,7 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
     'castile-tarot',
     'screens-by-thomas-lin-pedersen',
     'midnightbreeze',
-    'drip-drop-by-dave-krugman',
+    //'drip-drop-by-dave-krugman',
   
   ];
 

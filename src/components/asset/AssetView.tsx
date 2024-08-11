@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAssetContext } from '../../contexts/AssetContext';
 import { NftModel } from '../../models/nftModel';
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import AssetTraits from './AssetTraits';
 import SaveToFavoritesButton from '../SaveToFavoritesButton';
 import Loading from '../utils/Loading';
@@ -101,13 +101,13 @@ export default function AssetView() {
 								</Typography>
 
 								{selectedAsset ? (
-									<Link
+									<a
 										className='link'
 										href={openseaUrl}
 										target='_blank'
 										rel='noopener noreferrer'>
 										View on Opensea.io
-									</Link>
+									</a>
 								) : null}
 
 								<Box className='desktop-only'>

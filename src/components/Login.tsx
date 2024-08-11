@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography, TextField, Link } from '@mui/material';
+import { Box, Button, Typography, TextField } from '@mui/material';
 import { useUserService } from '../contexts/UserServiceContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ export default function Login() {
     bgcolor: 'white'
   }
 
-  const notificationStyle = {
+  const errorMessageStyle = {
     fontSize: '18px', 
     fontWeight: '500', 
     margin: '10px',
@@ -60,12 +60,14 @@ export default function Login() {
   };
 
   return (
-    <Box className='full-height-minus-bars'>
+		<Box sx={{ height: '100vh', width: '100vw' }}>
       <Box className='container'>
-        <Box className='flex-column-center' sx={{ justifyContent: 'center', height: '100%' }}>
+        <Box 
+          className='flex-column-center' 
+          sx={{ justifyContent: 'center', height: '100%' }} >
 
         <Typography variant="h4" sx={{ margin: '15px' }}>SIGN IN</Typography>
-        <Typography sx={notificationStyle}>{notificationMessage}</Typography>
+        <Typography sx={errorMessageStyle}>{notificationMessage}</Typography>
 
         <TextField 
           label="email" 
@@ -93,12 +95,11 @@ export default function Login() {
           </Button>
        
         <Typography>No account yet?</Typography>
-        <Link
-					className='detail-text'
-					href={'/user/register'}
-					sx={{ color: 'cyan', fontWeight: 'bold' }}>
+        <a
+					className='link'
+					href={'/user/register'}>
 					Create a Free Account
-          </Link>
+          </a>
 
         </Box>
       </Box>

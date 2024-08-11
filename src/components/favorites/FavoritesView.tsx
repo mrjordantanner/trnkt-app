@@ -5,7 +5,7 @@ import { Box, Typography, Button } from '@mui/material';
 import { useUserService } from '../../contexts/UserServiceContext';
 import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
 import GemIcon from '../../images/Gem-1.png';
-import CreateFavoritesListButton from '../CreateFavoritesListButton';
+//import CreateFavoritesListButton from '../CreateFavoritesListButton';
 //import { FavoritesList } from '../../models/favorites';
 
 export default function FavoritesView() {
@@ -23,20 +23,20 @@ export default function FavoritesView() {
 		p: 3,
 	};
 
-	const addNewListButtonStyle = {
-		width: '60px',
-		height: '60px',
-		minWidth: '60px',
-		borderRadius: '50%',
-		fontSize: '3rem',
-		fontWeight: '900',
-		bgcolor: '#232323',
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		p: 0,
-		mr: 10,
-	};
+	// const addNewListButtonStyle = {
+	// 	width: '60px',
+	// 	height: '60px',
+	// 	minWidth: '60px',
+	// 	borderRadius: '50%',
+	// 	fontSize: '3rem',
+	// 	fontWeight: '900',
+	// 	bgcolor: '#232323',
+	// 	display: 'flex',
+	// 	justifyContent: 'center',
+	// 	alignItems: 'center',
+	// 	p: 0,
+	// 	mr: 10,
+	// };
 
 	useEffect(() => {
 		const fetchFavorites = async () => {
@@ -73,7 +73,7 @@ export default function FavoritesView() {
 						}}>
 						<SectionHeader title='Favorite Sets' imgSrc={GemIcon} />
 
-						<Box>
+						{/* <Box>
 							<CreateFavoritesListButton
 								style={addNewListButtonStyle}
 								color='primary'
@@ -81,7 +81,7 @@ export default function FavoritesView() {
 								text={'+'}
 								handleCreateNewList={handleCreateNewList}
 							/>
-						</Box>
+						</Box> */}
 					</Box>
 
 					<Box sx={listContainerStyle}>

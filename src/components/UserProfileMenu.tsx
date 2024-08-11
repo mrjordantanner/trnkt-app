@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, IconButton, Avatar, Menu, MenuItem, Typography } from '@mui/material';
 import { useUserService } from '../contexts/UserServiceContext';
 
+
 export default function UserProfileMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { isAuthenticated, currentUser, logoutAsync } = useUserService();
@@ -37,12 +38,14 @@ export default function UserProfileMenu() {
   };
 
   return (
-    <Box sx={{ pr: 4 }}>
-      <IconButton className='account-icon' onClick={handleClick}>
-        <Avatar alt="User Profile" src="/" className='account-icon' />
+    <Box className='menu-icon-container'>
+      <IconButton onClick={handleClick}>
+        <Avatar alt="User Profile" src="/" 
+          className='menu-icon' 
+        />
       </IconButton>
       <Menu
-        sx={{ }}
+        className='menu'
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
@@ -56,24 +59,16 @@ export default function UserProfileMenu() {
         }}
       >
 
-        <Typography 
-        sx={{ 
-          fontSize: '1.25rem', 
-          fontWeight: '600', 
-          width: '250px', 
-          backgroundColor: 'darkslateblue', 
-          padding: '5px 15px', 
-          color: 'white' 
-        }}>
+        <Typography className='menu-header'>
           {currentUser ? currentUser?.userName : 'Not Signed In'}
         </Typography>
 
-        {isAuthenticated && <MenuItem onClick={handleProfile}>Profile</MenuItem>}
+        {isAuthenticated && <MenuItem className='menu-item' onClick={handleProfile}>Profile</MenuItem>}
         {/* {isAuthenticated && <MenuItem onClick={handleMyAccount}>My Account</MenuItem>} */}
 
         {isAuthenticated ? 
-          <MenuItem onClick={handleLogout}>Logout</MenuItem> : 
-          <MenuItem onClick={handleLogin}>Sign In</MenuItem> }
+          <MenuItem className='menu-item' onClick={handleLogout}>Logout</MenuItem> : 
+          <MenuItem className='menu-item' onClick={handleLogin}>Sign In</MenuItem> }
         
       </Menu>
     </Box>

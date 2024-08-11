@@ -9,16 +9,18 @@ interface Props {
 export default function SectionHeader({ title, imgSrc }: Props) {
   return (
     <Box className='section-header'>
+
+
+        <Typography className='section-header-text'>
+          {title}
+        </Typography>
+
         <Box className='section-header-icon'>
           <img
             src={imgSrc}
             alt='Section Icon'
           />
         </Box>
-
-        <Typography className='section-header-text'>
-          {title}
-        </Typography>
     </Box>
   );
 }

@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BrowserRouter as Router, Route, Routes, Outlet, useLocation } from 'react-router-dom';
 import './App.scss';
-import './MediaQueries.scss';
 import './Animations.scss';
 
 import { AssetProvider } from './contexts/AssetContext';
@@ -59,8 +58,8 @@ export default function App() {
             {/* Routes for '/user' without NavBars */}
             <Route path='/user' element={
               <>
-                {/* <Navbar />
-                <Toolbar /> */}
+                <Navbar />
+                {/* <Toolbar /> */}
                 <Outlet />
                 {/* <MobileNavbar /> */}
               </>
