@@ -193,11 +193,13 @@ img, video  {
 
 // HELPERS
 .stroke-red {
-    -webkit-text-stroke: 3px solid red !important;
+    -webkit-text-stroke: 3px red !important;
+    color: transparent;
 }
 
 .stroke-blue {
-    -webkit-text-stroke: 3px solid blue !important;
+    -webkit-text-stroke: 3px blue !important;
+    color: transparent;
     
 }
 
