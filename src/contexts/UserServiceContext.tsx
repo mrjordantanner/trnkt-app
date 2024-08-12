@@ -6,6 +6,7 @@ import { User,  } from '../models/user';
 
 interface UserServiceContextProps {
     isAuthenticated: boolean;
+    getToken: () => string | null;
     loginAsync: (email: string, password: string) => Promise<User | null>;
     logoutAsync: () => Promise<boolean>;
     currentUser: User | null;
@@ -23,28 +24,39 @@ export const UserServiceProvider: React.FC<{ children: ReactNode }> = ({ childre
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = userService.getToken();
-        if (token) {
+        const token = getToken();
+        const user = getLocalUser();
+        if (token && user) {
             setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
         }
     }, [userService]);
 
-    const registerNewUserAsync = async (email: string, userName: string, password: string) : Promise<User | null> => {
+    const getToken = () : string | null => {
+        return userService.getToken();
+    }
 
+    const getLocalUser = (): string | null => {
+        return  userService.getLocalUser();
+    }
+
+    const registerNewUserAsync = async (email: string, userName: string, password: string) : Promise<User | null> => {
         const user = await userService.registerNewUserAsync(email, userName, password);
         if (user?.email) {
-            console.log(`Successfully registered New User: ${user.email} / ${user.userName}`);
+            console.log(`UserService: Successfully registered New User: ${user.email} / ${user.userName}`);
             navigate('/user/login');
         }
-       
         return user;
     };
 
     const loginAsync = async (email: string, password: string) : Promise<User | null>=> {
         const user = await userService.loginUserAsync(email, password);
         if (user) {
-            setIsAuthenticated(true);
             setCurrentUser(user);
+            setIsAuthenticated(true);
+        } else {
+            console.error("UserService: No User was returned from the login operation.");
         }
         return user;
     };
@@ -56,7 +68,7 @@ export const UserServiceProvider: React.FC<{ children: ReactNode }> = ({ childre
                 setCurrentUser(null);
                 setIsAuthenticated(false);
                 navigate('/');
-                console.log('Successfully logged out User.');
+                console.log('UserService: Successfully logged out User.');
                 return true;
             }
         }
@@ -86,8 +98,10 @@ export const UserServiceProvider: React.FC<{ children: ReactNode }> = ({ childre
     return (
         <UserServiceContext.Provider 
         value={{
-            isAuthenticated, loginAsync, logoutAsync, 
-            currentUser, setCurrentUser, updateUserInfoAsync,
+            isAuthenticated, getToken,
+            loginAsync, logoutAsync, 
+            currentUser, setCurrentUser, 
+            updateUserInfoAsync,
             registerNewUserAsync
         }}>
             {children}

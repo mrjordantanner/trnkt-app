@@ -1,10 +1,10 @@
 import React from 'react';
-import { useAssetContext } from '../contexts/AssetContext';
+import { useSettingsContext } from '../contexts/SettingsContext';
 import { Box, Button, Typography } from '@mui/material';
 
 export default function MediaSettings() {
 
-    const { shouldFillMedia, setShouldFillMedia } = useAssetContext();
+  const { shouldFillMedia, setShouldFillMedia } = useSettingsContext();
 
   const handleToggleClass = () => {
     setShouldFillMedia(prevState => !prevState);
@@ -14,20 +14,17 @@ export default function MediaSettings() {
     <Box 
     sx={{ 
       display: 'flex', 
-      justifyContent: 'space-around', 
+      justifyContent: 'space-between', 
       alignItems: 'center', 
-      width: '300px', 
+      width: '175px', 
+      ml: 5,
       //border: '1px solid gray',
-      ml: 5
       }}>
 
-      <Typography 
-      className='flex-center color-primary'
-      sx={{ padding: '0px 10px'}}>
-        Style:</Typography>
+      <Typography className='toolbar-label flex-center'>Style:</Typography>
 
       <Button 
-      sx={{ height: '20px' }}
+      className='toolbar-button'
       //variant={shouldFillMedia ? 'contained' : 'outlined'}
       variant='contained'
       onClick={handleToggleClass}>

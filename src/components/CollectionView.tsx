@@ -22,13 +22,16 @@ export default function CollectionView() {
 		collections,
 		setCollections,
 		setNfts,
+		setCollection
 	} = useAssetContext();
 
 	const nftService = useNftService();
 
 	useEffect(() => {
 		setNfts(null);
-		if (!featuredCollections) {
+		setCollection(null);
+		
+		if (!featuredCollections || !collections) {
 			getFeaturedCollections();
 		}
 		//getCollectionBatch();
@@ -43,6 +46,7 @@ export default function CollectionView() {
 			collectionsList.push(response);
 		}
 		setFeaturedCollections(collectionsList);
+		setCollections(collectionsList);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

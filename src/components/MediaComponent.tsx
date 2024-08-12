@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Box, Dialog, DialogContent } from '@mui/material';
 import { NftModel } from '../models/nftModel';
-import { useAssetContext } from '../contexts/AssetContext';
+import { useSettingsContext } from '../contexts/SettingsContext';
 
 interface Props {
   asset: NftModel | null;
 }
 
 export default function MediaComponent({ asset }: Props) {
-  const { shouldFillMedia } = useAssetContext();
+  const { shouldFillMedia } = useSettingsContext();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -31,7 +31,7 @@ export default function MediaComponent({ asset }: Props) {
             controls
             className={shouldFillMedia ? 'cover' : 'contain'}
             style={{ height: '100%', cursor: 'pointer' }}
-            onClick={handleClickOpen}
+            //onClick={handleClickOpen}
           >
             Sorry, the video can't play in this browser.
           </video>

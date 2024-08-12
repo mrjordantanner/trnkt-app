@@ -10,7 +10,7 @@ interface Props {
 export default function FavoritesContainer ({ nfts }: Props) {
   return (
     <Box 
-      className="scrollbar grid-2">
+      className="scrollbar favorites-grid">
       {nfts.map((nft, index) => (
         <FavoriteCard asset={nft} key={index} />
       ))}

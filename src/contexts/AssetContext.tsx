@@ -1,14 +1,22 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { NftModel } from '../models/nftModel';
 import { Collection } from '../models/collection';
-//import NftService from '../services/service';
+import NftService from '../services/nftService';
+
 
 interface AssetContextType {
   featuredCollectionSlugs: string[];
+  getLocalCollectionBySlug: (slug: string) => Collection | undefined;
+
   nfts: NftModel[] | null;
   setNfts:  React.Dispatch<React.SetStateAction<NftModel[] | null>>;
+
+  getNftBatch(): Promise<{nfts: NftModel[]; next: string | null;}>
+  getRandomBatch(collectionSlugs: string[], nftLimit: number): Promise<{nfts: NftModel[]; next: string | null;}>
+
   nextNftCursor: string | null;
   setNextNftCursor: React.Dispatch<React.SetStateAction<string | null>>;
+
   nextCollectionCursor: string | null;
   setNextCollectionCursor: React.Dispatch<React.SetStateAction<string | null>>;
 
@@ -20,41 +28,36 @@ interface AssetContextType {
 
   selectedAsset: NftModel | null;
   setSelectedAsset: (asset: NftModel | null) => void;
+
   nftLimit: number;
   setNftLimit: React.Dispatch<React.SetStateAction<number>>;
 
-  shouldFillMedia: boolean;
-  setShouldFillMedia: React.Dispatch<React.SetStateAction<boolean>>;
-
-  //collectionMenuOptions: MenuOption[] | null;
-  //getLocalCollectionBySlug: (slug: string) => Collection | null;
+  setCollectionMenuOptions: React.Dispatch<React.SetStateAction<{ label: string, value: string }[]>>;
+  collectionMenuOptions: { label: string, value: string }[] | undefined;
 }
 
 interface Props {
   children: ReactNode;
 }
 
-// TODO Export this
-// interface MenuOption {
-//   label: string;
-//   value: string;
-// }
-
-
 const defaultNftLimit = 50;
 const AssetContext = createContext<AssetContextType | undefined>(undefined);
+const nftService = new NftService();
 
 export const AssetProvider: React.FC<Props> = ({ children }) => {
 
   const [nfts, setNfts] = useState<NftModel[] | null>(null);
   const [nextNftCursor, setNextNftCursor] = useState<string | null>(null);
   const [collections, setCollections] = useState<Collection[] | null>([]);
-  // const [collectionMenuOptions, setCollectionMenuOptions] = useState<MenuOption[]>([]);
+  const [collectionMenuOptions, setCollectionMenuOptions] = useState<{ label: string, value: string }[]>([]);
   const [nextCollectionCursor, setNextCollectionCursor] = useState<string | null>(null);
   const [selectedCollection, _setCollection] = useState<Collection | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<NftModel | null>(null);
   const [nftLimit, setNftLimit] = useState<number>(defaultNftLimit);
-  const [shouldFillMedia, setShouldFillMedia] = useState(false);
+
+  // useEffect(() => {
+ 
+  // }, []);
 
   // Custom 'setState' method to reset nextCursor if we're switching Collections
   const setCollection = (collection: Collection | null) => {
@@ -64,13 +67,31 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
     _setCollection(collection);
   };
 
-  // const getLocalCollectionBySlug = (slug: string): Collection | null => {
-  //   if (collections) {
-  //     const collection = collections.find(collection => collection.collection === slug);
-  //     return collection || null;
-  //   }
-  //   return null;
-  // };
+  const getNftBatch = async (): Promise<{nfts: NftModel[];next: string | null;}> => {
+    if (!selectedCollection) {
+      return { nfts: [], next: null };
+    }
+    const response = await nftService.fetchNfts(
+      selectedCollection.collection,
+      nftLimit,
+      nextNftCursor
+    );
+    setNfts(response.nfts);
+    setNextNftCursor(response.next);
+    return response;
+  };
+
+  const getRandomBatch = async (collectionSlugs: string[], nftLimit: number = 50): Promise<{nfts: NftModel[];next: string | null;}> =>  {
+		const response = await nftService.fetchRandomNftBatch(featuredCollectionSlugs, nftLimit);
+		setNfts(response.nfts);
+    return { nfts: response.nfts, next: response.next };
+	}
+  
+  const getLocalCollectionBySlug = (slug: string): Collection | undefined => {
+    if (collections) {
+      return collections.find(collection => collection.collection === slug);
+    }
+  };
 
   const featuredCollectionSlugs: string[] = [
     'paschamo-brushtalk-absractions',
@@ -94,20 +115,10 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
   
   ];
 
-  // Creates dropdown menu options from the Featured Collection slugs
-  // useEffect(() => {
-  //   if (featuredCollectionSlugs) {
-  //     const options = featuredCollectionSlugs.map(slug => ({
-  //       label: slug,
-  //       value: slug
-  //     }));
-  //     setCollectionMenuOptions(options);
-  //   }
-  // }, [featuredCollectionSlugs]);
-
   return (
     <AssetContext.Provider value={{
       featuredCollectionSlugs,
+      getNftBatch, getRandomBatch,
       nfts, setNfts,
       nftLimit, setNftLimit,
       nextNftCursor, setNextNftCursor,
@@ -115,9 +126,8 @@ export const AssetProvider: React.FC<Props> = ({ children }) => {
       nextCollectionCursor, setNextCollectionCursor,
       selectedCollection, setCollection,
       selectedAsset, setSelectedAsset,
-      shouldFillMedia, setShouldFillMedia
-      //collectionMenuOptions,
-      //getLocalCollectionBySlug
+      collectionMenuOptions, setCollectionMenuOptions,
+      getLocalCollectionBySlug
       }}>
       {children}
     </AssetContext.Provider>

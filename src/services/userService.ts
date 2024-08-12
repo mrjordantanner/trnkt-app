@@ -6,10 +6,10 @@ class UserService {
   private apiEndpoint = import.meta.env.VITE_API_URL || 'http://localhost:8080';
   baseUrl = `${this.apiEndpoint}/api/user`;
   tokenKey = 'jwt';
+  userKey= 'user';
 	axiosOptions: AxiosRequestConfig = {
 		headers: {
-			'Content-Type': 'application/json',
-			//'Access-Control-Allow-Origin': 'http://localhost:5173',
+			'Content-Type': 'application/json'
 		},
 	};
 
@@ -103,27 +103,26 @@ class UserService {
         email,
         password,
       }, this.axiosOptions);
-      localStorage.setItem(this.tokenKey, response.data.token);
+      if (response.status < 300) {
+        localStorage.setItem(this.tokenKey, response.data.token);
+        localStorage.setItem(this.userKey, response.data.user.userId);
+      }
       return response.data.user;
     } catch (error) {
       console.error(error);
       return null;
-    }
+    } 
   }
 
   async logoutUserAsync(): Promise<boolean> {
     const token = this.getToken();
     if (!token) {
-      throw new Error('No JWT token found');
+      console.warn('UserService: No JWT token found');
     }
 
     const url = `${this.baseUrl}/logout`;
-    console.log(`-- LOGOUT URL --`);
-    console.log('API Endpoint:', this.apiEndpoint);
-    console.log('Base URL:', this.baseUrl);
-    console.log('URL:', url);
     try {
-      console.log(`Logging out user...`);
+      console.log(`UserService: Logging out user...`);
       await axios.post(url, {}, {
         headers: {
           'Content-Type': 'application/json',
@@ -131,15 +130,20 @@ class UserService {
         }
       });
       localStorage.removeItem(this.tokenKey);
+      localStorage.removeItem(this.userKey);
       return true;
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error('UserService: Logout failed --', error);
       return false;
     }
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  getLocalUser (): string | null {
+    return localStorage.getItem(this.userKey);
   }
 }
 

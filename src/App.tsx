@@ -21,6 +21,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import FavoritesView from './components/favorites/FavoritesView';
 import NormalizeUrl from './components/utils/NormalizeUrl';
+import { SettingsContextProvider } from './contexts/SettingsContext';
 
 export default function App() {
   //const location = useLocation();
@@ -31,13 +32,14 @@ export default function App() {
       <NftServiceProvider>
       <UserServiceProvider>
       <FavoritesServiceProvider>
+      <SettingsContextProvider>
       <NormalizeUrl />
 
           <Routes>
 
             <Route path='/' element={<Home />} />
 
-            {/* Routes for '/nfts' */}
+            {/* Routes for '/nfts' with Navbars and Toolbar */}
             <Route path='/nfts' element={
               <>
                 <Navbar />
@@ -46,31 +48,40 @@ export default function App() {
                 <MobileNavbar />
               </>
             }>
-
-              <Route index element={<CollectionView />} /> 
-              <Route path='collections/featured' element={<CollectionView />} />
               <Route path='collections/:collectionSlug' element={<ExploreView />} />
               <Route path=':collectionSlug/:assetId' element={<AssetView />} />
               <Route path='random' element={<RandomGallery />} />
+            </Route>
+
+            {/* Routes for '/nfts' without Toolbar */}
+            <Route path='/nfts' element={
+              <>
+                <Navbar />
+                <Toolbar />    {/* Temp */}
+                <Outlet />
+                <MobileNavbar />
+              </>
+            }>
+              <Route index element={<CollectionView />} /> 
+              <Route path='collections/featured' element={<CollectionView />} />
               <Route path='favorites' element={<FavoritesView />} />
             </Route>
             
-            {/* Routes for '/user' without NavBars */}
+            {/* Routes for '/user' without Toolbar */}
             <Route path='/user' element={
               <>
                 <Navbar />
-                {/* <Toolbar /> */}
                 <Outlet />
-                {/* <MobileNavbar /> */}
+                <MobileNavbar />
               </>
             }>
               <Route path='register' element={<Register/>} />
               <Route path='login' element={<Login />} />
-
+              <Route path='profile' element={<Profile />} />
             </Route>
 
-            {/* Routes for '/user' with NavBars */}
-            <Route path='/user' element={
+            {/* Routes for '/user' with Navbars and Toolbar */}
+            {/* <Route path='/user' element={
               <>
                 <Navbar />
                 <Toolbar />
@@ -78,11 +89,11 @@ export default function App() {
                 <MobileNavbar />
               </>
             }>
-              <Route path='profile' element={<Profile />} />
 
-            </Route>
+            </Route> */}
 
           </Routes>
+      </SettingsContextProvider>
       </FavoritesServiceProvider>
       </UserServiceProvider>
       </NftServiceProvider>

@@ -18,7 +18,7 @@ export default function LinkifyText({ text, style }: Props) {
         <React.Fragment key={index}>
           {part}
           {urls && urls[index] && (
-            <a href={urls[index]} target="_blank" rel="noopener noreferrer">
+            <a href={urls[index]} target="_blank" rel="noopener noreferrer" style={{ fontSize: '1rem' }}>
               {urls[index]}
             </a>
           )}

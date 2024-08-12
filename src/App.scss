@@ -9,8 +9,8 @@
 // Bar Sizes
 $body-height: 100dvh;         
 $navbar-height: 80px;
-$navbar-height-mobile: 40px;  // Top navbar in mobile
-$mobile-navbar-height: 40px;  // Mobile-only navbar
+$navbar-height-mobile: 50px;  // Top navbar in mobile
+$mobile-navbar-height: 50px;  // Mobile-only navbar
 $toolbar-height: 40px;
 $toolbar-height-mobile: 40px;
 
@@ -21,7 +21,8 @@ $adjusted-height-mobile: calc($body-height - $navbar-height-mobile - $toolbar-he
 // Colors
 $color-primary: white; 
 $color-secondary: gold;
-$color-tertiary: rgb(36, 11, 54);
+//$color-tertiary: rgb(38, 118, 210);
+$color-tertiary: rgb(78, 0, 90);
 
 $color-light: lightgray;
 $color-mid: rgb(107, 107, 107);
@@ -82,14 +83,6 @@ $color-scrollbar-active: #757575;
     -webkit-text-stroke: 0.75px $color-mid; 
 }
 
-.stroke-red {
-    -webkit-text-stroke: 3px red; 
-}
-
-.stroke-blue {
-    -webkit-text-stroke: 3px blue; 
-}
-
 @font-face {
     font-family: Akzidensk;
     src: url(./fonts/AkzidenzGrotesk-Regular.otf) format("");
@@ -113,7 +106,7 @@ $color-scrollbar-active: #757575;
 
 // GENERAL
 html, body {
-    font-family: 'Akzidensk Light', sans-serif;
+    font-family: 'Akzidensk', sans-serif;
     line-height: 1.25rem;
     color: $color-light;
     height: $body-height;
@@ -165,12 +158,6 @@ img, video  {
     -webkit-user-drag: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Akzidensk Bold', sans-serif;
-    font-weight: bold;
-}
-
-
 @mixin scrollbar {
     overflow-y: scroll;
 
@@ -205,6 +192,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // HELPERS
+.stroke-red {
+    -webkit-text-stroke: 3px solid red !important;
+}
+
+.stroke-blue {
+    -webkit-text-stroke: 3px solid blue !important;
+    
+}
+
 .text-bold {
     font-weight: bold;
 }
@@ -241,10 +237,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .icon {
     color: $color-light;
-    z-index: 10;
+    z-index: 50;
 
     &:hover {
-        color: $color-secondary;
+        opacity: 1;
+        color: red;
     }
 }
 
@@ -292,7 +289,7 @@ h1, h2, h3, h4, h5, h6 {
     color: $color-secondary;
 }
 .bg-secondary {
-    background-color: $color-secondary;
+    background-color: ƒ$color-secondary;
 }
 .border-secondary {
     border: 2px solid $color-secondary;
@@ -306,13 +303,22 @@ h1, h2, h3, h4, h5, h6 {
 .border-tertiary {
     border: 2px solid $color-secondary;
 }
+.bg-dark {
+    background-color: $color-dark !important;
+}
+.bg-mid {
+    background-color: $color-mid;
+}
+.bg-light {
+    background-color: $color-light;
+}
 
 .desktop-only {
     display: flex;
 }
 
 .mobile-only {
-    display: none;
+    display: none !important;
 }
 
 .rounded {
@@ -370,12 +376,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .explore-sidebar {
     flex: 1 1 33%;
-    min-width: 300px;
+    min-width: 350px;
+    border-right: 2px solid $color-mid;
 }
 
 .explore-gallery {
     flex: 1 1 66%;
     height: 100%;
+    padding-left: 10px;
 }
 
 .asset-sidebar {
@@ -500,14 +508,16 @@ h1, h2, h3, h4, h5, h6 {
     .nav-logo {
         font-family: 'Akzidensk', sans-serif;
         pointer-events: auto;
-        color: white;
-        font-size: 1.75rem;
+        font-size: 2.5rem;
         font-weight: bold;
+        color: transparent;
+        -webkit-text-stroke: 1px white; 
         opacity: 0.8;
         transition: all 0.1s;
 
         &:hover {
             opacity: 1;
+            color: white;
         }
 
         &:active {
@@ -524,19 +534,17 @@ h1, h2, h3, h4, h5, h6 {
         font-weight: bold;
         font-size: 1rem;
         color: $color-secondary;
-        border: 1px solid rgb(100, 100, 100);
-        opacity: 0.65;
+        border: 2px solid $color-secondary;
+        opacity: 0.8;
         transition: all 0.1s;
 
         &:hover {
             opacity: 1;
-            border: 1px solid $color-secondary;
-            //background: $background-dark;
+            transform: scale(1.03);
         }
 
         &:active {
-            opacity: 1;
-            color: $color-secondary;
+
         }
     }
 }
@@ -547,28 +555,47 @@ h1, h2, h3, h4, h5, h6 {
 
 .toolbar {
     display: flex;
+    font-size: '0.8rem';
     background-color: $color-mid;
     height: $toolbar-height;
     align-items: center;
     justify-content: flex-end;
     border-bottom: 1px solid $color-mid;
     z-index: 20;
-
 }
 
 .toolbar-input-field  {
-    background-color: white;
+    background-color: $color-dark;
+    color: $color-light;
     height: 30px;
-    width: 70px;
+    width: 80px;
     font-size: 1rem;
+    font-weight: bold;
     padding: 10px;
     margin: 0px 30px;
-    border: none;
+    border: 1px solid black;
     display: flex;
 }
 
 .toolbar-button {
+    height: 30px;
+    width: 120px;
+    background-color: $color-mid !important;
+    font-size: 0.8rem !important;
+    border: 1px solid $color-dark !important;
+}
 
+.toolbar-label {
+    height: 100%;
+    font-weight: bold !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.collection-dropdown-container {
+    width: 100%;
+    padding: 1.5rem;
 }
 
 .menu {
@@ -644,7 +671,15 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-.grid-2 {
+
+.favorites-list-view-header {
+    flex: 1;
+    margin-left: 1rem;
+    font-size: 1.5rem !important;
+    font-weight: bold;
+}
+
+.favorites-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     display: grid;
     padding: 8px;
@@ -669,6 +704,11 @@ h1, h2, h3, h4, h5, h6 {
     //flex: 4;
     padding: 20px;
     min-height: 300px;
+    background-color: black;
+}
+
+.linkify-text {
+    font-weight: 400;
 }
 
 .controls-container {
@@ -721,7 +761,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 4rem;
     color: $color-secondary;
     font-weight: 800 !important;
-    padding-left: 20px;
 }
 
 .asset-grid {
@@ -735,6 +774,10 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     overflow-x: hidden;
     height: $adjusted-height;
+}
+
+.columns-3 {
+    grid-template-columns: repeat(3, 1fr) !important; 
 }
 
 .nft-card {
@@ -832,7 +875,7 @@ h1, h2, h3, h4, h5, h6 {
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     padding: 16px;
-    gap: 16px; 
+    gap: 2rem; 
     overflow-x: hidden;
 
     .collection-card {
@@ -843,19 +886,20 @@ h1, h2, h3, h4, h5, h6 {
         cursor: pointer;
         transition: all 0.1s;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        border: 10px solid white;
 
         &:hover {
-            border: 4px solid cyan;
+            border: 10px solid cyan;
             cursor: pointer;
             opacity: 1;
             transform: scale(1.03);
         }
 
         &:active {
-            border: 4px solid white;
+            border: 4px solid cyan;
             cursor: grabbing;
             opacity: 1;
-            transform: scale(0.95);
+            transform: scale(0.97);
         }
     }
 
@@ -987,6 +1031,21 @@ h1, h2, h3, h4, h5, h6 {
     padding: 16px;
 }
 
+.divider {
+    width: 100%;
+    border-bottom: 1px solid gray;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+
+}
+
+.checkbox {
+    display: flex;
+    width: 50px;
+    flex: 5;
+    color: $color-light !important;
+}
+
 .footer {
     position: absolute;
     flex: 1;
@@ -1004,9 +1063,6 @@ h1, h2, h3, h4, h5, h6 {
 ////////////////////////////////////////////////////////////
 ////////////// MOBILE STYLES //////////////////////////////
 //////////////////////////////////////////////////////////
-
-
-
 
 //region [Yellow]
 // Desktop Monitor - Vertical
@@ -1102,7 +1158,7 @@ and (min-height: 1000px) {
         .collection-card {
             display: flex;
             width: 100%;
-            height: 200px;
+            height: 250px;
         }
     }
 
@@ -1198,16 +1254,7 @@ and (min-height: 1000px) {
                 font-size: 12vmax;
                 height: 50dvh;
             }
-
-            .subtitle {
-    
-            }
-    
-            .description {
-                max-width: 900px;
-                font-size: 2rem;
-            }
-    
+   
             .enter-button {
                 width: 66vw;
             }
@@ -1239,9 +1286,10 @@ and (min-height: 1000px) {
     .asset-grid {
         @include scrollbar;
         grid-template-columns: repeat(2, 1fr);
-        //height: $adjusted-height-mobile;
         height: $body-height;
         overflow-y: scroll;
+        padding: 10px;
+        gap: 0.75rem;
         //border: 3px solid red;
     }
 
@@ -1270,36 +1318,39 @@ and (min-height: 1000px) {
 
     .nft-card {
         margin: 10px;
-        height: 225px;
+        height: 200px;
         transition: all 0.1s;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid gray !important;
     }
 
     .collection-container {
-        grid-template-columns: repeat(1, 1fr);
-        padding: 0px;
-        gap: 0px; 
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px; 
 
         .collection-card {
             display: flex;
             width: 100%;
-            height: 150px;
-            border: 1px solid gray;
+            height: 250px;
+            border: 6px solid white;
         }
     }
 
     .desktop-only {
-        display: none;
+        display: none !important;
     }
 
     .mobile-only {
-        display: flex;
+        display: flex !important;
     }
 
     .navbar {
         height: $navbar-height-mobile;
         //border: 3px solid magenta;
+
+        .nav-logo {
+            font-size: 1.5rem;
+        }
 
         .nav-button {
             display: none;
@@ -1319,29 +1370,66 @@ and (min-height: 1000px) {
         border: 1px solid $color-mid;
 
         .icon-list {
-            border: none;
             display: flex; 
             height: 100%;
-            width: 80%;
+            width: 100%;
             align-items: center !important;
-            justify-content: space-evenly !important;
+            justify-content: center !important;
         }
     }
 
     .toolbar {
-        //display: none;
         height: $toolbar-height-mobile !important;
+        justify-content: center !important;
+        border: 1px solid black;
     }
 
     .toolbar-button {
         flex: 1;
-        height: 30px;
-        width: 135px;
+        height: 25px;
+        width: 85px;
+        font-weight: bold !important;
+        font-size: 0.6rem !important;
+        line-height: 1rem !important;
+    }
+    
+    .toolbar-input-field {
+        width: 50px !important;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+
+    .toolbar-label {
+        font-size: 0.8rem !important;
+        height: 100%;
+        display: flex;
+        flex: 1;
+        font-weight: bold !important;
+        //border: 1px solid red;
+    }
+
+    .checkbox {
+        color: $color-light !important;
+        padding: 0px !important;
+    }
+
+    .collection-dropdown-container {
+        padding: 0.5rem;
+    }
+
+    .collection-menu-item {
+        //width: 50% !important;
+        height: 20px !important;
+        max-height: 20px !important;
+        font-size: 0.8rem !important;
+        line-height: 1rem !important;
+        background-color: $color-light !important;
+        color: black !important;
     }
 
     .panel-header {
-        font-weight: 800;
-        font-size: 1rem;
+        font-weight: 800 !important;
+        font-size: 1.25rem !important;
     }
 
     .asset-main-content {
@@ -1358,10 +1446,12 @@ and (min-height: 1000px) {
 
     .asset-description {
         width: 100%;
+        min-height: 200px;
+        overflow: auto;
     }
 
     .asset-trait-text {
-        font-size: 0.75rem; 
+        font-size: 1rem; 
         line-height: 0.75rem;
     }
 
@@ -1385,7 +1475,7 @@ and (min-height: 1000px) {
     
         .asset-view-collection-name {
             width: 100%;
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             padding: 0px;
             color: $color-light;
             overflow-x: visible;
@@ -1402,7 +1492,7 @@ and (min-height: 1000px) {
         min-width: 115px !important;
         min-height: 30px;
         line-height: 1rem !important;
-        font-size: 0.5rem !important;
+        font-size: 0.75rem !important;
     }
 
     .section-header {
@@ -1424,6 +1514,17 @@ and (min-height: 1000px) {
         }
     }
 
+    .favorite-card {
+        height: 150px;
+        opacity: 1;
+    }
+
+    .favorites-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 8px;
+        gap: 8px; 
+    }
+
     .sidebar {
         order: 0;
         width: 100vw;
@@ -1441,12 +1542,14 @@ and (min-height: 1000px) {
         box-shadow: 0px 0px 24px rgba(0, 0, 0, 1);
         border-bottom: 1px solid black;
         z-index: 10;
+        border-right: none;
     }
     
     .explore-gallery {
         flex: 1;
         height: $body-height;
         overflow-y: scroll;
+        padding-left: 0px;
     }
     
     .asset-sidebar {

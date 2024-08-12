@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Button, List, ListItem } from '@mui/material';
+import { Box, Button, List, ListItem, Typography } from '@mui/material';
 import { useAssetContext } from '../contexts/AssetContext';
-//import { useUserService } from '../contexts/UserServiceContext';
+import { useUserService } from '../contexts/UserServiceContext';
 import UserProfileMenu from './UserProfileMenu';
 import BackButton from './BackButton';
 
 export default function Navbar() {
 	const { setSelectedAsset, setCollection, selectedAsset, selectedCollection } = useAssetContext();
 
+	const { currentUser } = useUserService();
 	//const navigate = useNavigate();
 
 	const onClickCollections = () => {
@@ -41,9 +42,6 @@ export default function Navbar() {
 				TRNKT
 			</Button>
 
-			{/* Placeholder */}
-			{/* <Box className='nav-logo'/> */}
-
 			<Box className='desktop-only'>
 				<List sx={{ border: 'none' }}>
 					<ListItem>
@@ -52,15 +50,15 @@ export default function Navbar() {
 							component={RouterLink}
 							onClick={onClickCollections}
 							to='/nfts/collections/featured'>
-							F E A T U R E D
+							C O L L E C T I O N S
 						</Button>
 					</ListItem>
 
-					<ListItem>
+					{/* <ListItem>
 						<Button className='nav-button' component={RouterLink} to='/nfts/random'>
 							R A N D O M I Z E
 						</Button>
-					</ListItem>
+					</ListItem> */}
 
 					<ListItem>
 						<Button
@@ -72,6 +70,8 @@ export default function Navbar() {
 					</ListItem>
 				</List>
 			</Box>
+
+			<Typography className='p'><strong>{currentUser?.userName}</strong></Typography>
 
 			<UserProfileMenu />
 		</Box>

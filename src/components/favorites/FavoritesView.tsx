@@ -20,7 +20,7 @@ export default function FavoritesView() {
 		width: '100%',
 		minHeight: '85%',
 		height: '100%',
-		p: 3,
+		pt: 5,
 	};
 
 	// const addNewListButtonStyle = {
@@ -76,7 +76,7 @@ export default function FavoritesView() {
 						{/* <Box>
 							<CreateFavoritesListButton
 								style={addNewListButtonStyle}
-								color='primary'
+								color='secondary'
 								variant='outlined'
 								text={'+'}
 								handleCreateNewList={handleCreateNewList}

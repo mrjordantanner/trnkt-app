@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { useAssetContext } from '../../contexts/AssetContext';
 import { Box, IconButton, Typography, Modal } from '@mui/material';
-import  BuildIcon from '@mui/icons-material/Build';
+import BuildIcon from '@mui/icons-material/Build';
 import { useUserService } from '../../contexts/UserServiceContext';
 import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
 
@@ -12,15 +12,21 @@ export default function DevTools() {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	const { selectedAsset, selectedCollection } = useAssetContext();
+	const {
+		selectedAsset,
+		selectedCollection,
+		collections,
+		nfts,
+		nextNftCursor,
+		nextCollectionCursor,
+		nftLimit,
+	} = useAssetContext();
 	const { isAuthenticated, currentUser } = useUserService();
 	const { favoritesLists } = useFavoritesContext();
 
 	return (
 		<Box sx={{ pr: 2, pl: 2 }}>
-			<IconButton
-				onClick={handleOpen}
-				sx={{ color: 'gray' }}>
+			<IconButton onClick={handleOpen} sx={{ color: 'gray' }}>
 				<BuildIcon />
 			</IconButton>
 
@@ -38,20 +44,63 @@ export default function DevTools() {
 						DevTools
 					</Typography>
 					<Box id='modal-description' sx={{ mt: 2 }}>
+
 						<Typography className='toolbar-item'>
-							{selectedCollection?.name}
+							<strong>Collections.Length: </strong>
+							{collections ? collections.length : '0'}
+						</Typography>
+
+						<Typography className='toolbar-item'>
+							<strong>Nfts.Length: </strong>
+							{nfts ? nfts.length : '0'}
+						</Typography>
+
+						<Typography className='toolbar-item'>
+							<strong>Next Nft Cursor: </strong>
+							{nextNftCursor ? nextNftCursor : 'null'}
+						</Typography>
+
+						<Typography className='toolbar-item'>
+							<strong>Next Collection Cursor: </strong>
+							{nextCollectionCursor ? nextCollectionCursor : 'null'}
+						</Typography>
+
+						<Typography className='toolbar-item'>
+							<strong>Nft Batch Size: </strong>
+							{nftLimit}
+						</Typography>
+
+						<Box className='divider'></Box>
+
+						<Typography className='toolbar-item'>
+							<strong>Selected Collection: </strong>
+							{selectedCollection ? selectedCollection.name : 'null'}
 						</Typography>
 						<Typography className='toolbar-item'>
-							{selectedAsset?.name}
+							<strong>Selected Asset: </strong>
+							{selectedAsset ? selectedAsset.name : 'null'}
+						</Typography>
+
+						<Box className='divider'></Box>
+
+						<Typography className='toolbar-item'>
+							<strong>Favorites Lists: </strong>
+							{favoritesLists?.length}
+						</Typography>
+
+						{favoritesLists.map((list =>
+							<Typography key={list.listId}>{list.name}: {list.nfts.length}</Typography>
+						))}
+
+						<Box className='divider'></Box>
+
+						<Typography className='toolbar-item'>
+							<strong>IsAuthenticated: </strong>
+							{`${isAuthenticated}`}
 						</Typography>
 						<Typography className='toolbar-item'>
-							Lists: {favoritesLists?.length}
-						</Typography>
-						<Typography className='toolbar-item'>
-							IsAuth: {`${isAuthenticated}`}
-						</Typography>
-						<Typography className='toolbar-item color-primary'>
-							{currentUser?.userName}
+							<strong>CurrentUser: </strong>
+							{currentUser ? currentUser.userName : 'null'}
 						</Typography>
 					</Box>
 				</Box>

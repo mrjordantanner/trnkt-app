@@ -62,8 +62,7 @@ export default function Login() {
   return (
 		<Box sx={{ height: '100vh', width: '100vw' }}>
       <Box className='container'>
-        <Box 
-          className='flex-column-center' 
+        <Box className='flex-column-center' 
           sx={{ justifyContent: 'center', height: '100%' }} >
 
         <Typography variant="h4" sx={{ margin: '15px' }}>SIGN IN</Typography>

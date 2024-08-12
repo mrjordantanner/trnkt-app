@@ -191,7 +191,7 @@ export default function FavoritesModal({ open, onClose }: Props) {
 						<Box sx={buttonContainerStyle}>
 							<Button
 								variant='contained'
-								color='primary'
+								color='secondary'
 								onClick={handleCreateList}>
 								Create
 							</Button>
@@ -208,7 +208,7 @@ export default function FavoritesModal({ open, onClose }: Props) {
 						<Button
 							sx={{ mt: 2 }}
 							variant='contained'
-							color='primary'
+							color='secondary'
 							onClick={handleSave}>
 							S A V E
 						</Button>

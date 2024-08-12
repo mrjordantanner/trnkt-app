@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, IconButton, Avatar } from '@mui/material';
 import { UpdateUserRequestBody }  from '../models/updateUserRequestBody';
 import { useUserService } from '../contexts/UserServiceContext';
 //import { User } from '../models/user';
+
 import EditableLabel from '../components/text/EditableLabel';
 
 export default function Profile() {
-  const { currentUser, updateUserInfoAsync } = useUserService();
+  const { currentUser, updateUserInfoAsync, getToken } = useUserService();
   const [updatedUserInfoBody, setUpdatedUserInfoBody] = useState<UpdateUserRequestBody>();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (currentUser) {
+    const token = getToken();
+    if (currentUser && token) {
       const updatedUserInfo : UpdateUserRequestBody = {
         email: currentUser.email,
         newEmail: undefined,
@@ -21,26 +25,10 @@ export default function Profile() {
       console.log('Profile UpdateUserRequestBody:')
       console.log(updatedUserInfo);
     }
+    else {
+      navigate('/user/login');
+    }
   }, []);
-
-  const containerStyle = {
-    display: 'flex',
-    height: '100vh',
-    width: '100vw',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-
-  const contentsStyle = {
-    display: 'flex',
-    height: '100%',
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  }
 
   const handleAvatarClick = () => {
     // TODO Change profile photo
@@ -68,16 +56,16 @@ export default function Profile() {
     }
   };
 
-  const onSavePassword = (newPassword: string) => {
-    if (currentUser && newPassword != currentUser.password) {
-      const updatedUserInfo : UpdateUserRequestBody = {
-        email: currentUser.email,
-        newPassword: newPassword
-      }
-      setUpdatedUserInfoBody(updatedUserInfo);
-      console.log('OnSavePassword: Updated temp user info:', updatedUserInfo);
-    }
-  };
+  // const onSavePassword = (newPassword: string) => {
+  //   if (currentUser && newPassword != currentUser.password) {
+  //     const updatedUserInfo : UpdateUserRequestBody = {
+  //       email: currentUser.email,
+  //       newPassword: newPassword
+  //     }
+  //     setUpdatedUserInfoBody(updatedUserInfo);
+  //     console.log('OnSavePassword: Updated temp user info:', updatedUserInfo);
+  //   }
+  // };
 
   const onApplyChanges = () => {
     if (updatedUserInfoBody) {
@@ -87,8 +75,10 @@ export default function Profile() {
   }
 
   return (
-      <Box sx={containerStyle}>
-        <Box className='panel' sx={contentsStyle}>
+		<Box sx={{ height: '100vh', width: '100vw' }}>
+      <Box className='container'>
+      <Box className='flex-column-center' 
+          sx={{ justifyContent: 'center', height: '100%', bgcolor: 'white' }} >
 
         <IconButton onClick={handleAvatarClick} sx={{ width: '200px', height: '200px'  }}>
           <Avatar alt="User Profile" src="/"
@@ -102,7 +92,7 @@ export default function Profile() {
         <Box sx={{ p: 4 }}>
           <EditableLabel onSave={onSaveEmail} initialValue={currentUser?.email}>{currentUser?.email}</EditableLabel>
           <EditableLabel onSave={onSaveUserName} initialValue={currentUser?.userName}>{currentUser?.userName}</EditableLabel>
-          <EditableLabel onSave={onSavePassword} initialValue={currentUser?.password}>{currentUser?.password}</EditableLabel>
+          {/* <EditableLabel onSave={onSavePassword} initialValue={currentUser?.password}>{currentUser?.password}</EditableLabel> */}
         </Box>
 
         <Button variant='outlined' onClick={onApplyChanges}>
@@ -110,11 +100,11 @@ export default function Profile() {
         </Button>
 
         </Box>
-
-        <Box>
-        <Button onClick={onApplyChanges}>
-          Delete Account
-        </Button>
+          {/* <Box>
+            <Button onClick={onDeleteAccount}>
+              Delete Account
+            </Button>
+          </Box> */}
         </Box>
       </Box>
 	);

@@ -12,10 +12,11 @@ import SectionHeader from '../components/SectionHeader';
 // Display Randomized batch of NFTs in a Grid
 export default function RandomGallery() {
 
-  const { featuredCollectionSlugs, nftLimit, nfts, setNfts, setSelectedAsset } = useAssetContext();
+  const { featuredCollectionSlugs, nftLimit, nfts, setNfts, setSelectedAsset, setCollection } = useAssetContext();
   const nftService = useNftService();
 
   useEffect(() => {
+    setCollection(null);
     setSelectedAsset(null);
     setNfts(null);
     getRandomBatch(featuredCollectionSlugs, nftLimit);
@@ -34,7 +35,7 @@ export default function RandomGallery() {
     <>
     <SectionHeader title={'RANDOM'} imgSrc={Gem} />
       <Box className="gallery">
-        <Box className="asset-grid">
+        <Box className="asset-grid columns-3">
           {nfts.map((asset: NftModel, index: number) => (
             <AssetCard asset={asset} key={`${asset.identifier}-${index}`} />
           ))}

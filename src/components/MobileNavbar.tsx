@@ -3,12 +3,12 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAssetContext } from '../contexts/AssetContext';
 import { Box, IconButton, List, ListItem } from '@mui/material';
-// import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 // import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
 //import Home from '@mui/icons-material/Home';
-import CasinoIcon from '@mui/icons-material/Casino';
+//import CasinoIcon from '@mui/icons-material/Casino';
 import CollectionsIcon from '@mui/icons-material/Collections';
-import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+//import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 
 
 export default function MobileNavbar() {
@@ -35,8 +35,10 @@ export default function MobileNavbar() {
 					</IconButton> 
 				</ListItem> */}
 
-				<ListItem sx={{ display: 'flex', flex: 1 }}>
+				<ListItem 
+					sx={{ display: 'flex', flex: 1, height: '100%' }}>
 					<IconButton
+						sx={{ flex: 1}}
 						component={RouterLink}
 						aria-label='collections'
 						onClick={onClickCollections}
@@ -45,7 +47,7 @@ export default function MobileNavbar() {
 					</IconButton>
 				</ListItem>
 
-				<ListItem sx={{ display: 'flex', flex: 1 }}>
+				{/* <ListItem sx={{ display: 'flex', flex: 1 }}>
 					<IconButton
 						component={RouterLink}
 						aria-label='random'
@@ -53,15 +55,17 @@ export default function MobileNavbar() {
 						to='/nfts/random'>
 						<CasinoIcon className='icon' />
 					</IconButton>
-				</ListItem>
+				</ListItem> */}
 
-				<ListItem sx={{ display: 'flex', flex: 1 }}>
+				<ListItem 
+					sx={{ display: 'flex', flex: 1, height: '100%'  }}>
 					<IconButton
+						sx={{ flex: 1}}
 						component={RouterLink}
 						aria-label='favorites'
 						onClick={onClickCollections}
 						to='/nfts/favorites'>
-						<CollectionsBookmarkIcon className='icon' />
+						<FavoriteBorder className='icon' />
 					</IconButton>
 				</ListItem>
 			</List>

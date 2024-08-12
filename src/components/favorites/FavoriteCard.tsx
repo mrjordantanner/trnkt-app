@@ -27,13 +27,10 @@ export default function FavoriteCard({ asset }: Props) {
 	navigate(`/nfts/${asset.collection}/${asset.identifier}`);
   };
 
-  // const handleRightClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   console.log(`Right-clicked asset: ${asset.name}`)
-  // };
 
   const handleRemove = (event: React.MouseEvent<HTMLButtonElement>) => {
 	event.stopPropagation();
-
+	console.log(`TODO: Remove NFT: ${event.target} from List`);
   };
   
   return (
@@ -54,15 +51,25 @@ export default function FavoriteCard({ asset }: Props) {
 					}}>
 					<Box className='nft-name'>
 						{asset.name}
-
 					</Box>
+
+				<Box sx={{ width: '100%', display: 'flex', position: 'absolute', bottom: '0px', justifyContent: 'flex-end' }}>
+					<IconButton sx={{ opacity: '0.75', zIndex: '100',  }}
+					onClick={handleRemove} aria-label='remove'>
+						<DeleteIcon className='icon' />
+					</IconButton>
 				</Box>
+		
+
+				</Box>
+
+
+				
 			</ButtonBase>
-			<Box>
-				<IconButton onClick={handleRemove} aria-label='remove'>
-					<DeleteIcon className='icon' />
-				</IconButton>
-			</Box>
+
+
+
+
 		</Box>
 	);
 }
