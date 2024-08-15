@@ -39,6 +39,10 @@ export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ ch
         return userFavorites;
     };
 
+    // TODO tighten up and better define the relationship/logic flow between 
+    // 1) local Favorites cached in browser memory, 
+    // 2) the cache of Favorites in the server, and 
+    // 3) Favorites saved in the DB
     const createNewFavoritesList = async (newListName: string | '') : Promise<UserFavorites | null> => {
         if (newListName == '') {
             const listNumber = userFavorites?.favorites?.length;
@@ -48,7 +52,7 @@ export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ ch
             listId: uuidv4(),
             name: newListName,
             nfts: [],
-        };
+        }; 
         const newFavoritesLists = favoritesLists
             ? [...favoritesLists, newList]
             : [newList];

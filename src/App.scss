@@ -217,8 +217,8 @@ img, video  {
 }
 
 .panel-header {
-    font-weight: 800;
-    font-size: 1.5rem;
+    font-weight: bold !important;
+    font-size: 1.5rem !important;
     padding: 10px;
     width: 100%;
     max-width: 100vw;
@@ -243,7 +243,7 @@ img, video  {
 
     &:hover {
         opacity: 1;
-        color: red;
+        color: $color-primary;
     }
 }
 
@@ -562,7 +562,7 @@ img, video  {
     height: $toolbar-height;
     align-items: center;
     justify-content: flex-end;
-    border-bottom: 1px solid $color-mid;
+    border-bottom: 1px solid black;
     z-index: 20;
 }
 
@@ -645,16 +645,22 @@ img, video  {
     }
 
     .content {
-
         .logo {
             width: 100%;
-            padding: 2rem;
             font-size: 14vmax;
             font-weight: bold;
             z-index: 1;
             line-height: 0rem;
             pointer-events: none;
             user-select: none;
+        }
+
+        .description {
+            max-width: 600px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 3rem;
+            color: gray;
         }
     
         .enter-button {
@@ -673,11 +679,16 @@ img, video  {
 
 }
 
+.favorites-list-view {
+    margin: 1rem 0px;
+    width: 80%;
+    padding: 1rem;
+}
 
 .favorites-list-view-header {
     flex: 1;
     margin-left: 1rem;
-    font-size: 1.5rem !important;
+    font-size: 1.25rem !important;
     font-weight: bold;
 }
 
@@ -920,6 +931,7 @@ img, video  {
 
 .asset-description {
     margin-top: 20px;
+    width: 100%;
 }
 
 .asset-trait-list {
@@ -944,10 +956,6 @@ img, video  {
     img, video {
         max-width: 50vw;
     }
-}
-
-.asset-description {
-    width: 100%;
 }
 
 .asset-preview {
@@ -975,15 +983,14 @@ img, video  {
 
     .asset-view-title {
         height: 100px;
+        width: 100%;
         font-size: 2.25rem;
         font-weight: bold;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: flex-start;
         color: white;
         overflow: hidden;
-        width: 100%;
         //border: 1px solid red;
     }
 
@@ -1086,7 +1093,6 @@ and (min-height: 1000px) {
     }
 
     .home-container {
-        
 
         .gem {
             top: 15dvh;
@@ -1094,23 +1100,13 @@ and (min-height: 1000px) {
         }
 
         .content {
-            //padding-top: 30dvh;
-            height: 50dvh;
+            height: 40dvh;
 
             .logo {
                 padding: 0px;
                 font-size: 12vmax;
             }
 
-            .subtitle {
-    
-            }
-    
-            .description {
-                max-width: 900px;
-                font-size: 2rem;
-            }
-    
             .enter-button {
                 width: 66vw;
             }
@@ -1249,16 +1245,23 @@ and (min-height: 1000px) {
         }
 
         .content {
-            height: 65dvh;
+            height: 50dvh;
 
             .logo {
                 padding: 0px;
                 font-size: 12vmax;
                 height: 50dvh;
             }
+
+            .description {
+                font-size: 1.25rem;
+                padding: 3.5rem;
+            }
    
             .enter-button {
-                width: 66vw;
+                font-size: 1.25rem !important;
+                height: 50px;
+                width: 60vw;
             }
         }
     }
@@ -1430,8 +1433,7 @@ and (min-height: 1000px) {
     }
 
     .panel-header {
-        font-weight: 800 !important;
-        font-size: 1.25rem !important;
+        font-size: 1.25rem;
     }
 
     .asset-main-content {
@@ -1470,8 +1472,8 @@ and (min-height: 1000px) {
         }
     
         .asset-view-title {
-            height: 60px;
-            font-size: 1.75rem !important;
+            height: auto;
+            font-size: 1.5rem !important;
             line-height: 1.75rem !important;
         }
     
@@ -1514,6 +1516,16 @@ and (min-height: 1000px) {
             padding: 0px;
             //padding-left: 15px;
         }
+    }
+
+    .favorites-list-view {
+        margin: 0.75rem 0px !important;
+        width: 90%;
+        // padding: 1rem;
+    }
+
+    .favorites-list-view-header {
+        font-size: 1rem !important;
     }
 
     .favorite-card {

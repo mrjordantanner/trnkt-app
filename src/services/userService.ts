@@ -105,7 +105,7 @@ class UserService {
       }, this.axiosOptions);
       if (response.status < 300) {
         localStorage.setItem(this.tokenKey, response.data.token);
-        localStorage.setItem(this.userKey, response.data.user.userId);
+        localStorage.setItem(this.userKey, response.data.user.email);
       }
       return response.data.user;
     } catch (error) {
@@ -143,6 +143,8 @@ class UserService {
   }
 
   getLocalUser (): string | null {
+    const user = localStorage.getItem(this.userKey);
+    console.log(`UserService: Got user email from localStorage: ${user}`);
     return localStorage.getItem(this.userKey);
   }
 }

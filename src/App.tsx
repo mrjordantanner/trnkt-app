@@ -57,7 +57,7 @@ export default function App() {
             <Route path='/nfts' element={
               <>
                 <Navbar />
-                <Toolbar />    {/* Temp */}
+                {/* <Toolbar /> */}
                 <Outlet />
                 <MobileNavbar />
               </>

@@ -24,21 +24,31 @@ export const UserServiceProvider: React.FC<{ children: ReactNode }> = ({ childre
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = getToken();
-        const user = getLocalUser();
-        if (token && user) {
-            setIsAuthenticated(true);
-        } else {
-            setIsAuthenticated(false);
-        }
+        setIsAuthenticated(!!getToken() && !!getLocalUser());
     }, [userService]);
+
+    useEffect(() => {
+        if (isAuthenticated && !currentUser) {
+            refreshCurrentUser();
+        }
+    }, []);
+
+    const refreshCurrentUser = async () => {
+        console.log("Refreshing current user...");
+        const userEmail = getLocalUser();
+        const user = await userService.fetchUserByEmailAsync(userEmail);
+        if (user) {
+            setCurrentUser(user);
+            console.log('Refreshed currentUser.');
+        }
+    }
 
     const getToken = () : string | null => {
         return userService.getToken();
     }
 
     const getLocalUser = (): string | null => {
-        return  userService.getLocalUser();
+        return userService.getLocalUser();
     }
 
     const registerNewUserAsync = async (email: string, userName: string, password: string) : Promise<User | null> => {
@@ -102,7 +112,7 @@ export const UserServiceProvider: React.FC<{ children: ReactNode }> = ({ childre
             loginAsync, logoutAsync, 
             currentUser, setCurrentUser, 
             updateUserInfoAsync,
-            registerNewUserAsync
+            registerNewUserAsync,
         }}>
             {children}
         </UserServiceContext.Provider>

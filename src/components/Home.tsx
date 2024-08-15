@@ -24,9 +24,6 @@ export default function Home () {
 							<Typography sx={{ position: 'absolute' }} className='logo text-outline opacity-50'>TRNKT</Typography>
 					</Box> */}
 
-					{/* <Typography variant='h3' className='subtitle'>
-					Be inspired by the strange & beautiful world of crypto artwork.
-					</Typography> */}
 				</Box>
 
 				{/* <Typography className='description'>
@@ -41,7 +38,7 @@ export default function Home () {
 						pt: 25,
 						width: '100vw',
 						height: '80vh',
-						alignItems: 'space-between',
+						alignItems: 'space-between'
 					}}>
 					<Box sx={{ display: 'flex', width: '100vw', height: '100%' }}>
 						<Typography
@@ -60,6 +57,10 @@ export default function Home () {
 							TRNKT
 						</Typography>
 					</Box>
+
+					<Typography variant='h4' className='description'>
+						Explore and collect crypto NFT artwork.
+					</Typography>
 
 					<Box sx={{ display: 'flex' }}>
 						{isAuthenticated ? (

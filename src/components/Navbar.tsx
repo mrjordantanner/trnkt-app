@@ -9,7 +9,7 @@ import BackButton from './BackButton';
 export default function Navbar() {
 	const { setSelectedAsset, setCollection, selectedAsset, selectedCollection } = useAssetContext();
 
-	const { currentUser } = useUserService();
+	const { currentUser, isAuthenticated } = useUserService();
 	//const navigate = useNavigate();
 
 	const onClickCollections = () => {
@@ -54,12 +54,6 @@ export default function Navbar() {
 						</Button>
 					</ListItem>
 
-					{/* <ListItem>
-						<Button className='nav-button' component={RouterLink} to='/nfts/random'>
-							R A N D O M I Z E
-						</Button>
-					</ListItem> */}
-
 					<ListItem>
 						<Button
 							className='nav-button'
@@ -71,9 +65,12 @@ export default function Navbar() {
 				</List>
 			</Box>
 
-			<Typography className='p'><strong>{currentUser?.userName}</strong></Typography>
-
-			<UserProfileMenu />
+			<Box className='flex-center'>
+				{isAuthenticated ? 
+				(<Typography className='p'><strong>{currentUser?.userName}</strong></Typography>) :
+				(<a href='/user/login' className='link'>Sign In</a>)}
+				<UserProfileMenu />
+			</Box>
 		</Box>
 	);
 }

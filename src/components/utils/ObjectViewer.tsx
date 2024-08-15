@@ -26,7 +26,7 @@ const ObjectViewer: React.FC<Props> = ({ data }) => {
       >
         <Box className="scrollbar properties-modal">
           <Typography id="modal-title" variant="h6" component="h2" sx={{ color: 'cyan', fontWeight: 600 }}>
-            Object Properties
+            Raw Asset Data
           </Typography>
           <Box id="modal-description" sx={{ mt: 2 }}>
             {Object.entries(data).map(([key, value]) => (

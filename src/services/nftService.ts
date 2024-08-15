@@ -36,6 +36,7 @@ class NftService {
 			const nftModels: NftModel[] = [];
 			if (data.nfts.length > 0) {
 				data.nfts.forEach((nftDto: NftDto) => {
+					if (nftDto.is_nsfw) return;  // TODO make the NSFW Filter optional in Settings
 					const nftModel = this.mapDtoToModel(nftDto);
 					if (nftModel) {
 						nftModels.push(nftModel);

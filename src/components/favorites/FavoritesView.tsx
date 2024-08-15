@@ -5,13 +5,13 @@ import { Box, Typography, Button } from '@mui/material';
 import { useUserService } from '../../contexts/UserServiceContext';
 import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
 import GemIcon from '../../images/Gem-1.png';
+import { useNavigate } from 'react-router-dom';
 //import CreateFavoritesListButton from '../CreateFavoritesListButton';
 //import { FavoritesList } from '../../models/favorites';
 
 export default function FavoritesView() {
-	const { currentUser } = useUserService();
-	const { getUserFavorites, userFavorites, createNewFavoritesList } =
-		useFavoritesContext();
+	const { currentUser, isAuthenticated } = useUserService();
+	const { getUserFavorites, userFavorites, createNewFavoritesList, setFavoritesLists, favoritesLists } = useFavoritesContext();
 
 	const listContainerStyle = {
 		display: 'flex',
@@ -38,13 +38,16 @@ export default function FavoritesView() {
 	// 	mr: 10,
 	// };
 
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		const fetchFavorites = async () => {
-			if (currentUser?.userId) {
+			if (isAuthenticated && currentUser) {
 				await getUserFavorites(currentUser.userId);
 			} else {
-				console.error(
-					"Couldn't get UserFavorites because CurrentUser/UserId was null"
+				clearFavoritesView();
+				console.log(
+					"FavoritesView: Couldn't get UserFavorites because not Authenticated or CurrentUser was null"
 				);
 			}
 		};
@@ -53,41 +56,39 @@ export default function FavoritesView() {
 	}, [currentUser]);
 
 	const handleCreateNewList = async () => {
-		createNewFavoritesList('');
+		if (isAuthenticated) {
+			createNewFavoritesList('');
+		} else {
+			navigate('/user/login');
+		}
+
 	};
+
+	const clearFavoritesView = () => {
+		setFavoritesLists([]);
+	}
 
 	return (
 		<Box className='full-height-minus-bars'>
 			<Box className='container'>
-				<Box
-					className='full-height-background flex-column-center scrollbar'
-					sx={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-					<Box
-						sx={{
-							//p: 1,
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							width: '100%',
-							//border: '1px solid yellow',
-						}}>
-						<SectionHeader title='Favorite Sets' imgSrc={GemIcon} />
+				<Box className='full-height-background flex-column-center scrollbar'>
 
-						{/* <Box>
-							<CreateFavoritesListButton
-								style={addNewListButtonStyle}
-								color='secondary'
-								variant='outlined'
-								text={'+'}
-								handleCreateNewList={handleCreateNewList}
-							/>
-						</Box> */}
-					</Box>
+					<SectionHeader title='Favorite Sets' imgSrc={GemIcon} />
+
+					{/* <Box>
+						<CreateFavoritesListButton
+							style={addNewListButtonStyle}
+							color='secondary'
+							variant='outlined'
+							text={'+'}
+							handleCreateNewList={handleCreateNewList}
+						/>
+					</Box> */}
 
 					<Box sx={listContainerStyle}>
 						{userFavorites ? (
 							userFavorites.favorites.map((list) => (
-								<FavoritesListView key={list.listId} favoritesList={list} />
+							<FavoritesListView key={list.listId} favoritesList={list} />
 							))
 						) : (
 							<Box sx={{ width: '100%', height: '100%' }} className='panel'>

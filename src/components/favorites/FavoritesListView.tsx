@@ -34,11 +34,11 @@ export default function FavoritesListView({ favoritesList }: Props) {
   };
 
   return (
-    <Box sx={{ mb: 4, width: '90%', p: 1 }} className='panel'>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+    <Box className='favorites-list-view panel'>
+      <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
       <IconButton onClick={toggleExpand} aria-label={isExpanded ? "collapse" : "expand"} className='scale-150'>
           {isExpanded ? 
-          <ExpandMoreIcon className='icon'  /> : <ExpandLessIcon className='icon rotate-90'  />}
+          <ExpandMoreIcon className='icon' /> : <ExpandLessIcon className='icon rotate-90' />}
         </IconButton>
         <Typography className='favorites-list-view-header'>
           <strong>{favoritesList.name}</strong> [{favoritesList.nfts.length}]

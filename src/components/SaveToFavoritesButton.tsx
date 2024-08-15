@@ -17,6 +17,7 @@ export default function SaveToFavoritesButton() {
     <>
       <Button 
         variant='contained'
+        color='secondary'
         className='save-to-favorites-button button'
         onClick={handleShowModal}
       >
