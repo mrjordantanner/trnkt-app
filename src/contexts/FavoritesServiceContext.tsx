@@ -11,7 +11,8 @@ interface ContextProps {
     favoritesLists: FavoritesList[];
     setFavoritesLists: React.Dispatch<FavoritesList[]>;
     createNewFavoritesList: (newListName: string) => Promise<UserFavorites | null> 
-    deleteFavoritesList: (userId: string, listId: string) => Promise<UserFavorites | null>;
+    deleteNftFromFavoritesList: (userId: string, listId: string, nftId: string) => Promise<boolean>;
+    deleteFavoritesList: (userId: string, listId: string) => Promise<boolean>;
     deleteUserFavorites: (userId: string) => Promise<boolean>;
 }
 
@@ -86,14 +87,18 @@ export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ ch
         //return userFavorites;
     }
 
-    const deleteFavoritesList = async (userId: string, listId: string) : Promise<UserFavorites | null> => {
-        const updatedUserFavorites = await favoritesService.deleteFavoritesList(userId, listId);
+    const deleteNftFromFavoritesList = async (userId: string, listId: string, nftId: string) : Promise<boolean> => {
+        const updatedUserFavorites = await favoritesService.deleteNFtFromFavoritesList(userId, listId, nftId);
         if (updatedUserFavorites) {
             return updatedUserFavorites;
         } else {
-            console.error(`Error deleting FavoritesList ${listId}`)
-            return null;
+            console.error(`Error deleting NFT ${nftId} from FavoritesList ${listId}`)
+            return false;
         }
+    }
+
+    const deleteFavoritesList = async (userId: string, listId: string) : Promise<boolean> => {
+        return await favoritesService.deleteFavoritesList(userId, listId);
     }
 
     const deleteUserFavorites = async (userId: string) : Promise<boolean> => {
@@ -104,7 +109,6 @@ export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ ch
         }
         console.log(`Successfully deleted UserFavorites for UserId ${userId}`);
         return true;
-
     }
 
     return (
@@ -113,6 +117,7 @@ export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ ch
                 getUserFavorites,
                 userFavorites,
                 updateFavorites,
+                deleteNftFromFavoritesList,
                 deleteFavoritesList,
                 deleteUserFavorites,
                 favoritesLists,

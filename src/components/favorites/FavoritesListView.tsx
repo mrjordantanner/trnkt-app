@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon, ExpandMore as ExpandMoreIcon, ExpandLess as ExpandLessIcon } from '@mui/icons-material';
+import { NftModel } from '../../models/nftModel';
 import { FavoritesList } from '../../models/favorites';
 import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
 import { useUserService } from '../../contexts/UserServiceContext';
-import FavoritesContainer from './FavoritesContainer';
+import FavoriteCard from './FavoriteCard';
 
 interface Props {
   favoritesList: FavoritesList;
@@ -12,8 +13,13 @@ interface Props {
 
 export default function FavoritesListView({ favoritesList }: Props) {
   const { currentUser } = useUserService();
-  const { deleteFavoritesList } = useFavoritesContext();
+  const { deleteFavoritesList, deleteNftFromFavoritesList } = useFavoritesContext();
   const [isExpanded, setExpanded] = useState(false);
+  const [nfts, setNfts] = useState<NftModel[]>(favoritesList.nfts);
+
+  useEffect(() => {
+    setNfts(favoritesList.nfts);
+  }, [favoritesList]);
 
   const handleEdit = () => {
     // TODO Implement edit functionality
@@ -28,7 +34,22 @@ export default function FavoritesListView({ favoritesList }: Props) {
     deleteFavoritesList(currentUser.userId, favoritesList.listId);
   };
 
-  // TODO save/load this setting from Local Storage
+  const handleRemoveFavorite = (event: React.MouseEvent<HTMLButtonElement>, asset: { identifier: string }) => {
+    event.stopPropagation();
+    if (currentUser && asset) {
+      deleteNftFromFavoritesList(currentUser.userId, favoritesList.listId, asset.identifier)
+        .then(() => {
+          // Update local state to remove the NFT from the list
+          setNfts(prevNfts => prevNfts.filter(nft => nft.identifier !== asset.identifier));
+        })
+        .catch(error => {
+          console.error(`Error removing NFT ${asset.identifier} from FavoritesList ${favoritesList.listId}`, error);
+        });
+    } else {
+      console.error(`FavoritesListView:  Error removing NFT ${asset.identifier} from FavoritesList ${favoritesList.listId}`);
+    }
+  };
+
   const toggleExpand = () => {
     setExpanded(!isExpanded);
   };
@@ -36,12 +57,12 @@ export default function FavoritesListView({ favoritesList }: Props) {
   return (
     <Box className='favorites-list-view panel'>
       <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
-      <IconButton onClick={toggleExpand} aria-label={isExpanded ? "collapse" : "expand"} className='scale-150'>
+        <IconButton onClick={toggleExpand} aria-label={isExpanded ? "collapse" : "expand"} className='scale-150'>
           {isExpanded ? 
-          <ExpandMoreIcon className='icon' /> : <ExpandLessIcon className='icon rotate-90' />}
+            <ExpandMoreIcon className='icon' /> : <ExpandLessIcon className='icon rotate-90' />}
         </IconButton>
         <Typography className='favorites-list-view-header'>
-          <strong>{favoritesList.name}</strong> [{favoritesList.nfts.length}]
+          <strong>{favoritesList.name}</strong> [{nfts.length}]
         </Typography>
         <IconButton onClick={handleEdit} aria-label="edit">
           <EditIcon className='icon'  />
@@ -49,9 +70,15 @@ export default function FavoritesListView({ favoritesList }: Props) {
         <IconButton onClick={handleDelete} aria-label="delete">
           <DeleteIcon className='icon'  />
         </IconButton>
-
       </Box>
-      {isExpanded && <FavoritesContainer nfts={favoritesList.nfts} />}
+
+      {isExpanded && 
+        <Box className="scrollbar favorites-grid">
+          {nfts.map((nft, index) => (
+            <FavoriteCard asset={nft} key={index} handleRemoveFavorite={handleRemoveFavorite}/>
+          ))}
+        </Box>
+      }
     </Box>
   );
 }
