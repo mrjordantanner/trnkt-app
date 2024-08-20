@@ -6,6 +6,7 @@ import { UserFavorites } from '../../models/favorites';
 import { useFavoritesContext } from '../../contexts/FavoritesServiceContext';
 import { useUserService } from '../../contexts/UserServiceContext';
 import { useAssetContext } from '../../contexts/AssetContext';
+import CustomDialog from '../utils/CustomDialog';
 
 interface Props {
 	open: boolean;
@@ -22,9 +23,32 @@ export default function FavoritesModal({ open, onClose }: Props) {
 	const { currentUser } = useUserService();
 	const { selectedAsset } = useAssetContext();
 
+	// Delete FavoritesList confirmation dialog
+	// TODO this is redudant as it also exists in FavoritesView.  Consolidate to a context?
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+	const [deleteDialogTitle, setDeleteDialogTitle] = useState('');
+	const [deleteDialogMessage, setDeleteDialogMessage] = useState('');
+	const [selectedListId, setSelectedListId] = useState('');
+
 	useEffect(() => {
 		getFavorites();
 	}, []);
+
+	const handleClickDeleteList = (listId: string, listName: string) => {
+        setSelectedListId(listId);
+        setDeleteDialogTitle(`Delete Favorites Set "${listName}"?`);
+        setDeleteDialogMessage(`Are you sure you want to delete the Favorites Set "${listName}"? This action cannot be undone.`);
+        setIsDeleteDialogOpen(true);
+    };
+
+    const onDeleteDialogClose = () => {
+        setIsDeleteDialogOpen(false);
+    };
+
+    const onDeleteDialogConfirm = async () => {
+        await deleteFavoritesList(selectedListId);
+        setIsDeleteDialogOpen(false);
+    };
 
 	const getFavorites = async () => {
 		// Get FavoritesLists from backend
@@ -91,12 +115,6 @@ export default function FavoritesModal({ open, onClose }: Props) {
 		}
 	};
 
-	const handleDeleteList = (listId: string) => {
-		if (currentUser) {
-			deleteFavoritesList(currentUser?.userId, listId);
-		}
-	}
-
 	// Update Favorites
 	const handleSave = async () => {
 		if (selectedAsset && currentUser) {
@@ -148,6 +166,7 @@ export default function FavoritesModal({ open, onClose }: Props) {
 	};
 
 	return (
+		<>
 		<Modal open={open} onClose={handleOnClose}>
 			<Box className= 'favorites-lists-modal'>
 				<IconButton sx={closeButtonStyle} onClick={handleOnClose}>
@@ -170,8 +189,8 @@ export default function FavoritesModal({ open, onClose }: Props) {
 										}
 									/>
 								</ListItemIcon>
-								<ListItemText primary={list.name} />
-								<IconButton onClick={() => handleDeleteList(list.listId)} aria-label="delete">
+								<ListItemText primary={`${list.name} [${list.nfts.length}]`} />
+								<IconButton onClick={() => handleClickDeleteList(list.listId, list.name)} aria-label="delete">
 									<DeleteIcon className='icon'  />
 								</IconButton>
 							</ListItem>
@@ -223,5 +242,16 @@ export default function FavoritesModal({ open, onClose }: Props) {
 				)}
 			</Box>
 		</Modal>
+
+		<CustomDialog
+				isOpen={isDeleteDialogOpen}
+				title={deleteDialogTitle}
+				message={deleteDialogMessage}
+				confirmButtonText={'Yes'}
+				cancelButtonText={'No'}
+				onClose={onDeleteDialogClose}
+				onConfirm={onDeleteDialogConfirm}
+			/>
+		</>
 	);
 }

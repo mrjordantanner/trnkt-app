@@ -12,7 +12,7 @@ interface ContextProps {
     setFavoritesLists: React.Dispatch<FavoritesList[]>;
     createNewFavoritesList: (newListName: string) => Promise<UserFavorites | null> 
     deleteNftFromFavoritesList: (userId: string, listId: string, nftId: string) => Promise<boolean>;
-    deleteFavoritesList: (userId: string, listId: string) => Promise<boolean>;
+    deleteFavoritesList: (listId: string) => Promise<boolean>;
     deleteUserFavorites: (userId: string) => Promise<boolean>;
 }
 
@@ -97,9 +97,22 @@ export const FavoritesServiceProvider: React.FC<{ children: ReactNode }> = ({ ch
         }
     }
 
-    const deleteFavoritesList = async (userId: string, listId: string) : Promise<boolean> => {
-        return await favoritesService.deleteFavoritesList(userId, listId);
-    }
+    const deleteFavoritesList = async (listIdToDelete: string) : Promise<boolean> => {
+		if (!currentUser) {
+			console.error(`Error deleting FavoritesList ${listIdToDelete}. CurrentUser is null.`);
+			return false;
+		}
+		const success = await favoritesService.deleteFavoritesList(currentUser.userId, listIdToDelete);
+		if (success) {
+			const filteredLists = favoritesLists.filter((list) => list.listId !== listIdToDelete);
+			setFavoritesLists(filteredLists);
+		}
+        return success;
+    };
+
+    // const deleteFavoritesList = async (userId: string, listId: string) : Promise<boolean> => {
+    //     return await favoritesService.deleteFavoritesList(userId, listId);
+    // }
 
     const deleteUserFavorites = async (userId: string) : Promise<boolean> => {
         const wasSuccessful = await favoritesService.deleteUserFavorites(userId);

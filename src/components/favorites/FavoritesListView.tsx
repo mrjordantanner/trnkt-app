@@ -9,11 +9,12 @@ import FavoriteCard from './FavoriteCard';
 
 interface Props {
   favoritesList: FavoritesList;
+  handleDeleteList: (listIdToDelete: string) => void;
 }
 
-export default function FavoritesListView({ favoritesList }: Props) {
+export default function FavoritesListView({ favoritesList, handleDeleteList }: Props) {
   const { currentUser } = useUserService();
-  const { deleteFavoritesList, deleteNftFromFavoritesList } = useFavoritesContext();
+  const { deleteNftFromFavoritesList } = useFavoritesContext();
   const [isExpanded, setExpanded] = useState(false);
   const [nfts, setNfts] = useState<NftModel[]>(favoritesList.nfts);
 
@@ -21,18 +22,10 @@ export default function FavoritesListView({ favoritesList }: Props) {
     setNfts(favoritesList.nfts);
   }, [favoritesList]);
 
-  const handleEdit = () => {
-    // TODO Implement edit functionality
-    console.log('Edit list:', favoritesList.listId);
-  };
-
-  const handleDelete = () => {
-    if (!currentUser) {
-      console.error(`Error deleting FavoritesList ${favoritesList.listId}. CurrentUser is null.`);
-      return;
-    }
-    deleteFavoritesList(currentUser.userId, favoritesList.listId);
-  };
+  // // TODO Implement edit list name functionality
+  // const handleEdit = () => {
+  //   console.log('TODO: Edit list:', favoritesList.listId);
+  // };
 
   const handleRemoveFavorite = (event: React.MouseEvent<HTMLButtonElement>, asset: { identifier: string }) => {
     event.stopPropagation();
@@ -64,10 +57,10 @@ export default function FavoritesListView({ favoritesList }: Props) {
         <Typography className='favorites-list-view-header'>
           <strong>{favoritesList.name}</strong> [{nfts.length}]
         </Typography>
-        <IconButton onClick={handleEdit} aria-label="edit">
+        {/* <IconButton onClick={handleEdit} aria-label="edit">
           <EditIcon className='icon'  />
-        </IconButton>
-        <IconButton onClick={handleDelete} aria-label="delete">
+        </IconButton> */}
+        <IconButton onClick={() => handleDeleteList(favoritesList.listId)} aria-label="delete">
           <DeleteIcon className='icon'  />
         </IconButton>
       </Box>

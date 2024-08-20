@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
 
 interface Props {
-  open: boolean;
+  isOpen: boolean;
   title: string;
   message: string;
   confirmButtonText: string;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function CustomDialog({
-  open,
+  isOpen,
   title,
   message,
   confirmButtonText,
@@ -23,7 +23,7 @@ export default function CustomDialog({
 
   return (
     <Dialog
-      open={open}
+      open={isOpen}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
