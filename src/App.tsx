@@ -75,9 +75,22 @@ export default function App() {
                 <MobileNavbar />
               </>
             }>
+              {/* <Route path='register' element={<Register/>} />
+              <Route path='login' element={<Login />} /> */}
+              <Route path='profile' element={<Profile />} />
+            </Route>
+
+            {/* Routes for '/user' without Navbar or Toolbar */}
+            <Route path='/user' element={
+              <>
+                {/* <Navbar /> */}
+                <Outlet />
+                {/* <MobileNavbar /> */}
+              </>
+            }>
               <Route path='register' element={<Register/>} />
               <Route path='login' element={<Login />} />
-              <Route path='profile' element={<Profile />} />
+              {/* <Route path='profile' element={<Profile />} /> */}
             </Route>
 
             {/* Routes for '/user' with Navbars and Toolbar */}
